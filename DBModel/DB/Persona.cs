@@ -15,7 +15,7 @@ public partial class Persona
 
     public string? Correo { get; set; }
 
-    public short? TipoDocumento { get; set; }
+    public string? TipoDocumento { get; set; }
 
     public string? NumeroDocumento { get; set; }
 

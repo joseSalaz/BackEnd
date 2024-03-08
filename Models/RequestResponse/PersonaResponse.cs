@@ -10,16 +10,18 @@ namespace Models.RequestResponse
     {
         public int IdPersona { get; set; }
 
-        public string? Cargo { get; set; }
+        public string? Nombre { get; set; }
 
-        public string? Nombres { get; set; }
+        public string? ApellidoPaterno { get; set; }
+
+        public string? ApellidoMaterno { get; set; }
 
         public string? Correo { get; set; }
 
         public string? TipoDocumento { get; set; }
 
-        public int? NumDocumento { get; set; }
+        public string? NumeroDocumento { get; set; }
 
-        public string? RazonSocial { get; set; }
+        public string? Telefono { get; set; }
     }
 }

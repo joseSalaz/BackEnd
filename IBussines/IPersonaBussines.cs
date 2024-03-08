@@ -11,6 +11,7 @@ namespace IBussines
 {
     public interface IPersonaBussines : ICRUDBussnies<PersonaRequest, PersonaResponse>
     {
-        Persona GetByTipoNroDocumento(string tipoDocumento, string NroDocumento);
+        //PersonaResponse BuscarporDNI(string dni);
+        Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento);
     }
 }

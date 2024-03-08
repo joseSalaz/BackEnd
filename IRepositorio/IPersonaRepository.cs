@@ -10,6 +10,8 @@ namespace IRepository
 {
     public interface IPersonaRepository : ICRUDRepositorio<Persona>
     {
-        Persona GetByTipoNroDocumento(string tipoDocumento, string NroDocumento);
+        //Persona buscarporDNI(string dni);
+        Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento);
     }
+    
 }

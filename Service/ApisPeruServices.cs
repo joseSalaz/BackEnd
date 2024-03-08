@@ -41,7 +41,7 @@ namespace IService
 
         public async Task PersonaPorDNITask(string dni)
         {
-            string url = "https://dniruc.apisperu.com/api/v1/dni/$##DNI##?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsYmVydG9wYXJpb25hcmFtb3M2QGdtYWlsLmNvbSJ9.l5YJzVRBy16cuBnQ40M8usGf3S39ZiVtLGaPDK8WUuo";
+            string url = "https://dniruc.apisperu.com/api/v1/dni/##DNI##?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsYmVydG9wYXJpb25hcmFtb3M2QGdtYWlsLmNvbSJ9.l5YJzVRBy16cuBnQ40M8usGf3S39ZiVtLGaPDK8WUuo";
             url = url.Replace("##DNI##", dni);
 
             using (HttpClient client = new HttpClient())
@@ -63,7 +63,7 @@ namespace IService
                     {
                         string jsonResult = await response.Content.ReadAsStringAsync();
 
-#pragma warning disable CS8601 // Possible null reference assignment.
+                    #pragma warning disable CS8601 // Possible null reference assignment.
                         personaResult = JsonConvert.DeserializeObject<ApisPeruPersonaResponse>(jsonResult);
                     }
                     else
