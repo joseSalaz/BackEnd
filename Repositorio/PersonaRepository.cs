@@ -11,34 +11,49 @@ namespace Repository
 {
     public class PersonaRepository : GenericRepository<Persona>, IPersonaRepository
     {
+        //public Persona buscarporDNI(string DNI)
+        //{
+        //    Persona person = db.Personas.Where(x => x.NumeroDocumento == DNI).FirstOrDefault();
+        //    return person;
+        //}
+
         public List<Persona> GetAutoComplete(string query)
         {
             throw new NotImplementedException();
         }
 
-        public Persona GetByTipoNroDocumento(string tipoDocumento, string NroDocumento)
+        public Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento)
         {
+            if (string.IsNullOrEmpty(TipoDocumento) || string.IsNullOrEmpty(NumeroDocumento))
+            {
+               
+                return new Persona();
+            }
+
             Persona vPersona = new Persona();
             //tipoDocumento ==> RUC | DNI
 
             int tDocumento = 0;
 
-            switch (tipoDocumento.ToLower())
+            switch (TipoDocumento.ToLower())
             {
-                case "dni": tDocumento = 1; break;
-                case "ruc": tDocumento = 2; break;
+                case "dni":
+                    tDocumento = 1;
+                    break;
+                case "ruc":
+                    tDocumento = 2;
+                    break;
                 default:
                     return vPersona;
             }
-
-
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             vPersona = db.Personas
-                .Where(x => x.TipoDocumento == tDocumento)
-                .Where(x => x.NumeroDocumento == NroDocumento)
-                .FirstOrDefault()
-                ;
+                .Where(x => x.TipoDocumento == TipoDocumento && x.NumeroDocumento == NumeroDocumento)
+                .FirstOrDefault();
+
             return vPersona;
         }
+
+
+
     }
 }

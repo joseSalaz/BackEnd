@@ -17,6 +17,7 @@ namespace API.Controllers
         public readonly IPersonaBussines _IPersonaBussines = null;
         public readonly IMapper _Mapper;
         private readonly IPersonaBussines _PersonaBussnies;
+
         #endregion
 
         #region constructor 
@@ -24,23 +25,10 @@ namespace API.Controllers
         {
             _Mapper = mapper;
             _IPersonaBussines = new PersonaBussines(_Mapper);
+            _PersonaBussnies = new PersonaBussines(_Mapper);
         }
         #endregion
 
-        /// <summary>
-        /// retorna los datos de una persona en base al DNI
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("dni/{TipoDocumento}/{NumeroDocumento}")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(GenericResponse))]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(GenericResponse))]
-        public IActionResult GetWithDni(string tipDocumento, string nroDocumento)
-        {
-            Persona persona = new Persona();
-            persona = _PersonaBussnies.GetByTipoNroDocumento(tipDocumento, nroDocumento);
-            return Ok(persona);
-
-        }
 
         #region crud methods
         /// <summary>
@@ -102,5 +90,20 @@ namespace API.Controllers
             return Ok(res);
         }
         #endregion
+
+        /// <summary>
+        /// retorna los datos de una persona en base al DNI
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("dni/{TipoDocumento}/{NumeroDocumento}")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(GenericResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(GenericResponse))]
+        public IActionResult GetWithDni(string TipoDocumento, string NumeroDocumento)
+        {
+            Persona vpersona = new Persona();
+            vpersona = _PersonaBussnies.GetByTipoNroDocumento(TipoDocumento, NumeroDocumento);
+            return Ok(vpersona);
+
+        }
     }
 }

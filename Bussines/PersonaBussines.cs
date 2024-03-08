@@ -4,6 +4,7 @@ using IBussines;
 using IRepository;
 using IService;
 using Models.RequestResponse;
+using Newtonsoft.Json;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace Bussines
         #region Declaracion de vcariables generales
         public readonly IPersonaRepository _IPersonaRepository = null;
         public readonly IMapper _Mapper;
-        public readonly IApisPeruServices _apisPeruServices;
+        private readonly IApisPeruServices _apisPeruServices;
+        private readonly IPersonaRepository _persona;
+      
 
         public PersonaBussines()
         {
@@ -30,6 +33,8 @@ namespace Bussines
         {
             _Mapper = mapper;
             _IPersonaRepository = new PersonaRepository();
+            _persona = new PersonaRepository();
+            _apisPeruServices = new ApisPeruServices();
         }
         #endregion
 
@@ -101,32 +106,60 @@ namespace Bussines
             return res;
         }
 
-        public Persona GetByTipoNroDocumento(string tipoDocumento, string NroDocumento)
-        {
-            Persona Persona = _IPersonaRepository.GetByTipoNroDocumento(tipoDocumento, NroDocumento);
 
-            if (Persona == null || Persona.IdPersona == 0)
+        //public PersonaResponse BuscarporDNI(string dni)
+        //{
+        //    Persona persona = _persona.buscarporDNI(dni);
+        //    PersonaResponse resultado = new PersonaResponse();
+        //    if (persona.IdPersona != 0)
+        //    {
+        //        resultado = _Mapper.Map<PersonaResponse>(persona);
+        //        return resultado;
+        //    }
+        //    //https://dniruc.apisperu.com/api/v1/dni/12345678?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsYmVydG9wYXJpb25hcmFtb3M2QGdtYWlsLmNvbSJ9.l5YJzVRBy16cuBnQ40M8usGf3S39ZiVtLGaPDK8WUuo
+
+        //    string urlApi = "https://dniruc.apisperu.com/api/v1/dni/12345678?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsYmVydG9wYXJpb25hcmFtb3M2QGdtYWlsLmNvbSJ9.l5YJzVRBy16cuBnQ40M8usGf3S39ZiVtLGaPDK8WUuo";
+        //    List<string> lista = new List<string>();
+        //    string resultadoApiPeru = _apisPeruServices.Get("URL", "headresBacios", "token");
+        //    ApisPeruPersonaResponse _person = new ApisPeruPersonaResponse();
+        //    _person = JsonConvert.Deserialize<ApisPeruPersonaResponse>(resultadoApisPeru);
+        //    //string resultadoApisPeru = "{\"success\":true,\"dni\":\"73444819\",\"nombres\":\"JOSE ALBERTO\",\"apellidoPaterno\":\"SALAZAR\",\"apellidoMaterno\":\"CHIRINOS\",\"codVerifica\":\"8\"}"
+
+
+        //    //newttonsfot
+        //    //var jsonString= JsonConvert.SerializeObject(obj);
+        //    //var jsonString = JsonSerialize.Serialize(obj, options);
+
+
+        //    return resultado;   
+        //}
+
+        public Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento)
+        {
+            Persona vPersona = _IPersonaRepository.GetByTipoNroDocumento(TipoDocumento, NumeroDocumento);
+
+            if (vPersona == null || vPersona.IdPersona == 0)
             {
-                if (tipoDocumento.ToLower() == "dni")
+                if (TipoDocumento.ToLower() == "dni")
                 {
-                    ApisPeruPersonaResponse pres = _apisPeruServices.PersonaPorDNI(NroDocumento);
+                    ApisPeruPersonaResponse pres = _apisPeruServices.PersonaPorDNI(NumeroDocumento);
                     if (pres.success)
                     {
-                        Persona = new Persona();
-                        Persona.NumeroDocumento = pres.dni;
-                        Persona.ApellidoMaterno = pres.apellidoMaterno;
-                        Persona.ApellidoPaterno = pres.apellidoPaterno;
-                        Persona.Nombre = pres.nombres;
+                        vPersona = new Persona();
+                        vPersona.NumeroDocumento = pres.dni;
+                        vPersona.ApellidoMaterno = pres.apellidoMaterno;
+                        vPersona.ApellidoPaterno = pres.apellidoPaterno;
+                        vPersona.Nombre = pres.nombres;
                     }
                 }
                 else
                 {
-                    ApisPeruEmpresaResponse pres = _apisPeruServices.EmpresaPorRUC(NroDocumento);
+                    ApisPeruEmpresaResponse pres = _apisPeruServices.EmpresaPorRUC(NumeroDocumento);
                     //
                 }
                 //tengo que consumir el web service de APIS Peru
             }
-            return Persona;
+            return vPersona;
         }
     }
 }
