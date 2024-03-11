@@ -23,7 +23,6 @@ namespace UtilMapper
             CreateMap<Categoria, CategoriaRequest>().ReverseMap();
             CreateMap<Categoria, CategoriaResponse>().ReverseMap();
 
-
             CreateMap<Cliente, ClienteRequest>().ReverseMap();
             CreateMap<Cliente, ClienteResponse>().ReverseMap();
 
@@ -36,20 +35,53 @@ namespace UtilMapper
             CreateMap<Persona, PersonaRequest>().ReverseMap();
             CreateMap<Persona, PersonaResponse>().ReverseMap();
 
-
-
             CreateMap<Genero, GeneroRequest>().ReverseMap();
             CreateMap<Genero, GeneroResponse>().ReverseMap();
 
             CreateMap<LibroAutor, LibroAutorRequest>().ReverseMap();
             CreateMap<LibroAutor, LibroAutorResponse>().ReverseMap();
 
-
-
             CreateMap<Venta, VentaRequest>().ReverseMap();
             CreateMap<Venta, VentaResponse>().ReverseMap();
 
+            CreateMap<DatosGenerale, DatosGeneraleRequest>().ReverseMap();
+            CreateMap<DatosGenerale, DatosGeneraleResponse>().ReverseMap();
 
+            CreateMap<Caja, CajaRequest>().ReverseMap();
+            CreateMap<Caja,CajaResponse>().ReverseMap();
+
+            CreateMap<DetalleDocEntrada,DetalleDocEntradaRequest>().ReverseMap();
+            CreateMap<DetalleDocEntrada,DetalleDocEntradaResponse>().ReverseMap();
+
+            CreateMap<DetalleDocSalida,DetalleDocSalidaRequest>().ReverseMap();
+            CreateMap<DetalleDocSalida,DetalleDocSalidaResponse>().ReverseMap();
+
+            CreateMap<DetalleVenta,DetalleVentaRequest>().ReverseMap();
+            CreateMap<DetalleVenta,DetalleVentaResponse>().ReverseMap();
+
+            CreateMap<DocEntrada, DocEntradaRequest>().ReverseMap();
+            CreateMap<DocEntrada ,  DocEntradaResponse>().ReverseMap();
+
+            CreateMap< DocSalida, DocSalidaRequest>().ReverseMap();
+            CreateMap<DocSalida,  DocSalidaResponse>().ReverseMap();    
+
+            CreateMap<Kardex, KardexRequest>().ReverseMap();
+            CreateMap<Kardex , KardexResponse>().ReverseMap();
+
+            CreateMap<Precio, PrecioRequest>().ReverseMap();
+            CreateMap<Precio , PrecioResponse>().ReverseMap();
+
+            CreateMap<Proveedor, ProveedorRequest>().ReverseMap();
+            CreateMap<Proveedor , ProveedorResponse>().ReverseMap();
+
+            CreateMap<Sucursal, SucursalRequest>().ReverseMap();
+            CreateMap<Sucursal , SucursalResponse>().ReverseMap();
+
+            CreateMap<TipoDocEntrada, TipoDocEntradaRequest>().ReverseMap();
+            CreateMap<TipoDocEntrada, TipoDocEntradaRequest>().ReverseMap();
+
+            CreateMap<TipoDocSalida,TipoDocSalidaRequest>().ReverseMap();
+            CreateMap<TipoDocSalida,TipoDocSalidaResponse>().ReverseMap();
         }
 
     }
