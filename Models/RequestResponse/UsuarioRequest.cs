@@ -23,5 +23,6 @@ namespace Models.RequestRequest
         //public virtual ICollection<CajaCajaRequest> CajaIdUsuarioCierreNavigations { get; set; } = new List<Caja>();
         //public virtual PersonaCajaRequest? IdPersonaNavigation { get; set; }
         //public virtual ICollection<PedidoCajaRequest> Pedidos { get; set; } = new List<Pedido>();
+
     }
 }

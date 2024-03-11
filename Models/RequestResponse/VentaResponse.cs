@@ -10,16 +10,18 @@ namespace Models.RequestResponse
     {
         public int IdVentas { get; set; }
 
-        public int? IdLibroR { get; set; }
-
-        public int? IdComprobanteR { get; set; }
-
         public decimal? TotalPrecio { get; set; }
 
-        public int? Cantidad { get; set; }
+        public string? TipoComprobante { get; set; }
 
         public DateTime? FechaVenta { get; set; }
 
-        public string? TipoPago { get; set; }
+        public string? NroComprobante { get; set; }
+
+        public int IdCliente { get; set; }
+
+        public int IdUsuario { get; set; }
+
+        public int IdLibro { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace Models.RequestResponse
     {
         public int IdGenero { get; set; }
 
-        public string Descripcion { get; set; } = null!;
+        public string? Descripcion { get; set; }
     }
 }

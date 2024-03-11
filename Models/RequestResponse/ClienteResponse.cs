@@ -10,11 +10,9 @@ namespace Models.RequestResponse
     {
         public int IdCliente { get; set; }
 
-        public int? CantidadLibrosComprados { get; set; }
+        public int? CodigoCliente { get; set; }
 
-        public decimal? MontoConsumido { get; set; }
-
-        public int IdPersonasR { get; set; }
+        public int IdPersona { get; set; }
 
     }
 }

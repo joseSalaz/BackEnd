@@ -36,17 +36,17 @@ namespace API.Controllers
             return Ok(lsl);
         }
 
-        /// <summary>
-        /// retorna el registro por Primary key
-        /// </summary>
-        /// <param name="id">PK</param>
-        /// <returns>retorna el registro</returns>
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            LibroAutorResponse res = _ILibroAutorBussines.getById(id);
-            return Ok(res);
-        }
+        ///// <summary>
+        ///// retorna el registro por Primary key
+        ///// </summary>
+        ///// <param name="id">PK</param>
+        ///// <returns>retorna el registro</returns>
+        //[HttpGet("{id}")]
+        //public IActionResult GetById(int id)
+        //{
+        //    LibroAutorResponse res = _ILibroAutorBussines.getById(id);
+        //    return Ok(res);
+        //}
 
         /// <summary>
         /// Inserta un nuevo registro
@@ -60,29 +60,29 @@ namespace API.Controllers
             return Ok(res);
         }
 
-        /// <summary>
-        /// Actualiza un registro
-        /// </summary>
-        /// <param name="entity">registro a actualizar</param>
-        /// <returns>retorna el registro Actualiza</returns>
-        [HttpPut("Actualizar")]
-        public IActionResult Update([FromBody] LibroAutorRequest request)
-        {
-            LibroAutorResponse res = _ILibroAutorBussines.Update(request);
-            return Ok(res);
-        }
+        ///// <summary>
+        ///// Actualiza un registro
+        ///// </summary>
+        ///// <param name="entity">registro a actualizar</param>
+        ///// <returns>retorna el registro Actualiza</returns>
+        //[HttpPut("Actualizar")]
+        //public IActionResult Update([FromBody] LibroAutorRequest request)
+        //{
+        //    LibroAutorResponse res = _ILibroAutorBussines.Update(request);
+        //    return Ok(res);
+        //}
 
-        /// <summary>
-        /// Elimina un registro
-        /// </summary>
-        /// <param name="id">Valor del PK</param>
-        /// <returns>Cantidad de registros afectados</returns>
-        [HttpDelete("Eliminar/{id}")]
-        public IActionResult delete(int id)
-        {
-            int res = _ILibroAutorBussines.Delete(id);
-            return Ok(res);
-        }
+        ///// <summary>
+        ///// Elimina un registro
+        ///// </summary>
+        ///// <param name="id">Valor del PK</param>
+        ///// <returns>Cantidad de registros afectados</returns>
+        //[HttpDelete("Eliminar/{id}")]
+        //public IActionResult delete(int id)
+        //{
+        //    int res = _ILibroAutorBussines.Delete(id);
+        //    return Ok(res);
+        //}
         #endregion
     }
 }

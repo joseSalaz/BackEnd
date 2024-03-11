@@ -8,12 +8,8 @@ namespace Models.RequestResponse
 {
     public class LibroGeneroRequest
     {
-        public int IdLibroDeposito { get; set; }
+        public int IdGenero { get; set; }
 
-        public string? Titulo { get; set; }
-
-        public int? IdGeneroR { get; set; }
-
-        public int? IdLibroR { get; set; }
+        public int IdLibro { get; set; }
     }
 }
