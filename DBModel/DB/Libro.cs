@@ -43,6 +43,10 @@ public partial class Libro
 
     public virtual Kardex? Kardex { get; set; }
 
+    public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();
+
+    public virtual ICollection<LibroGenero> LibroGeneros { get; set; } = new List<LibroGenero>();
+
     public virtual ICollection<Precio> Precios { get; set; } = new List<Precio>();
 
     public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();

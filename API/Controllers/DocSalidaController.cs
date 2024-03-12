@@ -30,7 +30,7 @@ namespace API.Controllers
         /// Retorna todos los registros
         /// </summary>
         /// <returns>Retorna todos los registros</returns>
-        [HttpGet("lista")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             List<DocSalidaResponse> lsl = _IDocSalidaBussines.getAll();
@@ -54,7 +54,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request">Registro a insertar</param>
         /// <returns>Retorna el registro insertado</returns>
-        [HttpPost("Guardar")]
+        [HttpPost]
         public IActionResult Create([FromBody] DocSalidaRequest request)
         {
             DocSalidaResponse res = _IDocSalidaBussines.Create(request);
@@ -66,7 +66,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="entity">registro a actualizar</param>
         /// <returns>retorna el registro Actualiza</returns>
-        [HttpPut("Actualizar")]
+        [HttpPut]
         public IActionResult Update([FromBody] DocSalidaRequest request)
         {
             DocSalidaResponse res = _IDocSalidaBussines.Update(request);
@@ -78,7 +78,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id">Valor del PK</param>
         /// <returns>Cantidad de registros afectados</returns>
-        [HttpDelete("Eliminar/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult delete(int id)
         {
             int res = _IDocSalidaBussines.Delete(id);

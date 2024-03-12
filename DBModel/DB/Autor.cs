@@ -14,4 +14,6 @@ public partial class Autor
     public int? Codigo { get; set; }
 
     public string? Descripcion { get; set; }
+
+    public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();
 }

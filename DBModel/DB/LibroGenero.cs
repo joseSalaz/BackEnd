@@ -5,6 +5,8 @@ namespace DBModel.DB;
 
 public partial class LibroGenero
 {
+    public int IdLibroGenero { get; set; }
+
     public int IdGenero { get; set; }
 
     public int IdLibro { get; set; }

@@ -8,6 +8,8 @@ namespace Models.RequestResponse
 {
     public class LibroGeneroRequest
     {
+        public int IdLibroGenero { get; set; }
+
         public int IdGenero { get; set; }
 
         public int IdLibro { get; set; }

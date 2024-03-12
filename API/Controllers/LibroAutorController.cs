@@ -53,7 +53,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request">Registro a insertar</param>
         /// <returns>Retorna el registro insertado</returns>
-        [HttpPost("Guardar")]
+        [HttpPost]
         public IActionResult Create([FromBody] LibroAutorRequest request)
         {
             LibroAutorResponse res = _ILibroAutorBussines.Create(request);
