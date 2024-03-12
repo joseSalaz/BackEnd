@@ -30,7 +30,7 @@ namespace API.Controllers
         /// Retorna todos los registros
         /// </summary>
         /// <returns>Retorna todos los registros</returns>
-        [HttpGet("lista")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             List<DatosGeneraleResponse> lsl = _IDatosGeneralesBussines.getAll();
@@ -54,7 +54,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request">Registro a insertar</param>
         /// <returns>Retorna el registro insertado</returns>
-        [HttpPost("Guardar")]
+        [HttpPost]
         public IActionResult Create([FromBody] DatosGeneraleRequest request)
         {
             DatosGeneraleResponse res = _IDatosGeneralesBussines.Create(request);
@@ -66,7 +66,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="entity">registro a actualizar</param>
         /// <returns>retorna el registro Actualiza</returns>
-        [HttpPut("Actualizar")]
+        [HttpPut]
         public IActionResult Update([FromBody] DatosGeneraleRequest request)
         {
             DatosGeneraleResponse res = _IDatosGeneralesBussines.Update(request);
@@ -78,7 +78,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id">Valor del PK</param>
         /// <returns>Cantidad de registros afectados</returns>
-        [HttpDelete("Eliminar/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult delete(int id)
         {
             int res = _IDatosGeneralesBussines.Delete(id);

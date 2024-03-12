@@ -361,18 +361,18 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<LibroAutor>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("LibroAutor");
+            entity.HasKey(e => e.IdLibroAutor).HasName("PK__LibroAut__6C662761FCA1C2CE");
+
+            entity.ToTable("LibroAutor");
 
             entity.Property(e => e.IdAutor).HasColumnName("Id_Autor");
 
-            entity.HasOne(d => d.IdAutorNavigation).WithMany()
+            entity.HasOne(d => d.IdAutorNavigation).WithMany(p => p.LibroAutors)
                 .HasForeignKey(d => d.IdAutor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LibroAutor_Autor");
 
-            entity.HasOne(d => d.IdLibroNavigation).WithMany()
+            entity.HasOne(d => d.IdLibroNavigation).WithMany(p => p.LibroAutors)
                 .HasForeignKey(d => d.IdLibro)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LibroAutor_Libro");
@@ -380,16 +380,16 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<LibroGenero>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Libro_Genero");
+            entity.HasKey(e => e.IdLibroGenero).HasName("PK__Libro_Ge__E1DAB7EFC0D94C62");
 
-            entity.HasOne(d => d.IdGeneroNavigation).WithMany()
+            entity.ToTable("Libro_Genero");
+
+            entity.HasOne(d => d.IdGeneroNavigation).WithMany(p => p.LibroGeneros)
                 .HasForeignKey(d => d.IdGenero)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LibroGenero_Genero");
 
-            entity.HasOne(d => d.IdLibroNavigation).WithMany()
+            entity.HasOne(d => d.IdLibroNavigation).WithMany(p => p.LibroGeneros)
                 .HasForeignKey(d => d.IdLibro)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LibroGenero_Libro");

@@ -8,7 +8,9 @@ namespace Models.RequestResponse
 {
     public class LibroAutorRequest
     {
-        public int Id_Autor { get; set; }
+        public int IdLibroAutor { get; set; }
+
+        public int IdAutor { get; set; }
 
         public int IdLibro { get; set; }
     }
