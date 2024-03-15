@@ -14,7 +14,7 @@ namespace Models.RequestResponse
 
         public int? Isbn { get; set; }
 
-        public string? Tamaño { get; set; }
+        public string? Tamanno { get; set; }
 
         public string? Descripcion { get; set; }
 
