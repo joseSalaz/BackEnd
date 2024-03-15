@@ -332,7 +332,7 @@ public partial class LibreriaSaberContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false);
             entity.Property(e => e.Isbn).HasColumnName("ISBN");
-            entity.Property(e => e.Tamaño)
+            entity.Property(e => e.Tamanno)
                 .HasMaxLength(200)
                 .IsUnicode(false);
             entity.Property(e => e.TipoTapa)
@@ -361,7 +361,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<LibroAutor>(entity =>
         {
-            entity.HasKey(e => e.IdLibroAutor).HasName("PK__LibroAut__6C662761FCA1C2CE");
+            entity.HasKey(e => e.IdLibroAutor).HasName("PK__LibroAut__6C662761A876682F");
 
             entity.ToTable("LibroAutor");
 
@@ -380,7 +380,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<LibroGenero>(entity =>
         {
-            entity.HasKey(e => e.IdLibroGenero).HasName("PK__Libro_Ge__E1DAB7EFC0D94C62");
+            entity.HasKey(e => e.IdLibroGenero).HasName("PK__Libro_Ge__E1DAB7EF3FF6DFD0");
 
             entity.ToTable("Libro_Genero");
 
