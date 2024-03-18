@@ -39,4 +39,8 @@
     <ProjectReference Include="..\UtilSecurity\UtilSecurity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Imagenes\" />
+  </ItemGroup>
+
 </Project>
