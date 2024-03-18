@@ -66,21 +66,22 @@ namespace API.Controllers
 
             try
             {
-                
+                // Generar un nombre único para la imagen
                 string fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Imagen.FileName)}";
 
-                
+                // Combinar el nombre del archivo con la carpeta "Imagenes"
                 string filePath = Path.Combine("Imagenes", fileName);
 
-                
+                // Guardar la imagen en el servidor
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await request.Imagen.CopyToAsync(stream);
                 }
 
-                request.RutaImagen = filePath;
+                // Almacenar la ruta relativa de la imagen en la base de datos
+                request.RutaImagen = filePath.Replace('\\', '/'); // Reemplazar las barras invertidas por barras normales
 
-                
+                // Llamar al método de negocio para crear el libro
                 LibroResponse res = _ILibroBussines.Create(request);
 
                 return Ok(res);
@@ -90,8 +91,6 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno del servidor: {ex.Message}");
             }
         }
-
-
 
         /// <summary>
         /// Actualiza un registro
