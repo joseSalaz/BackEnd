@@ -16,7 +16,9 @@ builder.Services.AddCors(options =>
         builder => builder.AllowAnyOrigin()
                           .AllowAnyMethod()
                           .AllowAnyHeader());
+
 });
+
 
 
 
@@ -70,6 +72,9 @@ if (env.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthorization();

@@ -152,12 +152,17 @@ namespace Bussines
                         vPersona.Nombre = pres.nombres;
                     }
                 }
-                else
+                else if (TipoDocumento.ToLower() == "ruc")
                 {
-                    ApisPeruEmpresaResponse pres = _apisPeruServices.EmpresaPorRUC(NumeroDocumento);
-                    //
+                    ApisPeruEmpresaResponse eres = _apisPeruServices.EmpresaPorRUC(NumeroDocumento);
+                    if (!string.IsNullOrEmpty(eres.ruc))
+                    {
+                        vPersona = new Persona();
+                        vPersona.NumeroDocumento = eres.ruc;
+                        vPersona.Nombre = eres.razonSocial;
+                        // Asignar otros datos de la empresa según sea necesario
+                    }
                 }
-                //tengo que consumir el web service de APIS Peru
             }
             return vPersona;
         }
