@@ -9,7 +9,7 @@ using Models.RequestResponse;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     //[Authorize]
     public class LibroController : ControllerBase
@@ -57,11 +57,41 @@ namespace API.Controllers
         /// <param name="request">Registro a insertar</param>
         /// <returns>Retorna el registro insertado</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] LibroRequest request)
+        public async Task<IActionResult> Create([FromForm] LibroRequest request)
         {
-            LibroResponse res = _ILibroBussines.Create(request);
-            return Ok(res);
+            if (request.Imagen == null || request.Imagen.Length == 0)
+            {
+                return BadRequest("La imagen es requerida.");
+            }
+
+            try
+            {
+                
+                string fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Imagen.FileName)}";
+
+                
+                string filePath = Path.Combine("Imagenes", fileName);
+
+                
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.Imagen.CopyToAsync(stream);
+                }
+
+                request.RutaImagen = filePath;
+
+                
+                LibroResponse res = _ILibroBussines.Create(request);
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno del servidor: {ex.Message}");
+            }
         }
+
+
 
         /// <summary>
         /// Actualiza un registro

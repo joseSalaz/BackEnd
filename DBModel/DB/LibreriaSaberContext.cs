@@ -332,6 +332,7 @@ public partial class LibreriaSaberContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false);
             entity.Property(e => e.Isbn).HasColumnName("ISBN");
+            entity.Property(e => e.RutaImagen).IsUnicode(false);
             entity.Property(e => e.Tamanno)
                 .HasMaxLength(200)
                 .IsUnicode(false);

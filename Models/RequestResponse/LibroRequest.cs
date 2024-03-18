@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,5 +32,8 @@ namespace Models.RequestResponse
         public int IdTipoPapel { get; set; }
 
         public int IdProveedor { get; set; }
+
+        public IFormFile Imagen { get; set; }
+        public string RutaImagen { get; set; }
     }
 }

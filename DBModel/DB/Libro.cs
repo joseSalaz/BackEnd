@@ -29,6 +29,8 @@ public partial class Libro
 
     public int IdProveedor { get; set; }
 
+    public string? RutaImagen { get; set; }
+
     public virtual ICollection<DetalleDocEntrada> DetalleDocEntrada { get; set; } = new List<DetalleDocEntrada>();
 
     public virtual ICollection<DetalleDocSalida> DetalleDocSalida { get; set; } = new List<DetalleDocSalida>();
