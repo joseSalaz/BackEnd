@@ -9,13 +9,13 @@ public partial class Precio
 
     public decimal? PrecioVenta { get; set; }
 
-    public int? Cantidad { get; set; }
-
-    public string? PublicoObjetivo { get; set; }
-
     public decimal? PorcUtilidad { get; set; }
 
     public int IdLibro { get; set; }
 
+    public int? IdPublicoObjetivo { get; set; }
+
     public virtual Libro IdLibroNavigation { get; set; } = null!;
+
+    public virtual PublicoObjetivo? IdPublicoObjetivoNavigation { get; set; }
 }
