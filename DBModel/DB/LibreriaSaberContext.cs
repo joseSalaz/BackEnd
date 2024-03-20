@@ -51,6 +51,8 @@ public partial class LibreriaSaberContext : DbContext
 
     public virtual DbSet<Proveedor> Proveedors { get; set; }
 
+    public virtual DbSet<PublicoObjetivo> PublicoObjetivos { get; set; }
+
     public virtual DbSet<Sucursal> Sucursals { get; set; }
 
     public virtual DbSet<TipoDocEntrada> TipoDocEntradas { get; set; }
@@ -67,10 +69,12 @@ public partial class LibreriaSaberContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=Libreria_Saber.mssql.somee.com;Initial Catalog=Libreria_Saber;User ID=Cesae_SQLLogin_1;Password=5c8m9y4gg4;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.UseCollation("Modern_Spanish_CI_AS");
+
         modelBuilder.Entity<Autor>(entity =>
         {
             entity.HasKey(e => e.IdAutor).HasName("PK__Autor__0DC8163E94F100C0");
@@ -331,7 +335,9 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.Impresion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.Isbn).HasColumnName("ISBN");
+            entity.Property(e => e.Isbn)
+                .IsUnicode(false)
+                .HasColumnName("ISBN");
             entity.Property(e => e.RutaImagen).IsUnicode(false);
             entity.Property(e => e.Tamanno)
                 .HasMaxLength(200)
@@ -433,19 +439,20 @@ public partial class LibreriaSaberContext : DbContext
             entity.HasKey(e => e.IdPrecios).HasName("PK__Precios__F69F1CD05F4FED65");
 
             entity.Property(e => e.IdPrecios).HasColumnName("Id_Precios");
+            entity.Property(e => e.IdPublicoObjetivo).HasColumnName("idPublicoObjetivo");
             entity.Property(e => e.PorcUtilidad)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("Porc_Utilidad");
             entity.Property(e => e.PrecioVenta).HasColumnType("money");
-            entity.Property(e => e.PublicoObjetivo)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("Publico_Objetivo");
 
             entity.HasOne(d => d.IdLibroNavigation).WithMany(p => p.Precios)
                 .HasForeignKey(d => d.IdLibro)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Precios_Libro");
+
+            entity.HasOne(d => d.IdPublicoObjetivoNavigation).WithMany(p => p.Precios)
+                .HasForeignKey(d => d.IdPublicoObjetivo)
+                .HasConstraintName("FK_PublicoObjetivo_id");
         });
 
         modelBuilder.Entity<Proveedor>(entity =>
@@ -471,6 +478,16 @@ public partial class LibreriaSaberContext : DbContext
                 .HasForeignKey(d => d.IdTipoProveedor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Proveedor_TipoProveedor");
+        });
+
+        modelBuilder.Entity<PublicoObjetivo>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__PublicoO__3213E83F3208BDA5");
+
+            entity.ToTable("PublicoObjetivo");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Descripcion).IsUnicode(false);
         });
 
         modelBuilder.Entity<Sucursal>(entity =>

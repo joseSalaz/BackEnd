@@ -9,7 +9,7 @@ public partial class Libro
 
     public string? Titulo { get; set; }
 
-    public int? Isbn { get; set; }
+    public string? Isbn { get; set; }
 
     public string? Tamanno { get; set; }
 
