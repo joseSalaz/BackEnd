@@ -5,7 +5,7 @@ namespace DBModel.DB;
 
 public partial class PublicoObjetivo
 {
-    public int Id { get; set; }
+    public int IdPublicoObjetivo { get; set; }
 
     public string? Descripcion { get; set; }
 

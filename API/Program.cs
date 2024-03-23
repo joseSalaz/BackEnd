@@ -1,14 +1,15 @@
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Bussines;
+using IBussines;
+using IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Service;
 using System.Text;
 using UtilMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
-
-
 
 builder.Services.AddCors(options =>
 {
@@ -16,15 +17,7 @@ builder.Services.AddCors(options =>
         builder => builder.AllowAnyOrigin()
                           .AllowAnyMethod()
                           .AllowAnyHeader());
-
 });
-
-
-
-
-
-
-
 
 /* PARA IMPLEMENTAR NUESTROS PROTOCOLOS DE SEGURIDAD ==> JWT */
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -64,6 +57,11 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddAutoMapper(typeof(IStartup).Assembly, typeof(AutoMapperProfiles).Assembly);
 
+// Registro de servicios
+builder.Services.AddScoped<ILibroBussines, LibroBussines>();
+builder.Services.AddScoped<IAzureStorage, AzureStorage>();
+
+
 var app = builder.Build();
 
 if (env.IsDevelopment())
@@ -72,13 +70,9 @@ if (env.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-
-
