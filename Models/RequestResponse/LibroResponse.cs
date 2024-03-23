@@ -33,8 +33,6 @@ namespace Models.RequestResponse
 
         public int IdProveedor { get; set; }
 
-        public IFormFile Imagen { get; set; }
-
-        public string RutaImagen { get; set; }
+        public string? Imagen { get; set; }
     }
 }
