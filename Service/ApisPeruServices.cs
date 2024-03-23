@@ -28,10 +28,39 @@ namespace IService
         }
 
 
-        public ApisPeruEmpresaResponse EmpresaPorRUC(string dni)
+        public ApisPeruEmpresaResponse EmpresaPorRUC(string ruc)
         {
-            throw new NotImplementedException();
+            EmpresaPorRUCTask(ruc).GetAwaiter().GetResult();
+            return empresaResult;
         }
+
+        public async Task EmpresaPorRUCTask(string ruc)
+        {
+            string url = $"https://dniruc.apisperu.com/api/v1/ruc/{ruc}?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsYmVydG9wYXJpb25hcmFtb3M2QGdtYWlsLmNvbSJ9.l5YJzVRBy16cuBnQ40M8usGf3S39ZiVtLGaPDK8WUuo";
+
+            using (HttpClient client = new HttpClient())
+            {
+                // Configurar seguridad TLS
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+                using (HttpResponseMessage response = await client.GetAsync(url))
+                {
+                    if (response.StatusCode == HttpStatusCode.OK) // 200
+                    {
+                        string jsonResult = await response.Content.ReadAsStringAsync();
+                        empresaResult = JsonConvert.DeserializeObject<ApisPeruEmpresaResponse>(jsonResult);
+                    }
+                    else
+                    {
+                        // Manejar error
+                        Console.WriteLine($"Error al obtener datos de la empresa. Código de estado: {response.StatusCode}");
+                    }
+                }
+            }
+        }
+
+
 
         public ApisPeruPersonaResponse PersonaPorDNI(string dni)
         {
