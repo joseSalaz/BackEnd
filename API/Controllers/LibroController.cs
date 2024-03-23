@@ -2,10 +2,10 @@
 using Bussines;
 //using Bussines;
 using IBussines;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using IService;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
+using Service;
 
 namespace API.Controllers
 {
@@ -17,13 +17,17 @@ namespace API.Controllers
         #region Declaracion de vcariables generales
         public readonly ILibroBussines _ILibroBussines = null;
         public readonly IMapper _Mapper;
+        private readonly IAzureStorage _azureStorage;
+
+        private readonly IConfiguration _configuration;
         #endregion
 
         #region constructor 
-        public LibroController(IMapper mapper)
+        public LibroController(IMapper mapper, ILibroBussines libroBussines, IAzureStorage azureStorage)
         {
             _Mapper = mapper;
-            _ILibroBussines = new LibroBussines(_Mapper);
+            _ILibroBussines = libroBussines;
+            _azureStorage = azureStorage;
         }
         #endregion
 
@@ -57,41 +61,38 @@ namespace API.Controllers
         /// <param name="request">Registro a insertar</param>
         /// <returns>Retorna el registro insertado</returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] LibroRequest request)
+        public async Task<IActionResult> Create([FromForm] LibroRequest request, IFormFile imageFile)
         {
-            if (request.Imagen == null || request.Imagen.Length == 0)
-            {
-                return BadRequest("La imagen es requerida.");
-            }
-
             try
             {
-                // Generar un nombre único para la imagen
-                string fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Imagen.FileName)}";
-
-                // Combinar el nombre del archivo con la carpeta "Imagenes"
-                string filePath = Path.Combine("Imagenes", fileName);
-
-                // Guardar la imagen en el servidor
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                if (imageFile != null && imageFile.Length > 0)
                 {
-                    await request.Imagen.CopyToAsync(stream);
+                    // Verificar si se proporcionó una imagen y guardarla en Azure Blob Storage
+                    var imageUrl = await _ILibroBussines.CreateWithImage(request, imageFile);
+                    return Ok(imageUrl);
                 }
-
-                // Almacenar la ruta relativa de la imagen en la base de datos
-                request.RutaImagen = filePath.Replace('\\', '/'); // Reemplazar las barras invertidas por barras normales
-
-                // Llamar al método de negocio para crear el libro
-                LibroResponse res = _ILibroBussines.Create(request);
-
-                return Ok(res);
+                else
+                {
+                    // Si no se proporcionó una imagen, crear el libro sin ella
+                    var libroResponse = _ILibroBussines.Create(request);
+                    return Ok(libroResponse);
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno del servidor: {ex.Message}");
+                // Manejar cualquier excepción y devolver un mensaje de error
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
 
+
+
+        //[HttpPost]
+        //public IActionResult Create([FromBody] LibroRequest request)
+        //{
+        //    LibroResponse res = _ILibroBussines.Create(request);
+        //    return Ok(res);
+        //}
         /// <summary>
         /// Actualiza un registro
         /// </summary>

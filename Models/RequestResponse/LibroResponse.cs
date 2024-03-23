@@ -13,7 +13,7 @@ namespace Models.RequestResponse
 
         public string? Titulo { get; set; }
 
-        public string? Isbn { get; set; }
+        public int? Isbn { get; set; }
 
         public string? Tamanno { get; set; }
 
@@ -33,8 +33,6 @@ namespace Models.RequestResponse
 
         public int IdProveedor { get; set; }
 
-        public IFormFile Imagen { get; set; }
-
-        public string RutaImagen { get; set; }
+        public string? Imagen { get; set; }
     }
 }

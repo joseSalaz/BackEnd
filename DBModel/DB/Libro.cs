@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace DBModel.DB;
@@ -9,9 +10,9 @@ public partial class Libro
 
     public string? Titulo { get; set; }
 
-    public string? Isbn { get; set; }
+    public int? Isbn { get; set; }
 
-    public string? Tamanno { get; set; }
+    public string? Tamaño { get; set; }
 
     public string? Descripcion { get; set; }
 
@@ -29,7 +30,7 @@ public partial class Libro
 
     public int IdProveedor { get; set; }
 
-    public string? RutaImagen { get; set; }
+    public string? Imagen { get; set; }
 
     public virtual ICollection<DetalleDocEntrada> DetalleDocEntrada { get; set; } = new List<DetalleDocEntrada>();
 
