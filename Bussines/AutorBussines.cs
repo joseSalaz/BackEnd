@@ -16,9 +16,6 @@ namespace Bussines
         public readonly IAutorRepository _IAutorRepository = null;
         public readonly IMapper _Mapper;
 
-        public AutorBussines()
-        {
-        }
         #endregion
 
         #region constructor 
