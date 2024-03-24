@@ -282,18 +282,6 @@ public partial class LibreriaSaberContext : DbContext
                 .HasConstraintName("FK_DocSalida_TipoDocSalida");
         });
 
-
-        //modelBuilder.Entity<Genero>(entity =>
-        //{
-        //    entity.HasKey(e => e.IdGenero).HasName("PK__Genero__0F834988E7424D62");
-
-        //    entity.ToTable("Genero");
-
-        //    entity.Property(e => e.Descripcion)
-        //        .HasMaxLength(200)
-        //        .IsUnicode(false);
-        //});
- 
         modelBuilder.Entity<Kardex>(entity =>
         {
             entity.HasKey(e => e.IdLibro).HasName("PK__Kardex__3E0B49AD02C1C096");
@@ -329,8 +317,8 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.IdProveedor).HasColumnName("Id_Proveedor");
+            entity.Property(e => e.IdSubcategoria).HasColumnName("Id_Subcategoria");
             entity.Property(e => e.Imagen).IsUnicode(false);
             entity.Property(e => e.Impresion)
                 .HasMaxLength(200)
@@ -349,15 +337,15 @@ public partial class LibreriaSaberContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Libros)
-                .HasForeignKey(d => d.IdCategoria)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Libro_SubCategoria");
-
             entity.HasOne(d => d.IdProveedorNavigation).WithMany(p => p.Libros)
                 .HasForeignKey(d => d.IdProveedor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Libro_Proveedor");
+
+            entity.HasOne(d => d.IdSubcategoriaNavigation).WithMany(p => p.Libros)
+                .HasForeignKey(d => d.IdSubcategoria)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_Libro_SubCategoria");
 
             entity.HasOne(d => d.IdTipoPapelNavigation).WithMany(p => p.Libros)
                 .HasForeignKey(d => d.IdTipoPapel)
@@ -383,25 +371,6 @@ public partial class LibreriaSaberContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LibroAutor_Libro");
         });
-
-
-        //modelBuilder.Entity<LibroGenero>(entity =>
-        //{
-        //    entity.HasKey(e => e.IdLibroGenero).HasName("PK__Libro_Ge__E1DAB7EF3FF6DFD0");
-
-        //    entity.ToTable("Libro_Genero");
-
-        //    entity.HasOne(d => d.IdGeneroNavigation).WithMany(p => p.LibroGeneros)
-        //        .HasForeignKey(d => d.IdGenero)
-        //        .OnDelete(DeleteBehavior.ClientSetNull)
-        //        .HasConstraintName("FK_LibroGenero_Genero");
-
-        //    entity.HasOne(d => d.IdLibroNavigation).WithMany(p => p.LibroGeneros)
-        //        .HasForeignKey(d => d.IdLibro)
-        //        .OnDelete(DeleteBehavior.ClientSetNull)
-        //        .HasConstraintName("FK_LibroGenero_Libro");
-        //});
-
 
         modelBuilder.Entity<Persona>(entity =>
         {
@@ -489,7 +458,6 @@ public partial class LibreriaSaberContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Descripcion).IsUnicode(false);
-
         });
 
         modelBuilder.Entity<Subcategoria>(entity =>
@@ -508,7 +476,6 @@ public partial class LibreriaSaberContext : DbContext
                 .HasForeignKey(d => d.IdCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__subcatego__id_ca__2EDAF651");
-
         });
 
         modelBuilder.Entity<Sucursal>(entity =>

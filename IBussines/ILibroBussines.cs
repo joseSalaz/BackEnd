@@ -1,4 +1,5 @@
-﻿using IService;
+﻿using DBModel.DB;
+using IService;
 using Microsoft.AspNetCore.Http;
 using Models.RequestResponse;
 using System;
@@ -14,5 +15,7 @@ namespace IBussines
     public interface ILibroBussines : ICRUDBussnies<LibroRequest,LibroResponse>
     {
         Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile);
+        Task<List<Libro>> GetLibrosByIds(List<int> ids);
+
     }
 }
