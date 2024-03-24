@@ -10,5 +10,7 @@ namespace IRepository
 {
     public interface ILibroAutorRepository : ICRUDRepositorio<LibroAutor>
     {
+        public Task<List<Autor>> GetAutoresByLibroId(int libroId);
+        public Task<List<Libro>> GetLibrosByAutorId(int autorId);
     }
 }
