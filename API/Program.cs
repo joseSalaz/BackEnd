@@ -1,4 +1,5 @@
 using Bussines;
+using Constantes;
 using IBussines;
 using IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,6 +61,7 @@ builder.Services.AddAutoMapper(typeof(IStartup).Assembly, typeof(AutoMapperProfi
 // Registro de servicios
 builder.Services.AddScoped<ILibroBussines, LibroBussines>();
 builder.Services.AddScoped<IAzureStorage, AzureStorage>();
+builder.Services.Configure<appSettings>(builder.Configuration.GetSection("GoogleSeting"));
 
 
 var app = builder.Build();

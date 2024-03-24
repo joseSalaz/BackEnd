@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Models.RequestResponse
 {
-    public class LoginRequest
+    public class SubcategoriaRequest
     {
-        public string email { get; set; } = "";
-        public string Password { get; set; } = "";
+        public int Id { get; set; }
+
+        public string? Descripcion { get; set; }
+
+        public int IdCategoria { get; set; }
     }
 }

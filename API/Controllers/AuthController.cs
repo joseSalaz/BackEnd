@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Bussines;
-//using Bussines;
 using IBussines;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,7 @@ namespace API.Controllers
         public AuthController(IMapper mapper)
         {
             _mapper = mapper;
-            _authBussnies = new AuthBussnies(mapper);
+            //_authBussnies = new AuthBussnies(mapper);
         }
 
         [HttpGet]

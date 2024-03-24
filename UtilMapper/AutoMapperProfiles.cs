@@ -85,6 +85,9 @@ namespace UtilMapper
 
             CreateMap<TipoPapel, TipoPapelRequest>().ReverseMap();
             CreateMap<TipoPapel, TipoPapelResponse>().ReverseMap();
+
+            CreateMap<Subcategoria, SubcategoriaRequest>().ReverseMap();
+            CreateMap<Subcategoria, SubcategoriaResponse>().ReverseMap();
         }
 
     }

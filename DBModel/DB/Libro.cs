@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace DBModel.DB;
@@ -10,9 +9,9 @@ public partial class Libro
 
     public string? Titulo { get; set; }
 
-    public int? Isbn { get; set; }
+    public string? Isbn { get; set; }
 
-    public string? Tamaño { get; set; }
+    public string? Tamanno { get; set; }
 
     public string? Descripcion { get; set; }
 
@@ -38,7 +37,7 @@ public partial class Libro
 
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
 
-    public virtual Categoria IdCategoriaNavigation { get; set; } = null!;
+    public virtual Subcategoria IdCategoriaNavigation { get; set; } = null!;
 
     public virtual Proveedor IdProveedorNavigation { get; set; } = null!;
 
@@ -47,8 +46,6 @@ public partial class Libro
     public virtual Kardex? Kardex { get; set; }
 
     public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();
-
-    public virtual ICollection<LibroGenero> LibroGeneros { get; set; } = new List<LibroGenero>();
 
     public virtual ICollection<Precio> Precios { get; set; } = new List<Precio>();
 
