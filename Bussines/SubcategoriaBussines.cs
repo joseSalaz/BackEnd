@@ -15,7 +15,7 @@ namespace Bussines
     public class SubcategoriaBussines : ISubcategoriaBussines
     {
         #region Declaracion de vcariables generales
-        public readonly ISubcategoriaRepsitory _ISubcategoriaRepository = null;
+        public readonly ISubcategoriaRepository _ISubcategoriaRepository = null;
         public readonly IMapper _Mapper;
 
         #endregion
@@ -24,7 +24,7 @@ namespace Bussines
         public SubcategoriaBussines(IMapper mapper)
         {
             _Mapper = mapper;
-            _ISubcategoriaRepository = new SubcategoriaRepsitory();
+            _ISubcategoriaRepository = new SubcategoriaRepository();
         }
         #endregion
 
@@ -79,6 +79,12 @@ namespace Bussines
             SubcategoriaResponse res = _Mapper.Map<SubcategoriaResponse>(au);
             return res;
         }
+
+        public async Task<List<int>> GetLibrosIdsBySubcategoria(int subcategoriaId)
+        {
+            return await _ISubcategoriaRepository.GetLibroIdsBySubcategoria(subcategoriaId);
+        }
+
 
         public SubcategoriaResponse Update(SubcategoriaRequest entity)
         {

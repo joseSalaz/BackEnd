@@ -15,13 +15,15 @@ namespace API.Controllers
         #region Declaracion de vcariables generales
         public readonly ISubcategoriaBussines _ISubcategoriaBussines = null;
         public readonly IMapper _Mapper;
+        private readonly ILibroBussines _IlibroBussines;
         #endregion
 
         #region constructor 
-        public SubcategoriaController(IMapper mapper)
+        public SubcategoriaController(IMapper mapper, ILibroBussines libroBussines)
         {
             _Mapper = mapper;
             _ISubcategoriaBussines = new SubcategoriaBussines(_Mapper);
+            _IlibroBussines = libroBussines;
         }
         #endregion
 
@@ -84,6 +86,18 @@ namespace API.Controllers
             int res = _ISubcategoriaBussines.Delete(id);
             return Ok(res);
         }
+        [HttpGet("librosbysubcategoria/{subcategoriaId}")]
+        public async Task<IActionResult> GetLibrosBySubcategoria(int subcategoriaId)
+        {
+          
+            var libroIds = await _ISubcategoriaBussines.GetLibrosIdsBySubcategoria(subcategoriaId);
+
+
+            var libros = await _IlibroBussines.GetLibrosByIds(libroIds);
+
+            return Ok(libros);
+        }
+
         #endregion
     }
 }
