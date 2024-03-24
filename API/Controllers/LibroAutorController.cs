@@ -84,5 +84,23 @@ namespace API.Controllers
         //    return Ok(res);
         //}
         #endregion
+
+        [HttpGet("GetLibrosByAutorId/{autorId}")]
+        public async Task<IActionResult> GetLibrosByAutorId(int autorId)
+        {
+            var libros = await _ILibroAutorBussines.GetLibrosByAutorId(autorId);
+            return Ok(libros);
+        }
+
+        /// <summary>
+        /// Obtiene los autores asociados a un libro por su ID.
+        /// </summary>
+        /// <param name="libroId">ID del libro.</param>
+        [HttpGet("GetAutoresByLibroId/{libroId}")]
+        public async Task<IActionResult> GetAutoresByLibroId(int libroId)
+        {
+            var autores = await _ILibroAutorBussines.GetAutoresByLibroId(libroId);
+            return Ok(autores);
+        }
     }
 }

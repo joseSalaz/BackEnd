@@ -13,9 +13,9 @@ public partial class Precio
 
     public int IdLibro { get; set; }
 
-    public int IdPublicoObjetivo { get; set; }
+    public int? IdPublicoObjetivo { get; set; }
 
     public virtual Libro IdLibroNavigation { get; set; } = null!;
 
-    public virtual PublicoObjetivo IdPublicoObjetivoNavigation { get; set; } = null!;
+    public virtual PublicoObjetivo? IdPublicoObjetivoNavigation { get; set; }
 }

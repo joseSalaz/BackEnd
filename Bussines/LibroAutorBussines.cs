@@ -20,9 +20,7 @@ namespace Bussines
         public readonly ILibroAutorRepository _ILibroAutorRepository = null;
         public readonly IMapper _Mapper;
 
-        public LibroAutorBussines()
-        {
-        }
+        
         #endregion
 
         #region constructor 
@@ -78,12 +76,26 @@ namespace Bussines
             throw new NotImplementedException();
         }
 
+        public async Task<List<Autor>> GetAutoresByLibroId(int libroId)
+        {
+            var autores = await _ILibroAutorRepository.GetAutoresByLibroId(libroId);
+            return autores;
+        }
+
+        public async Task<List<Libro>> GetLibrosByAutorId(int autorId)
+        {
+            var libros = await _ILibroAutorRepository.GetLibrosByAutorId(autorId);
+            return libros;
+        }
+
         public LibroAutorResponse getById(object id)
         {
             LibroAutor au = _ILibroAutorRepository.GetById(id);
             LibroAutorResponse res = _Mapper.Map<LibroAutorResponse>(au);
             return res;
         }
+
+      
 
         public LibroAutorResponse Update(LibroAutorRequest entity)
         {

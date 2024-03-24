@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace DBModel.DB;
@@ -12,7 +11,7 @@ public partial class Libro
 
     public string? Isbn { get; set; }
 
-    public string? Tamaño { get; set; }
+    public string? Tamanno { get; set; }
 
     public string? Descripcion { get; set; }
 
