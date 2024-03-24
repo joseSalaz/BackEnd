@@ -283,16 +283,16 @@ public partial class LibreriaSaberContext : DbContext
         });
 
 
-        modelBuilder.Entity<Genero>(entity =>
-        {
-            entity.HasKey(e => e.IdGenero).HasName("PK__Genero__0F834988E7424D62");
+        //modelBuilder.Entity<Genero>(entity =>
+        //{
+        //    entity.HasKey(e => e.IdGenero).HasName("PK__Genero__0F834988E7424D62");
 
-            entity.ToTable("Genero");
+        //    entity.ToTable("Genero");
 
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(200)
-                .IsUnicode(false);
-        });
+        //    entity.Property(e => e.Descripcion)
+        //        .HasMaxLength(200)
+        //        .IsUnicode(false);
+        //});
  
         modelBuilder.Entity<Kardex>(entity =>
         {
