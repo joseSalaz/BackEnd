@@ -1,10 +1,11 @@
-﻿ using Constantes;
+﻿using Constantes;
 using DBModel.DB;
 using Microsoft.EntityFrameworkCore;
 using Models.Comon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,18 @@ namespace Repository.Generic
 
             }
         }
+
+
+        public virtual IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] navigationProperties)
+        {
+            IQueryable<TEntity> query = dbSet;
+            foreach (var navigationProperty in navigationProperties)
+            {
+                query = query.Include(navigationProperty);
+            }
+            return query;
+        }
+
 
         public void Dispose()
         {
