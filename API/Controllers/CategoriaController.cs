@@ -84,5 +84,20 @@ namespace API.Controllers
             return Ok(res);
         }
         #endregion
+        [HttpGet("{id}/subcategorias")]
+        public async Task<IActionResult> GetSubcategorias(int id)
+        {
+            var subcategorias = await _ICategoriaBussines.GetSubcategoriasByCategoriaId(id);
+            return Ok(subcategorias);
+        }
+
+        [HttpGet("{categoriaId}/libros")]
+        public async Task<IActionResult> GetLibrosByCategoriaId(int categoriaId)
+        {
+            var libros = await _ICategoriaBussines.GetLibrosByCategoriaId(categoriaId);
+            return Ok(libros);
+        }
+
+
     }
 }
