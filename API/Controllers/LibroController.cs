@@ -121,16 +121,29 @@ namespace API.Controllers
         }
 
         [HttpGet("{libroId}/precios-objetivos")]
-        public async Task<ActionResult<LibroResponse>> ObtenerLibroConPreciosYPublicoObjetivo(int libroId)
+        public async Task<ActionResult<Libro>> ObtenerLibroConPreciosYPublicoObjetivo(int libroId)
         {
-            var libroResponse = await _ILibroBussines.ObtenerLibroConPreciosYPublicoObjetivo(libroId);
-            if (libroResponse == null)
+            // Obtener el libro con sus precios y el público objetivo asociado, devolviendo solo los IDs.
+            var libroConIds = await _ILibroBussines.ObtenerLibroConPreciosYPublicoObjetivo(libroId);
+
+            if (libroConIds == null)
             {
                 return NotFound();
             }
-            return Ok(libroResponse);
+
+            var libroCompleto = await _ILibroBussines.ObtenerLibroCompletoPorIds(libroConIds);
+
+            if (libroCompleto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(libroCompleto);
         }
 
-        #endregion
     }
 }
+
+    #endregion
+
+
