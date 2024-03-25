@@ -1,12 +1,18 @@
 ﻿using AutoMapper;
 using Bussnies;
 using Constantes;
+using Google.Apis.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using IBussines;
 using IBussnies;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Models.RequestResponse;
 using Models.ResponseResponse;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using UtilSecurity.UtilSecurity;
 
 namespace Bussines
@@ -16,11 +22,12 @@ namespace Bussines
         private readonly IMapper _mapper;
         private readonly IUsuarioBussnies _userBussnies;
         private readonly appSettings _appSettings;
-        public AuthBussnies(IMapper mapper, appSettings appSettings)
+        private readonly IConfiguration _configuration;
+        public AuthBussnies(IMapper mapper)
         {
             _userBussnies = new UsuarioBussnies(mapper);
             _mapper = mapper;
-            _appSettings = appSettings;
+            
         }
 
         public void Dispose()
@@ -49,29 +56,70 @@ namespace Bussines
             return res;
         }
 
-        //public async Task<LoginResponse> LoginWithGoogle(LoginRequest request)
+
+
+        //public async Task<LoginResponse> LoginWithGoogle(string idToken)
         //{
+        //    var response = new LoginResponse();
+
         //    try
         //    {
-        //        // Autenticar con Firebase utilizando el token de ID de Google
-        //        var firebaseToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.IdToken);
+        //        // Valida el token de ID de Google
+        //        var payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
 
-        //        // Construye la respuesta con el token de Firebase
-        //        var loginResponse = new LoginResponse
+        //        // Aquí puedes adaptar la lógica para verificar si el usuario existe en tu sistema
+        //        // Si el usuario no existe, puedes crear uno nuevo o devolver un error
+
+        //        // Supongamos que aquí tienes lógica para verificar si el usuario existe en tu sistema
+        //        // Si el usuario no existe, puedes devolver un error
+        //        var user = await _userBussnies.GetUserByEmail(payload.Email);
+        //        if (user == null)
         //        {
-        //            Success = true,
-        //            Token = firebaseToken.Uid, // O cualquier otra propiedad que contenga el identificador único del usuario en Firebase
-        //                                       // Otros campos de respuesta según sea necesario
-        //        };
+        //            response.Success = false;
+        //            response.Message = "Usuario no encontrado";
+        //            return response;
+        //        }
 
-        //        return loginResponse;
+        //        // Si el usuario existe, crea el token JWT
+        //        response.Success = true;
+        //        response.Token = CreateTokenGoogle(payload);
         //    }
         //    catch (Exception ex)
         //    {
-        //        // Manejo de errores
-        //        Console.WriteLine("Error en la autenticación con Google y Firebase: " + ex.Message);
-        //        return new LoginResponse { Success = false, Message = "Error en la autenticación con Google y Firebase: " + ex.Message };
+        //        response.Message = ex.Message;
         //    }
+
+        //    return response;
         //}
+
+
+
+
+        private string CreateTokenGoogle(GoogleJsonWebSignature.Payload payload)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+        new Claim(JwtRegisteredClaimNames.Sub, payload.Subject),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+        new Claim("UserId", payload.Subject),
+        new Claim("Email", payload.Email),
+        // Agregar más reclamaciones según sea necesario
+    };
+
+            var token = new JwtSecurityToken(
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"],
+                claims,
+                expires: DateTime.UtcNow.AddMinutes(int.Parse(_configuration["Jwt:TimeJWTMin"])),
+                signingCredentials: signIn);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
     }
 }

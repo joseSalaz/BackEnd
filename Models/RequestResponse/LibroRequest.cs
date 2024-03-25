@@ -27,11 +27,13 @@ namespace Models.RequestResponse
 
         public bool? Estado { get; set; }
 
-        public int IdCategoria { get; set; }
+        public int IdSubcategoria { get; set; }
 
         public int IdTipoPapel { get; set; }
 
         public int IdProveedor { get; set; }
+
+        public string? Imagen { get; set; }
 
     }
 }
