@@ -23,7 +23,7 @@ public partial class Libro
 
     public bool? Estado { get; set; }
 
-    public int IdCategoria { get; set; }
+    public int IdSubcategoria { get; set; }
 
     public int IdTipoPapel { get; set; }
 
@@ -37,9 +37,9 @@ public partial class Libro
 
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
 
-    public virtual Subcategoria IdCategoriaNavigation { get; set; } = null!;
-
     public virtual Proveedor IdProveedorNavigation { get; set; } = null!;
+
+    public virtual Subcategoria IdSubcategoriaNavigation { get; set; } = null!;
 
     public virtual TipoPapel IdTipoPapelNavigation { get; set; } = null!;
 
