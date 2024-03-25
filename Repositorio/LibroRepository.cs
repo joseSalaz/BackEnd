@@ -25,8 +25,20 @@ namespace Repository
                 .ThenInclude(p => p.IdPublicoObjetivoNavigation)
                 .FirstOrDefaultAsync();
         }
+<<<<<<< HEAD
     }
 
 
 
+=======
+        public async Task<Precio> GetPrecioByLibroId(int libroId)
+        {
+            return await dbSet
+                .Include(l => l.Precios)
+                .Where(l => l.IdLibro == libroId)
+                .SelectMany(l => l.Precios)
+                .FirstOrDefaultAsync();
+        }
+    }  
+>>>>>>> 51da49cb4cb3f50d994e99f04e2d8d9d811a35bc
 }
