@@ -10,6 +10,6 @@ namespace IRepository
 {
     public interface IPrecioRepository : ICRUDRepositorio<Precio>
     {
-
+        Task<Libro> GetLibroByPrecioId(int precioId);
     }
 }

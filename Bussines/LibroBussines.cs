@@ -132,11 +132,28 @@ namespace Bussines
 
         public async Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId)
         {
-            var libro = await _ILibroRepository.GetLibroConPreciosYPublicoObjetivo(libroId);
-            return libro;
+            return await _ILibroRepository.GetLibroConPreciosYPublicoObjetivo(libroId);
         }
+        public async Task<Libro> ObtenerLibroCompletoPorIds(Libro libroConIds)
+        {
+            var libroCompleto = await _ILibroRepository.GetLibroConPreciosYPublicoObjetivo(libroConIds.IdLibro);
+            if (libroCompleto == null)
+            {
+                return null;
+            }
+            foreach (var precio in libroCompleto.Precios)
+            {
 
-
+                var precioCorrespondiente = libroConIds.Precios.FirstOrDefault(p => p.IdPrecios == precio.IdPrecios);
+                if (precioCorrespondiente != null)
+                {
+                    precio.PrecioVenta = precioCorrespondiente.PrecioVenta;
+                    precio.PorcUtilidad = precioCorrespondiente.PorcUtilidad;
+                }
+            }
+            return libroCompleto;
+        }
     }
+
 }
 

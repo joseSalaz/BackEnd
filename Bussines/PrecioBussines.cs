@@ -98,5 +98,9 @@ namespace Bussines
             List<PrecioResponse> res = _Mapper.Map<List<PrecioResponse>>(au);
             return res;
         }
+        public async Task<Libro> ObtenerLibroPorPrecioId(int precioId)
+        {
+            return await _IPrecioRepository.GetLibroByPrecioId(precioId);
+        }
     }
 }
