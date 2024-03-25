@@ -100,6 +100,15 @@ namespace Bussines
             List<CategoriaResponse> res = _Mapper.Map<List<CategoriaResponse>>(au);
             return res;
         }
+        public async Task<List<Libro>> GetLibrosByCategoriaId(int categoriaId)
+        {
+            return await _ICategoriaRepository.GetLibrosByCategoriaId(categoriaId);
+        }
+
+        public async Task<List<Subcategoria>> GetSubcategoriasByCategoriaId(int categoriaId)
+        {
+            return await _ICategoriaRepository.GetSubcategoriasByCategoriaId(categoriaId);
+        }
     }
 }
 
