@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines;
+using Google.Apis.Auth;
 using IBussines;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,12 @@ namespace API.Controllers
     {
         private readonly IAuthBussines _authBussnies;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
         public AuthController(IMapper mapper)
         {
             _mapper = mapper;
-            //_authBussnies = new AuthBussnies(mapper);
+            _authBussnies = new AuthBussnies(mapper);
         }
 
         [HttpGet]
@@ -30,6 +32,8 @@ namespace API.Controllers
         {
             return Ok("El servicio está escuchando");
         }
+
+        
 
         /// <summary>
         /// Realiza el proceso de login
@@ -50,8 +54,6 @@ namespace API.Controllers
             res.Success = true;
             return Ok(res);
         }
-
-
 
         private static string CreateToken(UsuarioResponse user)
         {
@@ -89,6 +91,8 @@ namespace API.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
 
 
     }
