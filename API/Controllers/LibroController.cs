@@ -65,7 +65,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] LibroRequest request, IFormFile imageFile)
         {
-            
+
             try
             {
                 if (imageFile != null && imageFile.Length > 0)
@@ -140,10 +140,22 @@ namespace API.Controllers
 
             return Ok(libroCompleto);
         }
+        [HttpGet("precio/{libroId}")]
+        public async Task<IActionResult> GetPrecioByLibroId(int libroId)
+        {
+            var precio = await _ILibroBussines.GetPrecioByLibroId(libroId);
+            if (precio != null)
+            {
+                return Ok(precio);
+            }
+            else
+            {
+                return NotFound();
+            }
 
+        }
     }
 }
-
     #endregion
 
 
