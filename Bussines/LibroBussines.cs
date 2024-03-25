@@ -7,6 +7,7 @@ using IRepositorio;
 using IRepository;
 using IService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Models.RequestResponse;
 using Repository;
@@ -153,6 +154,12 @@ namespace Bussines
             }
             return libroCompleto;
         }
+
+        public async Task<Precio> GetPrecioByLibroId(int libroId)
+        {
+            return await _ILibroRepository.GetPrecioByLibroId(libroId);
+        }
+
     }
 
 }
