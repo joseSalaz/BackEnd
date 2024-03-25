@@ -10,5 +10,8 @@ namespace IRepository
 {
     public interface ICategoriaRepository: ICRUDRepositorio<Categoria>
     {
+        Task<List<Subcategoria>> GetSubcategoriasByCategoriaId(int categoriaId);
+
+        Task<List<Libro>> GetLibrosByCategoriaId(int categoriaId);
     }
 }

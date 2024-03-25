@@ -21,6 +21,7 @@ namespace Repository.Generic
         {
             try
             {
+                
                 this.dbSet = db.Set<TEntity>();
 
             }

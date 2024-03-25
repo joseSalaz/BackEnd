@@ -8,7 +8,8 @@ using UtilInterface;
 
 namespace IRepository
 {
-    public interface ISubcategoriaRepsitory : ICRUDRepositorio<Subcategoria>
+    public interface ISubcategoriaRepository : ICRUDRepositorio<Subcategoria>
     {
+        Task<List<int>> GetLibroIdsBySubcategoria(int subcategoriaId);
     }
 }

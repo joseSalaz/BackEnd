@@ -1,4 +1,5 @@
-﻿using Models.RequestResponse;
+﻿using DBModel.DB;
+using Models.RequestResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace IBussines
 {
     public interface ISubcategoriaBussines : ICRUDBussnies<SubcategoriaRequest, SubcategoriaResponse>
     {
+        Task<List<int>> GetLibrosIdsBySubcategoria(int subcategoriaId);
     }
 }
