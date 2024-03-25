@@ -21,16 +21,9 @@ namespace Repository
         public async Task<Libro> GetLibroConPreciosYPublicoObjetivo(int libroId)
         {
             return await dbSet.Where(l => l.IdLibro == libroId)
-                      .Select(l => new Libro
-                      {
-                          IdLibro = l.IdLibro,
-                          Precios = l.Precios.Select(p => new Precio
-                          {
-                              IdPrecios = p.IdPrecios, 
-                              IdPublicoObjetivo = p.IdPublicoObjetivo
-                          }).ToList()
-                      })
-                      .FirstOrDefaultAsync();
+                .Include(l => l.Precios)
+                .ThenInclude(p => p.IdPublicoObjetivoNavigation)
+                .FirstOrDefaultAsync();
         }
     }
 
