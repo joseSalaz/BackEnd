@@ -129,5 +129,14 @@ namespace Bussines
         {
             return await _ILibroRepository.GetByIds(ids);
         }
+
+        public async Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId)
+        {
+            var libro = await _ILibroRepository.GetLibroConPreciosYPublicoObjetivo(libroId);
+            return libro;
+        }
+
+
     }
 }
+
