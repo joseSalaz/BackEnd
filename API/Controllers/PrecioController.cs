@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines;
+using DBModel.DB;
 using IBussines;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
@@ -84,6 +85,19 @@ namespace API.Controllers
             int res = _IPrecioBussines.Delete(id);
             return Ok(res);
         }
+
+        [HttpGet("{precioId}/libro")]
+        public async Task<ActionResult<Libro>> ObtenerLibroPorPrecioId(int precioId)
+        {
+            var libro = await _IPrecioBussines.ObtenerLibroPorPrecioId(precioId);
+            if (libro == null)
+            {
+                return NotFound();
+            }
+            return Ok(libro);
+        }
+
         #endregion
+
     }
 }
