@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Bussines;
+using DBModel.DB;
+
 //using Bussines;
 using IBussines;
 using IService;
@@ -117,6 +119,18 @@ namespace API.Controllers
             int res = _ILibroBussines.Delete(id);
             return Ok(res);
         }
+
+        [HttpGet("{libroId}/precios-objetivos")]
+        public async Task<ActionResult<LibroResponse>> ObtenerLibroConPreciosYPublicoObjetivo(int libroId)
+        {
+            var libroResponse = await _ILibroBussines.ObtenerLibroConPreciosYPublicoObjetivo(libroId);
+            if (libroResponse == null)
+            {
+                return NotFound();
+            }
+            return Ok(libroResponse);
+        }
+
         #endregion
     }
 }
