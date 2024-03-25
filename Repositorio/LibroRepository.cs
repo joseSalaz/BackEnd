@@ -20,6 +20,7 @@ namespace Repository
 
         public async Task<Libro> GetLibroConPreciosYPublicoObjetivo(int libroId)
         {
+#pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
             return await dbSet.Where(l => l.IdLibro == libroId)
                       .Select(l => new Libro
                       {
@@ -31,6 +32,7 @@ namespace Repository
                           }).ToList()
                       })
                       .FirstOrDefaultAsync();
+#pragma warning restore CS8603 // Posible tipo de valor devuelto de referencia nulo
         }
     }
 
