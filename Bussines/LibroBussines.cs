@@ -125,6 +125,9 @@ namespace Bussines
             return _Mapper.Map<LibroResponse>(libro);
         }
 
-
+        public async Task<List<Libro>> GetLibrosByIds(List<int> ids)
+        {
+            return await _ILibroRepository.GetByIds(ids);
+        }
     }
 }
