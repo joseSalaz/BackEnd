@@ -16,6 +16,7 @@ namespace IBussines
     {
         Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile);
         Task<List<Libro>> GetLibrosByIds(List<int> ids);
+        Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId);
 
     }
 }
