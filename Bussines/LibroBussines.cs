@@ -155,11 +155,10 @@ namespace Bussines
             return libroCompleto;
         }
 
-        public async Task<Precio> GetPrecioByLibroId(int libroId)
+        public async Task<List<Precio>> GetPreciosByLibroId(int libroId)
         {
-            return await _ILibroRepository.GetPrecioByLibroId(libroId);
+            return await _ILibroRepository.GetPreciosByLibroId(libroId);
         }
-
     }
 
 }

@@ -7,6 +7,6 @@ namespace IRepositorio
     {
         public Task<List<Libro>> GetByIds(List<int> ids);
         Task<Libro> GetLibroConPreciosYPublicoObjetivo(int libroId);
-        Task<Precio> GetPrecioByLibroId(int libroId);
+        Task<List<Precio>> GetPreciosByLibroId(int libroId);
     }
 }

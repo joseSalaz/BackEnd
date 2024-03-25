@@ -140,19 +140,18 @@ namespace API.Controllers
 
             return Ok(libroCompleto);
         }
-        [HttpGet("precio/{libroId}")]
-        public async Task<IActionResult> GetPrecioByLibroId(int libroId)
+        [HttpGet("precios/{libroId}")]
+        public async Task<IActionResult> GetPreciosByLibroId(int libroId)
         {
-            var precio = await _ILibroBussines.GetPrecioByLibroId(libroId);
-            if (precio != null)
+            var precios = await _ILibroBussines.GetPreciosByLibroId(libroId);
+            if (precios != null && precios.Any())
             {
-                return Ok(precio);
+                return Ok(precios);
             }
             else
             {
                 return NotFound();
             }
-
         }
     }
 }

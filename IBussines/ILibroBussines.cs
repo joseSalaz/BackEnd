@@ -18,8 +18,10 @@ namespace IBussines
         Task<List<Libro>> GetLibrosByIds(List<int> ids);
         Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId);
         Task<Libro> ObtenerLibroCompletoPorIds(Libro libroConIds);
-        Task<Precio> GetPrecioByLibroId(int libroId);
-   
+        Task<List<Precio>> GetPreciosByLibroId(int libroId);
+        
+
+
 
 
     }
