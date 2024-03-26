@@ -157,8 +157,14 @@ namespace Bussines
 
         public async Task<List<Precio>> GetPreciosByLibroId(int libroId)
         {
-            return await _ILibroRepository.GetPreciosByLibroId(libroId);
+            // Obtener precios del repositorio
+            var precios = await _ILibroRepository.GetPreciosByLibroId(libroId);
+
+            // Devolver la lista de precios obtenida del repositorio
+            return precios;
         }
+
+
     }
 
 }
