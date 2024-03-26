@@ -25,20 +25,21 @@ namespace Repository
                 .ThenInclude(p => p.IdPublicoObjetivoNavigation)
                 .FirstOrDefaultAsync();
         }
-<<<<<<< HEAD
+
         public async Task<List<Precio>> GetPreciosByLibroId(int libroId)
-=======
-
-
-        public async Task<Precio> GetPrecioByLibroId(int libroId)
->>>>>>> 0fa52fca5beecd5bc8ff6fc622c0844e62e69ea6
         {
             var libro = await dbSet
-        .Include(l => l.Precios)
-        .FirstOrDefaultAsync(l => l.IdLibro == libroId);
+                .Include(l => l.Precios)
+                .FirstOrDefaultAsync(l => l.IdLibro == libroId);
 
-            return libro.Precios.ToList();
+            // Verificar si el libro existe y tiene precios asociados
+            if (libro != null && libro.Precios != null)
+            {
+                return libro.Precios.ToList();
+            }
 
+            // Si no hay precios asociados, devolver una lista vacía
+            return new List<Precio>();
         }
 
     }
