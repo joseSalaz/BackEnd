@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Models.RequestResponse
 {
-    public class Carrito
+    public class ExecutePaymentModelRequest
     {
-        public LibroRequest libro {  get; set; }
-        public decimal PrecioVenta {  get; set; }
-        public int Cantidad {  get; set; }
+        public string PaymentId { get; set; }
+        public string PayerID { get; set; }
     }
 }

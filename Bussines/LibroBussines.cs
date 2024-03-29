@@ -165,19 +165,14 @@ namespace Bussines
             return precios;
         }
 
-<<<<<<< HEAD
-        public Task<int?> GetStockByLibroId(int libroId, DbContext context)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<int?> GetStockByLibroId(int libroId)
         {
             return await _ILibroRepository.GetStockByLibroId(libroId);
         }
-=======
 
->>>>>>> 345ca54308d54fa8f3926f90415e50a369469619
+
+
     }
 
 }
