@@ -25,13 +25,10 @@ namespace Repository
                 .ThenInclude(p => p.IdPublicoObjetivoNavigation)
                 .FirstOrDefaultAsync();
         }
-<<<<<<< HEAD
         public async Task<List<Precio>> GetPreciosByLibroId(int libroId)
-=======
 
 
-        public async Task<Precio> GetPrecioByLibroId(int libroId)
->>>>>>> 0fa52fca5beecd5bc8ff6fc622c0844e62e69ea6
+
         {
             var libro = await dbSet
         .Include(l => l.Precios)
@@ -39,6 +36,15 @@ namespace Repository
 
             return libro.Precios.ToList();
 
+        }
+
+        public async Task<int?> GetStockByLibroId(int libroId)
+        {
+            var libro = await dbSet
+                .Include(l => l.Kardex)
+                .FirstOrDefaultAsync(l => l.IdLibro == libroId);
+
+            return libro?.Kardex?.Stock;
         }
 
     }

@@ -8,6 +8,7 @@ using IRepository;
 using IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Models.RequestResponse;
 using Repository;
@@ -158,6 +159,16 @@ namespace Bussines
         public async Task<List<Precio>> GetPreciosByLibroId(int libroId)
         {
             return await _ILibroRepository.GetPreciosByLibroId(libroId);
+        }
+
+        public Task<int?> GetStockByLibroId(int libroId, DbContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int?> GetStockByLibroId(int libroId)
+        {
+            return await _ILibroRepository.GetStockByLibroId(libroId);
         }
     }
 

@@ -19,10 +19,7 @@ namespace IBussines
         Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId);
         Task<Libro> ObtenerLibroCompletoPorIds(Libro libroConIds);
         Task<List<Precio>> GetPreciosByLibroId(int libroId);
-        
-
-
-
+        Task<int?> GetStockByLibroId(int libroId);
 
     }
 }
