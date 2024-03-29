@@ -52,9 +52,10 @@ namespace API.Controllers
                 return StatusCode(500, "Error interno al crear el pago: " + ex.Message);
             }
         }
-
+      
+  
         [HttpPost("execute-payment")]
-        public async Task<IActionResult> ExecutePayment(ExecutePaymentModelRequest paymenRequest)
+        public async Task<IActionResult> ExecutePayment([FromBody]ExecutePaymentModelRequest paymenRequest)
         {
             var apiContext = new APIContext(new OAuthTokenCredential(
                 _configuration["PayPalSettings:ClientId"],
