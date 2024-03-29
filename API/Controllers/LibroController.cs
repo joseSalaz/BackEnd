@@ -158,7 +158,7 @@ namespace API.Controllers
                 return Ok(new List<Precio>()); // Devolver una lista vacía en lugar de un código de error
             }
         }
-<<<<<<< HEAD
+
         [HttpGet("stock/{libroId}")]
         public async Task<IActionResult> GetStockByLibroId(int libroId)
         {
@@ -172,9 +172,7 @@ namespace API.Controllers
                 return NotFound();
             }
         }
-=======
 
->>>>>>> 345ca54308d54fa8f3926f90415e50a369469619
     }
 }
     #endregion

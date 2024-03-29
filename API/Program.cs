@@ -62,6 +62,8 @@ builder.Services.AddAutoMapper(typeof(IStartup).Assembly, typeof(AutoMapperProfi
 builder.Services.AddScoped<ILibroBussines, LibroBussines>();
 builder.Services.AddScoped<IAzureStorage, AzureStorage>();
 builder.Services.Configure<appSettings>(builder.Configuration.GetSection("GoogleSeting"));
+builder.Services.AddScoped<IApisPaypalServices, ApisPaypalServices>();
+
 
 
 var app = builder.Build();
