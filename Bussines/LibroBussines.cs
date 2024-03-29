@@ -158,9 +158,14 @@ namespace Bussines
 
         public async Task<List<Precio>> GetPreciosByLibroId(int libroId)
         {
-            return await _ILibroRepository.GetPreciosByLibroId(libroId);
+            // Obtener precios del repositorio
+            var precios = await _ILibroRepository.GetPreciosByLibroId(libroId);
+
+            // Devolver la lista de precios obtenida del repositorio
+            return precios;
         }
 
+<<<<<<< HEAD
         public Task<int?> GetStockByLibroId(int libroId, DbContext context)
         {
             throw new NotImplementedException();
@@ -170,6 +175,9 @@ namespace Bussines
         {
             return await _ILibroRepository.GetStockByLibroId(libroId);
         }
+=======
+
+>>>>>>> 345ca54308d54fa8f3926f90415e50a369469619
     }
 
 }

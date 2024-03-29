@@ -140,19 +140,25 @@ namespace API.Controllers
 
             return Ok(libroCompleto);
         }
+
+
         [HttpGet("precios/{libroId}")]
         public async Task<IActionResult> GetPreciosByLibroId(int libroId)
         {
+            // Obtener precios del servicio de negocios
             var precios = await _ILibroBussines.GetPreciosByLibroId(libroId);
-            if (precios != null && precios.Any())
+
+            // Verificar si hay precios y devolver la lista de precios o una lista vacía
+            if (precios != null)
             {
                 return Ok(precios);
             }
             else
             {
-                return NotFound();
+                return Ok(new List<Precio>()); // Devolver una lista vacía en lugar de un código de error
             }
         }
+<<<<<<< HEAD
         [HttpGet("stock/{libroId}")]
         public async Task<IActionResult> GetStockByLibroId(int libroId)
         {
@@ -166,6 +172,9 @@ namespace API.Controllers
                 return NotFound();
             }
         }
+=======
+
+>>>>>>> 345ca54308d54fa8f3926f90415e50a369469619
     }
 }
     #endregion
