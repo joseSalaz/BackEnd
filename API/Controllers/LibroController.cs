@@ -153,6 +153,19 @@ namespace API.Controllers
                 return NotFound();
             }
         }
+        [HttpGet("stock/{libroId}")]
+        public async Task<IActionResult> GetStockByLibroId(int libroId)
+        {
+            var stock = await _ILibroBussines.GetStockByLibroId(libroId);
+            if (stock != null)
+            {
+                return Ok(stock);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
     #endregion

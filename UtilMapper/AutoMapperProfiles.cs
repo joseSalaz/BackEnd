@@ -85,6 +85,9 @@ namespace UtilMapper
 
             CreateMap<Subcategoria, SubcategoriaRequest>().ReverseMap();
             CreateMap<Subcategoria, SubcategoriaResponse>().ReverseMap();
+
+            CreateMap<PublicoObjetivo,PublicoObjetivoRequest>().ReverseMap();
+            CreateMap<PublicoObjetivo, PublicoObjetivoResponse>().ReverseMap();
         }
 
     }
