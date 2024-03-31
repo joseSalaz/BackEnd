@@ -10,5 +10,7 @@ namespace Models.RequestResponse
     {
         public string PaymentId { get; set; }
         public string PayerID { get; set; }
-    }
+
+        public DatalleCarrito Carrito { get; set; }
+     }
 }
