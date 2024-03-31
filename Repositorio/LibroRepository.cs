@@ -52,6 +52,15 @@ namespace Repository
             return libro?.Kardex?.Stock;
         }
 
+        public async Task<(List<Libro>, int)> GetLibrosPaginados(int page, int pageSize)
+        {
+            var query = dbSet.AsQueryable();
+            int totalItems = await query.CountAsync();
+            var libros = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (libros, totalItems);
+        }
+
+
     }
 }  
 

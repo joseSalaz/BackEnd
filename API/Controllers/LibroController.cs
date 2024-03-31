@@ -8,6 +8,8 @@ using IService;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
 using Service;
+using System.Threading.Tasks;
+using System;
 
 namespace API.Controllers
 {
@@ -44,6 +46,9 @@ namespace API.Controllers
             List<LibroResponse> lsl = _ILibroBussines.getAll();
             return Ok(lsl);
         }
+
+
+
 
         /// <summary>
         /// retorna el registro por Primary key
@@ -173,8 +178,40 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("Paginator")]
+        public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var (libroResponses, totalItems) = await _ILibroBussines.GetLibrosPaginados(page, pageSize);
+                var response = new
+                {
+                    TotalItems = totalItems,
+                    TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    Libros = libroResponses
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Asegúrate de que todos los bloques catch terminen con un "return"
+                // Log the exception details here to help with debugging
+                return StatusCode(500, ex.Message);
+            }
+
+            // Si tienes condiciones que pueden terminar el método sin entrar al try-catch, también deben retornar un valor.
+            // return algo...
+        }
+
+
+
+
+        #endregion
+
     }
 }
-    #endregion
+    
 
 
