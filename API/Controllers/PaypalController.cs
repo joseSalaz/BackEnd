@@ -7,6 +7,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Models.RequestResponse;
 using IService;
+using DBModel.DB;
+using DocumentFormat.OpenXml.InkML;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using IRepository;
+using Repository;
+using Bussines;
+using IBussines;
 
 namespace API.Controllers
 {
@@ -16,12 +24,18 @@ namespace API.Controllers
     {
         private readonly IApisPaypalServices _apisPaypalServices;
         private readonly IConfiguration _configuration;
-
-        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration)
+        private readonly IKardexRepository _kardexRepository;
+        private readonly IKardexBussines _kardexBussines;
+        private readonly IMapper _mapper;
+        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper)
         {
             _apisPaypalServices = apisPaypalServices;
             _configuration = configuration;
+            _kardexRepository = kardexRepository;
+            _kardexBussines = kardexBussines;
+            _mapper = mapper;
         }
+
 
         [HttpPost("create-payment")]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentCreationRequest paymentRequest)
@@ -52,30 +66,48 @@ namespace API.Controllers
                 return StatusCode(500, "Error interno al crear el pago: " + ex.Message);
             }
         }
-      
-  
+
+
         [HttpPost("execute-payment")]
-        public async Task<IActionResult> ExecutePayment([FromBody]ExecutePaymentModelRequest paymenRequest)
+        public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRequest paymentRequest)
         {
             var apiContext = new APIContext(new OAuthTokenCredential(
                 _configuration["PayPalSettings:ClientId"],
                 _configuration["PayPalSettings:Secret"]
             ).GetAccessToken());
 
-            var paymentExecution = new PaymentExecution { payer_id = paymenRequest.PayerID };
-            var payment = new Payment { id = paymenRequest.PaymentId };
+            var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
+            var payment = new Payment { id = paymentRequest.PaymentId };
 
             try
             {
-                var executedPayment =  payment.Execute(apiContext, paymentExecution);
-                // Aquí deberías verificar el estado del pago en `executedPayment`
-                // y realizar cualquier lógica de negocio necesaria, como actualizar el estado de la orden, etc.
+                var executedPayment = payment.Execute(apiContext, paymentExecution);
+                if (executedPayment.state.ToLower() == "approved")
+                {
+                    foreach (var item in paymentRequest.Carrito.Items)
+                    {
+                        var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
+                        if (kardexActual == null || kardexActual.Stock < item.Cantidad)
+                        {
+                            return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
+                        }
 
-                return Ok(new { executedPayment.id });
+                        // Actualiza el stock uno por uno
+                        kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
+                        _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
+                    }
+
+                    // No necesitas llamar a SaveChanges si tu método Update ya lo hace internamente
+                    return Ok(new { PaymentId = executedPayment.id });
+                }
+                else
+                {
+                    return BadRequest("El pago no fue aprobado.");
+                }
             }
             catch (Exception ex)
             {
-                // Registrar el error y proporcionar una respuesta adecuada.
+                // Registro de errores y respuesta adecuada
                 return StatusCode(500, "Error al ejecutar el pago: " + ex.Message);
             }
         }
