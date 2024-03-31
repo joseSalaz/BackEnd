@@ -1,10 +1,13 @@
 using Bussines;
 using Constantes;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using IBussines;
+using IRepository;
 using IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository;
 using Service;
 using System.Text;
 using UtilMapper;
@@ -63,8 +66,8 @@ builder.Services.AddScoped<ILibroBussines, LibroBussines>();
 builder.Services.AddScoped<IAzureStorage, AzureStorage>();
 builder.Services.Configure<appSettings>(builder.Configuration.GetSection("GoogleSeting"));
 builder.Services.AddScoped<IApisPaypalServices, ApisPaypalServices>();
-
-
+builder.Services.AddScoped<IKardexRepository, KardexRepository>();
+builder.Services.AddScoped<IKardexBussines, KardexBussines>();
 
 var app = builder.Build();
 
