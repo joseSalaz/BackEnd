@@ -36,7 +36,9 @@ namespace Repository
                 return dbSet.Where(la => la.IdLibro == libroId)
                             .Select(la => la.IdAutorNavigation)
                             .ToList();
+        //like --->contains similitud 
             });
         }
+        
     }
 }

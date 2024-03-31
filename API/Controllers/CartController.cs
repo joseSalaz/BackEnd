@@ -29,6 +29,7 @@ namespace API.Controllers
 
                 // Calcula el total del carrito basado en los items que contiene
                 decimal total = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
+                      Console.WriteLine($"items recibidos: {total}");
 
                 // Crea el pedido en PayPal
                 var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, total, "http://localhost:4200/detalle-venta", "http://localhost:4200/cancelar");
