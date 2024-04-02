@@ -9,5 +9,7 @@ namespace IRepositorio
         Task<Libro> GetLibroConPreciosYPublicoObjetivo(int libroId);
         Task<List<Precio>> GetPreciosByLibroId(int libroId);
         Task<int?> GetStockByLibroId(int libroId);
+        Task<(List<Libro>, int)> GetLibrosPaginados(int page, int pageSize);
+
     }
 }

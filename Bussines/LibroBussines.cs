@@ -171,6 +171,12 @@ namespace Bussines
             return await _ILibroRepository.GetStockByLibroId(libroId);
         }
 
+        public async Task<(List<LibroResponse>, int)> GetLibrosPaginados(int page, int pageSize)
+        {
+            var (libros, totalItems) = await _ILibroRepository.GetLibrosPaginados(page, pageSize);
+            var libroResponses = _Mapper.Map<List<LibroResponse>>(libros);
+            return (libroResponses, totalItems);
+        }
 
 
     }
