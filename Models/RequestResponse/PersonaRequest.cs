@@ -23,5 +23,6 @@ namespace Models.RequestResponse
         public string? NumeroDocumento { get; set; }
 
         public string? Telefono { get; set; }
+        public string? Sub { get; set; }
     }
 }

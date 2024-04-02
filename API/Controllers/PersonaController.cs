@@ -107,5 +107,31 @@ namespace API.Controllers
             return Ok(vpersona);
 
         }
+        [HttpPost("verificar")]
+        public IActionResult VerificarUsuario([FromBody] PersonaRequest persona)
+        {
+            var personaExistente = _IPersonaBussines.GetByIdSub(persona.Sub);
+
+            if (personaExistente != null)
+            {
+                // El usuario ya existe, podrías devolver el usuario existente o un token de sesión.
+                return Ok(personaExistente);
+            }
+            else
+            {
+
+                // El usuario no existe, procedemos a crearlo.
+                PersonaResponse nuevaPersona = _IPersonaBussines.Create(persona);
+                if (nuevaPersona != null)
+                {
+                    return Ok(nuevaPersona);
+                }
+                else
+                {
+                    // Hubo un problema al crear el usuario.
+                    return StatusCode(500, "No se pudo crear el usuario");
+                }
+            }
+        }
     }
 }
