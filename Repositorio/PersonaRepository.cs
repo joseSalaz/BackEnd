@@ -53,7 +53,15 @@ namespace Repository
             return vPersona;
         }
 
-
-
+        public Persona GetByIdSub(string sub)
+        {
+            if (string.IsNullOrEmpty(sub))
+            {
+                return null;
+            }
+            Persona persona = db.Personas
+                                .FirstOrDefault(p => p.Sub == sub);
+            return persona;
+        }
     }
 }

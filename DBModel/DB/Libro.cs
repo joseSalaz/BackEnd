@@ -31,8 +31,8 @@ public partial class Libro
     public int IdProveedor { get; set; }
 
     public string? Imagen { get; set; }
-
     [JsonIgnore]
+
     public virtual ICollection<DetalleDocEntrada> DetalleDocEntrada { get; set; } = new List<DetalleDocEntrada>();
     [JsonIgnore]
 

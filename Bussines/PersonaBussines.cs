@@ -166,5 +166,14 @@ namespace Bussines
             }
             return vPersona;
         }
+        public PersonaResponse GetByIdSub(string sub)
+        {
+            var persona = _IPersonaRepository.GetByIdSub(sub);
+            if (persona != null)
+            {
+                return _Mapper.Map<PersonaResponse>(persona);
+            }
+            return null;
+        }
     }
 }

@@ -395,6 +395,10 @@ public partial class LibreriaSaberContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Numero_Documento");
+            entity.Property(e => e.Sub)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("sub");
             entity.Property(e => e.Telefono)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -545,6 +549,10 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.Sub)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasColumnName("sub");
             entity.Property(e => e.Username)
                 .HasMaxLength(100)
                 .IsUnicode(false);
