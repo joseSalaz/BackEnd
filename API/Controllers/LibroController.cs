@@ -205,7 +205,29 @@ namespace API.Controllers
             // return algo...
         }
 
+        [HttpGet("filtroComplete")]
+        public async Task<IActionResult> Autocomplete(string titulo)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(titulo))
+                {
+                    return BadRequest("La consulta de búsqueda no puede estar vacía.");
+                }
 
+                var results = await _ILibroBussines.filtroComplete(titulo);
+                if (results == null || !results.Any())
+                {
+                    return NotFound("No se encontraron libros con ese título.");
+                }
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                // Es una buena práctica manejar excepciones inesperadas para evitar que la app se caiga y dar una respuesta al cliente.
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
 
 
         #endregion
