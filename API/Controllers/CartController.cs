@@ -32,7 +32,7 @@ namespace API.Controllers
                       Console.WriteLine($"items recibidos: {total}");
 
                 // Crea el pedido en PayPal
-                var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, total, "http://localhost:4200/detalle-venta", "http://localhost:4200/cancelar");
+                var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, total, "http://localhost:4200/detalle-venta", "http://localhost:4200/detalle-venta");
 
                 // Busca la URL de aprobación para redirigir al usuario para el pago
                 var approvalUrl = payment.links.FirstOrDefault(lnk => lnk.rel == "approval_url")?.href;

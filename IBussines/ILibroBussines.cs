@@ -21,5 +21,6 @@ namespace IBussines
         Task<List<Precio>> GetPreciosByLibroId(int libroId);
         Task<int?> GetStockByLibroId(int libroId);
         Task<(List<LibroResponse>, int)> GetLibrosPaginados(int page, int pageSize);
+        Task<List<LibroResponse>> filtroComplete(string query);
     }
 }
