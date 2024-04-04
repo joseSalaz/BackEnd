@@ -10,6 +10,7 @@ namespace IRepositorio
         Task<List<Precio>> GetPreciosByLibroId(int libroId);
         Task<int?> GetStockByLibroId(int libroId);
         Task<(List<Libro>, int)> GetLibrosPaginados(int page, int pageSize);
+        Task<List<Libro>> filtroComplete(string query);
 
     }
 }
