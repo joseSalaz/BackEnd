@@ -8,6 +8,8 @@ namespace Repository
 {
     public class LibroRepository : GenericRepository<Libro>, ILibroRepository
     {
+
+
         public List<Libro> GetAutoComplete(string query)
         {
             throw new NotImplementedException();
@@ -60,6 +62,13 @@ namespace Repository
             return (libros, totalItems);
         }
 
+
+        public async Task<List<Libro>> filtroComplete(string query)
+        {
+            return await dbSet
+                .Where(libro => EF.Functions.Like(libro.Titulo, $"%{query}%"))
+                .ToListAsync();
+        }
 
     }
 }  

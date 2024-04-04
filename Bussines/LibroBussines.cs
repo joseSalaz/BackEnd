@@ -179,6 +179,12 @@ namespace Bussines
         }
 
 
+        public async Task<List<LibroResponse>> filtroComplete(string query)
+        {
+            var libros = await _ILibroRepository.filtroComplete(query);
+            return _Mapper.Map<List<LibroResponse>>(libros);
+        }
+
     }
 
 }
