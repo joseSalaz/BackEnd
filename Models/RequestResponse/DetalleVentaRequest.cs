@@ -20,4 +20,5 @@ namespace Models.RequestResponse
 
         public decimal? Importe { get; set; }
     }
+
 }
