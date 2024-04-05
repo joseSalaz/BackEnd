@@ -12,6 +12,4 @@ public partial class Cliente
     public int IdPersona { get; set; }
 
     public virtual Persona IdPersonaNavigation { get; set; } = null!;
-
-    public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
 }

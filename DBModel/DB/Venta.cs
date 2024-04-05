@@ -15,19 +15,15 @@ public partial class Venta
 
     public string? NroComprobante { get; set; }
 
-    public int IdCliente { get; set; }
+    public int IdPersona { get; set; }
 
     public int IdUsuario { get; set; }
 
-    public int IdLibro { get; set; }
-
     public virtual ICollection<Caja> Cajas { get; set; } = new List<Caja>();
 
-    public virtual DetalleVenta? DetalleVenta { get; set; }
+    public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
 
-    public virtual Cliente IdClienteNavigation { get; set; } = null!;
-
-    public virtual Libro IdLibroNavigation { get; set; } = null!;
+    public virtual Persona IdPersonaNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 }

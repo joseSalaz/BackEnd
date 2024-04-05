@@ -32,16 +32,12 @@ public partial class Libro
 
     public string? Imagen { get; set; }
     [JsonIgnore]
-
     public virtual ICollection<DetalleDocEntrada> DetalleDocEntrada { get; set; } = new List<DetalleDocEntrada>();
     [JsonIgnore]
-
     public virtual ICollection<DetalleDocSalida> DetalleDocSalida { get; set; } = new List<DetalleDocSalida>();
     [JsonIgnore]
-
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
     [JsonIgnore]
-
     public virtual Proveedor IdProveedorNavigation { get; set; } = null!;
 
     public virtual Subcategoria IdSubcategoriaNavigation { get; set; } = null!;
@@ -50,12 +46,7 @@ public partial class Libro
 
     public virtual Kardex? Kardex { get; set; }
     [JsonIgnore]
-
     public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();
     [JsonIgnore]
-
     public virtual ICollection<Precio> Precios { get; set; } = new List<Precio>();
-    [JsonIgnore]
-
-    public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
 }
