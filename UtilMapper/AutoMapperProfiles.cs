@@ -22,11 +22,7 @@ namespace UtilMapper
 
             CreateMap<Categoria, CategoriaRequest>().ReverseMap();
             CreateMap<Categoria, CategoriaResponse>().ReverseMap();
-
-            CreateMap<Cliente, ClienteRequest>().ReverseMap();
-            CreateMap<Cliente, ClienteResponse>().ReverseMap();
-
-           
+    
             CreateMap<Usuario, UsuarioRequest>().ReverseMap();
             CreateMap<Usuario, UsuarioResponse>().ReverseMap();
 
@@ -88,6 +84,10 @@ namespace UtilMapper
 
             CreateMap<PublicoObjetivo,PublicoObjetivoRequest>().ReverseMap();
             CreateMap<PublicoObjetivo, PublicoObjetivoResponse>().ReverseMap();
+
+
+            CreateMap<DetalleVentaResponse, DetalleVentaRequest>();
+
         }
 
     }

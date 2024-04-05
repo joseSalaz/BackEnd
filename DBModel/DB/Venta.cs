@@ -25,8 +25,6 @@ public partial class Venta
 
     public virtual DetalleVenta? DetalleVenta { get; set; }
 
-    public virtual Cliente IdClienteNavigation { get; set; } = null!;
-
     public virtual Libro IdLibroNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
