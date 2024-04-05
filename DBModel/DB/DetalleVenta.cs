@@ -5,8 +5,6 @@ namespace DBModel.DB;
 
 public partial class DetalleVenta
 {
-    public int IdVentas { get; set; }
-
     public int IdLibro { get; set; }
 
     public string? NombreProducto { get; set; }
@@ -17,7 +15,11 @@ public partial class DetalleVenta
 
     public decimal? Importe { get; set; }
 
+    public int IdDetalleVentas { get; set; }
+
+    public int? IdVentas { get; set; }
+
     public virtual Libro IdLibroNavigation { get; set; } = null!;
 
-    public virtual Venta IdVentasNavigation { get; set; } = null!;
+    public virtual Venta? IdVentasNavigation { get; set; }
 }

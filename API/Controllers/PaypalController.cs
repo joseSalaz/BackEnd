@@ -15,6 +15,7 @@ using IRepository;
 using Repository;
 using Bussines;
 using IBussines;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace API.Controllers
 {
@@ -26,14 +27,18 @@ namespace API.Controllers
         private readonly IConfiguration _configuration;
         private readonly IKardexRepository _kardexRepository;
         private readonly IKardexBussines _kardexBussines;
+        private readonly IDetalleVentaBussines _IDetalleVentaBussines=null;
+        private readonly IVentaBussines _IVentaBussines=null;
         private readonly IMapper _mapper;
-        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper)
+        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines)
         {
             _apisPaypalServices = apisPaypalServices;
             _configuration = configuration;
             _kardexRepository = kardexRepository;
             _kardexBussines = kardexBussines;
             _mapper = mapper;
+            _IDetalleVentaBussines = detalleVentaBussines;
+            _IVentaBussines = ventaBussines;
         }
 
 
@@ -75,7 +80,7 @@ namespace API.Controllers
                 _configuration["PayPalSettings:ClientId"],
                 _configuration["PayPalSettings:Secret"]
             ).GetAccessToken());
-
+            
             var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
             var payment = new Payment { id = paymentRequest.PaymentId };
 
@@ -84,8 +89,37 @@ namespace API.Controllers
                 var executedPayment = payment.Execute(apiContext, paymentExecution);
                 if (executedPayment.state.ToLower() == "approved")
                 {
+                    //int userId = ObtenerIdUsuarioLogueado();
+                    VentaRequest ventaRequest = new VentaRequest
+                    {
+                        //IdCliente = userId,
+                        //TotalPrecio = paymentRequest.Amount, // Asumiendo que existe un campo Total en ExecutePaymentModelRequest.
+                        FechaVenta = DateTime.Now,
+                        TipoComprobante="Factura",
+                        IdUsuario=8,
+                        // Otros campos necesarios...
+                    };
+                    VentaResponse ventaResponse = _IVentaBussines.Create(ventaRequest);
+                    if (ventaResponse == null)
+                    {
+                        return StatusCode(500, "Error al crear la venta");
+                    }
                     foreach (var item in paymentRequest.Carrito.Items)
                     {
+                        DetalleVentaRequest detalleVentaRequest = new DetalleVentaRequest
+                        {
+                            IdVentas = ventaResponse.IdVentas,
+                            NombreProducto=item.libro.Titulo,
+                            PrecioUnit=item.PrecioVenta,
+                            IdLibro = item.libro.IdLibro,
+                            Cantidad = item.Cantidad,
+                            // Otros campos necesarios...
+                        };
+                        DetalleVentaResponse detalleVentaResponse = _IDetalleVentaBussines.Create(detalleVentaRequest);
+                        if (detalleVentaResponse == null)
+                        {
+                            return StatusCode(500, "Error al crear el detalle de la venta para el libro con ID " + item.libro.IdLibro);
+                        }
                         var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
                         if (kardexActual == null || kardexActual.Stock < item.Cantidad)
                         {

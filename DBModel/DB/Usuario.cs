@@ -17,8 +17,6 @@ public partial class Usuario
 
     public int IdPersona { get; set; }
 
-    public string? Sub { get; set; }
-
     public virtual Persona IdPersonaNavigation { get; set; } = null!;
 
     public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();

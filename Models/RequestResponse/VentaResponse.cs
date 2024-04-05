@@ -18,10 +18,8 @@ namespace Models.RequestResponse
 
         public string? NroComprobante { get; set; }
 
-        public int IdCliente { get; set; }
+        public int IdPersona { get; set; }
 
         public int IdUsuario { get; set; }
-
-        public int IdLibro { get; set; }
     }
 }
