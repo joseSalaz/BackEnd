@@ -191,13 +191,12 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<DetalleVenta>(entity =>
         {
-            entity.HasKey(e => e.IdVentas).HasName("PK__Detalle___464C581FB95CC752");
+            entity.HasKey(e => e.IdDetalleVentas).HasName("PK__Detalle___3AD941761442F50E");
 
             entity.ToTable("Detalle_Ventas");
 
-            entity.Property(e => e.IdVentas)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("Id_Ventas");
+            entity.Property(e => e.IdDetalleVentas).HasColumnName("id_detalleVentas");
+            entity.Property(e => e.IdVentas).HasColumnName("id_Ventas");
             entity.Property(e => e.Importe).HasColumnType("money");
             entity.Property(e => e.NombreProducto)
                 .HasMaxLength(200)
@@ -212,10 +211,9 @@ public partial class LibreriaSaberContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_DetalleVenta_Libro");
 
-            entity.HasOne(d => d.IdVentasNavigation).WithOne(p => p.DetalleVenta)
-                .HasForeignKey<DetalleVenta>(d => d.IdVentas)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DetalleVenta_Ventas");
+            entity.HasOne(d => d.IdVentasNavigation).WithMany(p => p.DetalleVenta)
+                .HasForeignKey(d => d.IdVentas)
+                .HasConstraintName("FK_detalle_ventas_ventas");
         });
 
         modelBuilder.Entity<DocEntrada>(entity =>
@@ -362,6 +360,10 @@ public partial class LibreriaSaberContext : DbContext
             entity.HasKey(e => e.IdPersona).HasName("PK__Persona__C95634AF01949CD8");
 
             entity.ToTable("Persona");
+
+            entity.HasIndex(e => e.Sub, "UK_sub")
+                .IsUnique()
+                .HasFilter("([sub] IS NOT NULL)");
 
             entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
             entity.Property(e => e.ApellidoMaterno)
@@ -534,10 +536,6 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Sub)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("sub");
             entity.Property(e => e.Username)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -556,7 +554,7 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.FechaVenta)
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Venta");
-            entity.Property(e => e.IdCliente).HasColumnName("Id_Cliente");
+            entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
             entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
             entity.Property(e => e.NroComprobante)
                 .HasMaxLength(200)
@@ -569,10 +567,17 @@ public partial class LibreriaSaberContext : DbContext
                 .HasColumnType("money")
                 .HasColumnName("Total_Precio");
 
-            entity.HasOne(d => d.IdLibroNavigation).WithMany(p => p.Venta)
-                .HasForeignKey(d => d.IdLibro)
+
+            //entity.HasOne(d => d.IdLibroNavigation).WithMany(p => p.Venta)
+            //    .HasForeignKey(d => d.IdLibro)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK_Ventas_Libro");
+
+            entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Venta)
+                .HasForeignKey(d => d.IdPersona)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Ventas_Libro");
+                .HasConstraintName("fk_Ventas_Personas");
+
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Venta)
                 .HasForeignKey(d => d.IdUsuario)

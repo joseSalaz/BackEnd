@@ -70,11 +70,8 @@ builder.Services.AddScoped<IFacturaService, FacturaService>();
 
 var app = builder.Build();
 
-if (env.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();
