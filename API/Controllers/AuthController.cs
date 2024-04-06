@@ -55,6 +55,34 @@ namespace API.Controllers
             return Ok(res);
         }
 
+        //[HttpPost("google")]
+        //public async Task<IActionResult> GoogleAuth([FromBody] GoogleAuthDto googleAuthDto)
+        //{
+        //    try
+        //    {
+        //        var payload = await _authBussnies.VerifyGoogleToken(googleAuthDto);
+
+        //        if (payload == null)
+        //        {
+        //            return BadRequest("Invalid Google token.");
+        //        }
+
+        //        // Asumiendo que tienes un método para manejar la lógica de negocio
+        //        var user = await _authBussnies.RegisterOrGetUser(payload);
+
+        //        // Lógica para generar un token de sesión/jwt/etc.
+        //        var token = _authBussnies.GenerateToken(user);
+
+        //        return Ok(new { token });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Manejar excepciones adecuadamente
+        //        return StatusCode(500, ex.Message);
+        //    }
+        //}
+
+
         private static string CreateToken(UsuarioResponse user)
         {
 

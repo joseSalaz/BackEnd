@@ -3,12 +3,15 @@ using DBModel.DB;
 using IBussines;
 using IRepository;
 using Models.RequestResponse;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
 using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilPDF;
 
 namespace Bussines
 {
@@ -91,6 +94,7 @@ namespace Bussines
             return res;
         }
 
+
         public List<DetalleVentaResponse> UpdateMultiple(List<DetalleVentaRequest> request)
         {
             List<DetalleVenta> au = _Mapper.Map<List<DetalleVenta>>(request);
@@ -98,5 +102,28 @@ namespace Bussines
             List<DetalleVentaResponse> res = _Mapper.Map<List<DetalleVentaResponse>>(au);
             return res;
         }
+
+
+        public MemoryStream CreateDetalleVentaPdf(int idDetalleVenta)
+        {
+            // Obtén los detalles de venta desde el repositorio o como corresponda
+            var detalle = _IDetalleVentaRepository.GetById(idDetalleVenta);
+            if (detalle == null)
+            {
+                throw new Exception("Detalle no encontrado.");
+            }
+
+            // Convierte el detalle a DetalleVentaRequest si es necesario
+            // Suponiendo que estás usando AutoMapper para convertir tus entidades
+            var detalleRequest = _Mapper.Map<DetalleVentaRequest>(detalle);
+
+            // Llama al método de UtilPDF para crear el PDF
+            var pdfStream = PdfGenerator.CreateDetalleVentaPdf(new List<DetalleVentaRequest> { detalleRequest });
+
+            return pdfStream;
+        }
+
+
+
     }
 }
