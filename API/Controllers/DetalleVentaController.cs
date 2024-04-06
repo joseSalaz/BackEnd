@@ -84,6 +84,27 @@ namespace API.Controllers
             int res = _IDetalleVentaBussines.Delete(id);
             return Ok(res);
         }
+
+        [HttpGet("{id}/pdf")]
+        public IActionResult GetDetalleVentaPdf(int id)
+        {
+            try
+            {
+                var pdfStream = _IDetalleVentaBussines.CreateDetalleVentaPdf(id);
+                if (pdfStream == null)
+                {
+                    return NotFound();
+                }
+
+                return File(pdfStream, "application/pdf", $"DetalleVenta_{id}.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
         #endregion
     }
 }

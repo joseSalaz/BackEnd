@@ -21,7 +21,7 @@ public partial class LibreriaSaberContext : DbContext
 
     public virtual DbSet<Categoria> Categorias { get; set; }
 
-    public virtual DbSet<Cliente> Clientes { get; set; }
+    
 
     public virtual DbSet<DatosGenerale> DatosGenerales { get; set; }
 
@@ -130,21 +130,6 @@ public partial class LibreriaSaberContext : DbContext
                 .HasColumnName("Categoria");
         });
 
-        modelBuilder.Entity<Cliente>(entity =>
-        {
-            entity.HasKey(e => e.IdCliente).HasName("PK__Cliente__3DD0A8CBE840B3FD");
-
-            entity.ToTable("Cliente");
-
-            entity.Property(e => e.IdCliente).HasColumnName("Id_Cliente");
-            entity.Property(e => e.CodigoCliente).HasColumnName("Codigo_Cliente");
-            entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
-
-            entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Clientes)
-                .HasForeignKey(d => d.IdPersona)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cliente_Persona");
-        });
 
         modelBuilder.Entity<DatosGenerale>(entity =>
         {
@@ -582,10 +567,17 @@ public partial class LibreriaSaberContext : DbContext
                 .HasColumnType("money")
                 .HasColumnName("Total_Precio");
 
+
+            //entity.HasOne(d => d.IdLibroNavigation).WithMany(p => p.Venta)
+            //    .HasForeignKey(d => d.IdLibro)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK_Ventas_Libro");
+
             entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Venta)
                 .HasForeignKey(d => d.IdPersona)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Ventas_Personas");
+
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Venta)
                 .HasForeignKey(d => d.IdUsuario)

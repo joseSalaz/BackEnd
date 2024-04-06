@@ -22,4 +22,5 @@ namespace Models.RequestResponse
 
         public int? IdVentas { get; set; }
     }
+
 }
