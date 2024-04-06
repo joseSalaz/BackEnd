@@ -96,7 +96,7 @@ namespace API.Controllers
                     return NotFound();
                 }
 
-                return File(pdfStream, "application/pdf", $"DetalleVenta_{id}.pdf");
+                return File(pdfStream, "application/pdf", $"Boleta_{id}.pdf");
             }
             catch (Exception ex)
             {
