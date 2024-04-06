@@ -66,9 +66,10 @@ builder.Services.AddScoped<ILibroBussines, LibroBussines>();
 builder.Services.AddScoped<IAzureStorage, AzureStorage>();
 builder.Services.Configure<appSettings>(builder.Configuration.GetSection("GoogleSeting"));
 builder.Services.AddScoped<IApisPaypalServices, ApisPaypalServices>();
-//builder.Services.AddScoped<IKardexRepository, KardexRepository>();
-//builder.Services.AddScoped<IKardexBussines, KardexBussines>();
-
+builder.Services.AddScoped<IKardexRepository, KardexRepository>();
+builder.Services.AddScoped<IKardexBussines, KardexBussines>();
+builder.Services.AddScoped<IVentaBussines, VentaBussines>();
+builder.Services.AddScoped<IDetalleVentaBussines, DetalleVentaBussines>();
 var app = builder.Build();
 
 app.UseSwagger();
