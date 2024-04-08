@@ -12,5 +12,7 @@ namespace Models.RequestResponse
         public string PayerID { get; set; }
 
         public DatalleCarrito Carrito { get; set; }
+
+        public MetodoDePago MetodoDePago { get; set; }
      }
 }
