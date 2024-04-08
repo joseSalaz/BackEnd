@@ -216,11 +216,8 @@ namespace API.Controllers
                 }
 
                 var results = await _ILibroBussines.filtroComplete(titulo);
-                if (results == null || !results.Any())
-                {
-                    return NotFound("No se encontraron libros con ese título.");
-                }
-                return Ok(results);
+                // En lugar de retornar un NotFound si no hay resultados, simplemente retorna una lista vacía
+                return Ok(results ?? new List<LibroResponse>());
             }
             catch (Exception ex)
             {
@@ -228,6 +225,7 @@ namespace API.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+
 
 
         #endregion

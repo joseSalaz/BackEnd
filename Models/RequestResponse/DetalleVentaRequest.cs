@@ -8,6 +8,7 @@ namespace Models.RequestResponse
 {
     public class DetalleVentaRequest
     {
+        public int IdDetalleVentas { get; set; }
         public int IdLibro { get; set; }
 
         public string? NombreProducto { get; set; }
@@ -17,8 +18,6 @@ namespace Models.RequestResponse
         public int? Cantidad { get; set; }
 
         public decimal? Importe { get; set; }
-
-        public int IdDetalleVentas { get; set; }
 
         public int? IdVentas { get; set; }
     }
