@@ -23,7 +23,15 @@ public partial class Venta
     public virtual ICollection<Caja> Cajas { get; set; } = new List<Caja>();
     [JsonIgnore]
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
+<<<<<<< HEAD
     [JsonIgnore]
+=======
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2b79de355a32ab4478948a79c4c1c2456419a8d5
+>>>>>>> 2d0c8cd3375399bc16abc62f9eb0732d56e11dd5
     public virtual Persona IdPersonaNavigation { get; set; } = null!;
 
     [JsonIgnore]
