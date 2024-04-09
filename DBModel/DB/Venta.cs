@@ -23,10 +23,6 @@ public partial class Venta
 
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 2b79de355a32ab4478948a79c4c1c2456419a8d5
     public virtual Persona IdPersonaNavigation { get; set; } = null!;
 
 
