@@ -83,6 +83,43 @@ namespace API.Controllers
             int res = _IVentaBussines.Delete(id);
             return Ok(res);
         }
+
+
+        [HttpGet("{idVenta}/detallesVenta")]
+        public async Task<IActionResult> GetDetalleVentaByVentaId(int idVenta)
+        {
+            var detallesVenta = await _IVentaBussines.GetDetalleVentaByVentaId(idVenta);
+            if (detallesVenta == null || detallesVenta.Count == 0)
+            {
+                return NotFound("No se encontraron detalles para la venta especificada.");
+            }
+            return Ok(detallesVenta);
+        }
+
+        [HttpGet("{idVenta}/pdf")]
+        public async Task<IActionResult> GetVentaPdf(int idVenta)
+        {
+            try
+            {
+                MemoryStream pdfStream = await _IVentaBussines.CreateVentaPdf(idVenta);
+                if (pdfStream == null || pdfStream.Length == 0)
+                {
+                    return NotFound("PDF no pudo ser generado.");
+                }
+
+                // Devuelve el archivo PDF.
+                string filename = $"Venta_{idVenta}.pdf";
+                return File(pdfStream, "application/pdf", filename);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
+
         #endregion
     }
 }

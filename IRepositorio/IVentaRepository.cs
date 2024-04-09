@@ -10,5 +10,7 @@ namespace IRepository
 {
     public interface IVentaRepository : ICRUDRepositorio<Venta>
     {
+        Task<List<DetalleVenta>> GetDetallesByVentaId(int idVenta);
+        Task<(Venta venta, List<DetalleVenta> detalles)> GetVentaConDetalles(int idVenta);
     }
 }
