@@ -10,5 +10,6 @@ namespace IRepository
 {
     public interface IDetalleVentaRepository : ICRUDRepositorio<DetalleVenta>
     {
+       
     }
 }

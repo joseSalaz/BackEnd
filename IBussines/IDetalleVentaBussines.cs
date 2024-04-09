@@ -11,6 +11,5 @@ namespace IBussines
 {
     public interface IDetalleVentaBussines : ICRUDBussnies<DetalleVentaRequest,DetalleVentaResponse>
     {
-        MemoryStream CreateDetalleVentaPdf(int idDetalleVenta);
     }
 }

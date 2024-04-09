@@ -21,17 +21,17 @@ namespace API.Controllers
         #region Declaracion de vcariables generales
         public readonly ILibroBussines _ILibroBussines = null;
         public readonly IMapper _Mapper;
-        private readonly IAzureStorage _azureStorage;
+
 
         private readonly IConfiguration _configuration;
         #endregion
 
         #region constructor 
-        public LibroController(IMapper mapper, ILibroBussines libroBussines, IAzureStorage azureStorage)
+        public LibroController(IMapper mapper, ILibroBussines libroBussines)
         {
             _Mapper = mapper;
             _ILibroBussines = libroBussines;
-            _azureStorage = azureStorage;
+            
         }
         #endregion
 

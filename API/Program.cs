@@ -1,15 +1,20 @@
+using AutoMapper;
 using Bussines;
 using Constantes;
+using DBModel.DB;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using IBussines;
 using IRepository;
 using IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repository;
 using Service;
+using SixLabors.ImageSharp;
 using System.Text;
+using System.Text.Json.Serialization;
 using UtilMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,6 +77,12 @@ builder.Services.AddScoped<IKardexBussines, KardexBussines>();
 builder.Services.AddScoped<IVentaBussines, VentaBussines>();
 builder.Services.AddScoped<IDetalleVentaBussines, DetalleVentaBussines>();
 builder.Services.AddScoped<IFacturaService, FacturaService>();
+
+
+
+
+
+
 
 var app = builder.Build();
 
