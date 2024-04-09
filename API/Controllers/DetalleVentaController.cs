@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines;
+using DBModel.DB;
 using IBussines;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
@@ -13,15 +14,16 @@ namespace API.Controllers
     public class DetalleVentaController : ControllerBase
     {
         #region Declaracion de vcariables generales
-        public readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
-        public readonly IMapper _Mapper;
+        private readonly IDetalleVentaBussines _detalleVentaBussines;
+        private readonly IMapper _Mapper;
+
         #endregion
 
         #region constructor 
-        public DetalleVentaController(IMapper mapper)
+        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper)
         {
+            _detalleVentaBussines = detalleVentaBussines;
             _Mapper = mapper;
-            _IDetalleVentaBussines = new DetalleVentaBussines(_Mapper);
         }
         #endregion
 
@@ -33,7 +35,7 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<DetalleVentaResponse> lsl = _IDetalleVentaBussines.getAll();
+            List<DetalleVentaResponse> lsl = _detalleVentaBussines.getAll();
             return Ok(lsl);
         }
 
@@ -45,7 +47,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            DetalleVentaResponse res = _IDetalleVentaBussines.getById(id);
+            DetalleVentaResponse res = _detalleVentaBussines.getById(id);
             return Ok(res);
         }
 
@@ -57,7 +59,7 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] DetalleVentaRequest request)
         {
-            DetalleVentaResponse res = _IDetalleVentaBussines.Create(request);
+            DetalleVentaResponse res = _detalleVentaBussines.Create(request);
             return Ok(res);
         }
 
@@ -69,7 +71,7 @@ namespace API.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] DetalleVentaRequest request)
         {
-            DetalleVentaResponse res = _IDetalleVentaBussines.Update(request);
+            DetalleVentaResponse res = _detalleVentaBussines.Update(request);
             return Ok(res);
         }
 
@@ -81,30 +83,9 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public IActionResult delete(int id)
         {
-            int res = _IDetalleVentaBussines.Delete(id);
+            int res = _detalleVentaBussines.Delete(id);
             return Ok(res);
         }
-
-        [HttpGet("{id}/pdf")]
-        public IActionResult GetDetalleVentaPdf(int id)
-        {
-            try
-            {
-                var pdfStream = _IDetalleVentaBussines.CreateDetalleVentaPdf(id);
-                if (pdfStream == null)
-                {
-                    return NotFound();
-                }
-
-                return File(pdfStream, "application/pdf", $"Boleta_{id}.pdf");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-
         #endregion
     }
 }

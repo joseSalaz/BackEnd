@@ -1,4 +1,5 @@
-﻿using Models.RequestResponse;
+﻿using DBModel.DB;
+using Models.RequestResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace IBussines
 {
     public interface IVentaBussines:ICRUDBussnies<VentaRequest, VentaResponse>
     {
+        Task<List<DetalleVenta>> GetDetalleVentaByVentaId(int idVenta);
+        Task<MemoryStream> CreateVentaPdf(int idVenta);
     }
 }

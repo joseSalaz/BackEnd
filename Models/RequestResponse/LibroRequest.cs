@@ -33,7 +33,5 @@ namespace Models.RequestResponse
 
         public int IdProveedor { get; set; }
 
-        public string? Imagen { get; set; }
-
     }
 }
