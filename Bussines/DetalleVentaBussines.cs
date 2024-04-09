@@ -18,12 +18,9 @@ namespace Bussines
     public class DetalleVentaBussines : IDetalleVentaBussines
     {
         #region Declaracion de vcariables generales
-        public readonly IDetalleVentaRepository _IDetalleVentaRepository = null;
+        public readonly IDetalleVentaRepository _IDetalleVentaRepository;
         public readonly IMapper _Mapper;
-
-        public DetalleVentaBussines()
-        {
-        }
+      
         #endregion
 
         #region constructor 
@@ -31,6 +28,7 @@ namespace Bussines
         {
             _Mapper = mapper;
             _IDetalleVentaRepository = new DetalleVentaRepository();
+           
         }
         #endregion
 
@@ -102,28 +100,5 @@ namespace Bussines
             List<DetalleVentaResponse> res = _Mapper.Map<List<DetalleVentaResponse>>(au);
             return res;
         }
-
-
-        public MemoryStream CreateDetalleVentaPdf(int idDetalleVenta)
-        {
-            // Obtén los detalles de venta desde el repositorio o como corresponda
-            var detalle = _IDetalleVentaRepository.GetById(idDetalleVenta);
-            if (detalle == null)
-            {
-                throw new Exception("Detalle no encontrado.");
-            }
-
-            // Convierte el detalle a DetalleVentaRequest si es necesario
-            // Suponiendo que estás usando AutoMapper para convertir tus entidades
-            var detalleRequest = _Mapper.Map<DetalleVentaRequest>(detalle);
-
-            // Llama al método de UtilPDF para crear el PDF
-            var pdfStream = PdfGenerator.CreateDetalleVentaPdf(new List<DetalleVentaRequest> { detalleRequest });
-
-            return pdfStream;
-        }
-
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DBModel.DB;
 using IRepository;
+using Microsoft.EntityFrameworkCore;
 using Repository.Generic;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,12 @@ namespace Repository
 {
     public class DetalleVentaRepository : GenericRepository<DetalleVenta>, IDetalleVentaRepository
     {
+
+
         public List<DetalleVenta> GetAutoComplete(string query)
         {
             throw new NotImplementedException();
         }
+
     }
 }

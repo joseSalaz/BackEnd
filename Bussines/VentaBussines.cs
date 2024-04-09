@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+using UtilPDF;
+
 namespace Bussines
 {
 
@@ -100,5 +103,38 @@ namespace Bussines
             List<VentaResponse> res = _Mapper.Map<List<VentaResponse>>(au);
             return res;
         }
+
+        public async Task<List<DetalleVenta>> GetDetalleVentaByVentaId(int idVenta)
+        {
+            return await _IVentaRepository.GetDetallesByVentaId(idVenta);
+        }
+
+
+        public async Task<MemoryStream> CreateVentaPdf(int idVenta)
+        {
+            // Obtener la venta y sus detalles.
+            (Venta venta, List<DetalleVenta> detallesVenta) = await _IVentaRepository.GetVentaConDetalles(idVenta);
+
+            if (venta == null || !detallesVenta.Any())
+            {
+                throw new Exception("No se encontraron datos para la venta.");
+            }
+
+            // Convierte los detalles de venta a DetalleVentaRequest si es necesario.
+            List<DetalleVentaRequest> detallesVentaRequest = detallesVenta
+                .Select(dv => _Mapper.Map<DetalleVentaRequest>(dv))
+                .ToList();
+
+            // Genera el PDF con la información de la venta y los detalles.
+            MemoryStream pdfStream = PdfGenerator.CreateDetalleVentaPdf(detallesVentaRequest,venta);
+
+            return pdfStream;
+        }
+
+
+
+
+
+
     }
 }
