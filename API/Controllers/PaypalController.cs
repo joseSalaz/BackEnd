@@ -27,8 +27,8 @@ namespace API.Controllers
         private readonly IConfiguration _configuration;
         private readonly IKardexRepository _kardexRepository;
         private readonly IKardexBussines _kardexBussines;
-        private readonly IDetalleVentaBussines _IDetalleVentaBussines=null;
-        private readonly IVentaBussines _IVentaBussines=null;
+        private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
+        private readonly IVentaBussines _IVentaBussines = null;
         private readonly IMapper _mapper;
         public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines)
         {
@@ -80,7 +80,7 @@ namespace API.Controllers
                 _configuration["PayPalSettings:ClientId"],
                 _configuration["PayPalSettings:Secret"]
             ).GetAccessToken());
-            
+
             var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
             var payment = new Payment { id = paymentRequest.PaymentId };
 
@@ -89,51 +89,7 @@ namespace API.Controllers
                 var executedPayment = payment.Execute(apiContext, paymentExecution);
                 if (executedPayment.state.ToLower() == "approved")
                 {
-                    //int userId = ObtenerIdUsuarioLogueado();
-                    VentaRequest ventaRequest = new VentaRequest
-                    {
-                        //IdCliente = userId,
-                        //TotalPrecio = paymentRequest.Amount, // Asumiendo que existe un campo Total en ExecutePaymentModelRequest.
-                        FechaVenta = DateTime.Now,
-                        TipoComprobante = "Boleta",
-                        IdUsuario = 8,
-                        NroComprobante = "FAC00",//por ver
-                        IdPersona=8
-                        // Otros campos necesarios...
-                    };
-                    var venta= _IVentaBussines.Create(ventaRequest);
-                    if (venta== null)
-                    {
-                        return StatusCode(500, "Error al crear la venta");
-                    }
-                    foreach (var item in paymentRequest.Carrito.Items)
-                    {
-                        var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
-                        if (kardexActual == null || kardexActual.Stock < item.Cantidad)
-                        {
-                            return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
-                        }
-
-                        // Actualiza el stock uno por uno
-                        kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
-                        _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
-                        DetalleVentaRequest detalleventarequest = new DetalleVentaRequest
-                        {
-                            IdVentas = venta.IdVentas,
-                            NombreProducto = item.libro.Titulo,
-                            PrecioUnit = item.PrecioVenta,
-                            IdLibro = item.libro.IdLibro,
-                            Cantidad = item.Cantidad,
-                            // otros campos necesarios...
-                        };
-                        DetalleVentaResponse detalleventaresponse = _IDetalleVentaBussines.Create(detalleventarequest);
-                        if (detalleventaresponse == null)
-                        {
-                            return StatusCode(500, "error al crear el detalle de la venta para el libro con id " + item.libro.IdLibro);
-                        }
-                        
-                    }
-
+                    await RegistrarVentaYDetalle(paymentRequest);
                     // No necesitas llamar a SaveChanges si tu método Update ya lo hace internamente
                     return Ok(new { PaymentId = executedPayment.id });
                 }
@@ -148,7 +104,68 @@ namespace API.Controllers
                 return StatusCode(500, "Error al ejecutar el pago: " + ex.Message);
             }
         }
+
+
+
+
+
+
+        private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
+        {
+            await RegistrarVentaYDetalle(paymentRequest);
+            return Ok("Procesado con Exito");
+        }
+        private async Task<IActionResult> RegistrarVentaYDetalle(ExecutePaymentModelRequest paymentRequest)
+            {
+                VentaRequest ventaRequest = new VentaRequest
+                {
+                    //IdCliente = userId,
+                    //TotalPrecio = paymentRequest.Amount, // Asumiendo que existe un campo Total en ExecutePaymentModelRequest.
+                    FechaVenta = DateTime.Now,
+                    TipoComprobante = "Boleta",
+                    IdUsuario = 8,
+                    NroComprobante = "FAC00",//por ver
+                    IdPersona = 8
+                    // Otros campos necesarios...
+                };
+                var venta = _IVentaBussines.Create(ventaRequest);
+                if (venta == null)
+                {
+                    return StatusCode(500, "Error al crear la venta");
+                }
+                List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
+                foreach (var item in paymentRequest.Carrito.Items)
+                {
+                    var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
+                    if (kardexActual == null || kardexActual.Stock < item.Cantidad)
+                    {
+                        return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
+                    }
+
+                    // Actualiza el stock uno por uno
+                    kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
+                    _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
+                    DetalleVentaRequest detalleventarequest = new DetalleVentaRequest
+                    {
+                        IdVentas = venta.IdVentas,
+                        NombreProducto = item.libro.Titulo,
+                        PrecioUnit = item.PrecioVenta,
+                        IdLibro = item.libro.IdLibro,
+                        Cantidad = item.Cantidad,
+                        Importe = item.PrecioVenta * item.Cantidad
+                        // otros campos necesarios...
+                    };
+                    listaDetalle.Add(detalleventarequest);
+                }
+                _IDetalleVentaBussines.CreateMultiple(listaDetalle);
+                if (listaDetalle == null)
+                {
+                    return StatusCode(500, "error al crear el detalle de la venta" + listaDetalle);
+                }
+                return Ok(new { Message = "Venta y detalles registrados con éxito" });
+
+            }
+        }
     }
-}
 
 
