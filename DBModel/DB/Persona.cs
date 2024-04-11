@@ -23,6 +23,7 @@ public partial class Persona
 
     public string? Sub { get; set; }
 
+    public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 
     public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -63,7 +64,6 @@ namespace Repository
                                 .FirstOrDefault(p => p.Sub == sub);
             return persona;
         }
-
 
     }
 }

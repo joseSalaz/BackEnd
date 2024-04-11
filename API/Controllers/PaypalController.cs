@@ -16,6 +16,7 @@ using Repository;
 using Bussines;
 using IBussines;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Office2010.CustomUI;
 
 namespace API.Controllers
 {
@@ -110,14 +111,15 @@ namespace API.Controllers
 
 
 
-        private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
-        {
-            await RegistrarVentaYDetalle(paymentRequest);
-            return Ok("Procesado con Exito");
-        }
+        //private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
+        //{
+        //    await RegistrarVentaYDetalle(paymentRequest);
+        //    return Ok("Procesado con Exito");
+        //}
         private async Task<IActionResult> RegistrarVentaYDetalle(ExecutePaymentModelRequest paymentRequest)
             {
-                VentaRequest ventaRequest = new VentaRequest
+
+            VentaRequest ventaRequest = new VentaRequest
                 {
                     //IdCliente = userId,
                     //TotalPrecio = paymentRequest.Amount, // Asumiendo que existe un campo Total en ExecutePaymentModelRequest.
@@ -125,9 +127,10 @@ namespace API.Controllers
                     TipoComprobante = "Boleta",
                     IdUsuario = 8,
                     NroComprobante = "FAC00",//por ver
-                    IdPersona = 8
-                    // Otros campos necesarios...
-                };
+                    IdPersona =8//Por Ver  paymentRequest.Carrito.IdCliente,
+
+        // Otros campos necesarios...
+    };
                 var venta = _IVentaBussines.Create(ventaRequest);
                 if (venta == null)
                 {
@@ -152,7 +155,8 @@ namespace API.Controllers
                         PrecioUnit = item.PrecioVenta,
                         IdLibro = item.libro.IdLibro,
                         Cantidad = item.Cantidad,
-                        Importe = item.PrecioVenta * item.Cantidad
+                        Importe = item.PrecioVenta * item.Cantidad,
+                        Estado="Pendiente",
                         // otros campos necesarios...
                     };
                     listaDetalle.Add(detalleventarequest);
