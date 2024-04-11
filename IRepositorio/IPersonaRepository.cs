@@ -13,7 +13,7 @@ namespace IRepository
         //Persona buscarporDNI(string dni);
         Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento);
         Persona GetByIdSub(string sub);
-
+       
     }
     
 }
