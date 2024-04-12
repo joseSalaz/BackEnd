@@ -103,11 +103,10 @@ namespace UtilPDF
                 gfx.DrawString($"S/ {subtotal.ToString("0.00")}", normalFont, XBrushes.Black, new XRect(x, y, columnWidth4, rowHeight), XStringFormats.Center);
 
                 y += rowHeight;
-                itemNumber++; // Incrementar el número de ítem
+                itemNumber++; 
 
                 decimal cantidad = detalle.Cantidad ?? 0m;
                 decimal precioUnitario = detalle.PrecioUnit ?? 0m;
-                // Acumula el subtotal en el total general
                 totalGeneral += subtotal;
             }
 
