@@ -126,6 +126,13 @@ namespace API.Controllers
             List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
             foreach (var item in detalleCarrito.Items)
             {
+                var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
+                if (kardexActual == null || kardexActual.Stock < item.Cantidad)
+                {
+                    return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
+                }
+                kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
+                _kardexRepository.Update(kardexActual);
                 // Aquí, se podría verificar el stock del item
                 var detalleVentaRequest = new DetalleVentaRequest
                 {
