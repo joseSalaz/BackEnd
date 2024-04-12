@@ -11,5 +11,6 @@ namespace IBussines
 {
     public interface IDetalleVentaBussines : ICRUDBussnies<DetalleVentaRequest,DetalleVentaResponse>
     {
+        Task<IEnumerable<DetalleVenta>> GetDetalleVentasByPersonaId(int idPersona);
     }
 }

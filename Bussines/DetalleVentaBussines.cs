@@ -100,5 +100,9 @@ namespace Bussines
             List<DetalleVentaResponse> res = _Mapper.Map<List<DetalleVentaResponse>>(au);
             return res;
         }
+        public async Task<IEnumerable<DetalleVenta>> GetDetalleVentasByPersonaId(int idPersona)
+        {
+            return await _IDetalleVentaRepository.GetDetalleVentasByPersonaId(idPersona);
+        }
     }
 }

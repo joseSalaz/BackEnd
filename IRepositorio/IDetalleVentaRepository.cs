@@ -10,6 +10,6 @@ namespace IRepository
 {
     public interface IDetalleVentaRepository : ICRUDRepositorio<DetalleVenta>
     {
-       
+        public Task<IEnumerable<DetalleVenta>> GetDetalleVentasByPersonaId(int idPersona);
     }
 }

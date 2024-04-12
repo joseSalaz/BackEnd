@@ -20,5 +20,6 @@ namespace Models.RequestResponse
         public decimal? Importe { get; set; }
 
         public int? IdVentas { get; set; }
+        public string? Estado { get; set; }
     }
 }
