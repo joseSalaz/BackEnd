@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DBModel.DB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace Models.RequestResponse
     {
         public  List<Carrito> Items {get;set;}
         public decimal TotalAmount { get;set;}
-        public int IdCliente { get; set; }
+        public PersonaRequest Persona{ get; set; }
     }
 }

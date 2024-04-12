@@ -26,10 +26,9 @@ namespace API.Controllers
                 {
                     return BadRequest("El carrito está vacío o es inválido");
                 }
-                int idCliente = detalleCarrito.IdCliente;
+                
                 // Calcula el total del carrito basado en los items que contiene
                 decimal total = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
-                      Console.WriteLine($"items recibidos: {total}, idCLiente{idCliente}");
 
                 // Crea el pedido en PayPal
                 var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, total, "http://localhost:4200/detalle-venta", "http://localhost:4200/detalle-venta");
@@ -41,7 +40,7 @@ namespace API.Controllers
                     return BadRequest("No se pudo obtener la URL de aprobación de PayPal");
                 }
                 // Retorna el ID del pago y la URL de aprobación para uso del frontend
-                return Ok(new { PaymentId = payment.id, ApprovalUrl = approvalUrl, IdCliente=detalleCarrito.IdCliente});
+                return Ok(new { PaymentId = payment.id, ApprovalUrl = approvalUrl});
             }
             //pendiente enviar id del cliente  a paypal controller para el manejo de esta
             catch (Exception ex)
