@@ -127,7 +127,7 @@ namespace API.Controllers
                     TipoComprobante = "Boleta",
                     IdUsuario = 8,
                     NroComprobante = "FAC00",//por ver
-                    IdPersona =8//Por Ver  paymentRequest.Carrito.IdCliente,
+                    IdPersona =paymentRequest.Carrito.Persona.IdPersona,//Por Ver  paymentRequest.Carrito.IdCliente,
 
         // Otros campos necesarios...
     };
