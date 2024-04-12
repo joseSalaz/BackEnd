@@ -2,13 +2,9 @@
 using DBModel.DB;
 using IBussines;
 using IRepository;
+using IService;
 using Models.RequestResponse;
 using Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 using UtilPDF;
@@ -22,17 +18,16 @@ namespace Bussines
         #region Declaracion de vcariables generales
         public readonly IVentaRepository _IVentaRepository = null;
         public readonly IMapper _Mapper;
+        public readonly IEmailService _emailService;
 
-        public VentaBussines()
-        {
-        }
         #endregion
 
         #region constructor 
-        public VentaBussines(IMapper mapper)
+        public VentaBussines(IMapper mapper,IEmailService emailService)
         {
             _Mapper = mapper;
             _IVentaRepository = new VentaRepository();
+            _emailService = emailService;
         }
         #endregion
 
@@ -131,10 +126,23 @@ namespace Bussines
             return pdfStream;
         }
 
+        public async Task GenerarYEnviarPdfDeVenta(int idVenta, string emailCliente)
+        {
+            // Suponemos que ya tienes un método que genera el PDF
+            MemoryStream pdfStream = await this.CreateVentaPdf(idVenta);
 
+            // Asegúrate de que la posición del stream esté al inicio antes de enviar.
+            pdfStream.Position = 0;
 
-
-
+            // Aquí asumimos que tienes un método en IEmailService que soporta enviar un stream como adjunto
+            await _emailService.SendEmailAsync(
+                emailCliente,
+                "Tu Boleta de Venta Electrónica",
+                "Se adjunta la Bolte Electronica en PDF",
+                pdfStream,
+                $"BoletaVenta_{idVenta}.pdf"
+            );
+        }
 
     }
 }

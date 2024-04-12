@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bussines;
 using IBussines;
+using IService;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
 
@@ -14,13 +15,15 @@ namespace API.Controllers
         #region Declaracion de vcariables generales
         public readonly IVentaBussines _IVentaBussines = null;
         public readonly IMapper _Mapper;
+        public readonly IEmailService _emailService;
         #endregion
 
         #region constructor 
-        public VentaController(IMapper mapper)
+        public VentaController(IMapper mapper,IEmailService emailService)
         {
             _Mapper = mapper;
-            _IVentaBussines = new VentaBussines(_Mapper);
+            _emailService = emailService;
+            _IVentaBussines = new VentaBussines(_Mapper, _emailService);
         }
         #endregion
 

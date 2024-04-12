@@ -1,10 +1,5 @@
 ﻿using DBModel.DB;
 using Models.RequestResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UtilInterface;
 
 namespace IBussines
@@ -13,5 +8,6 @@ namespace IBussines
     {
         Task<List<DetalleVenta>> GetDetalleVentaByVentaId(int idVenta);
         Task<MemoryStream> CreateVentaPdf(int idVenta);
+        Task GenerarYEnviarPdfDeVenta(int idVenta, string emailCliente);
     }
 }

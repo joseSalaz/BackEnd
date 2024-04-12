@@ -1,21 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using PayPal.Api;
-using Service;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Models.RequestResponse;
-using IService;
-using DBModel.DB;
-using DocumentFormat.OpenXml.InkML;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using IRepository;
-using Repository;
-using Bussines;
+﻿using AutoMapper;
 using IBussines;
-using DocumentFormat.OpenXml.Spreadsheet;
+using IRepository;
+using IService;
+using Microsoft.AspNetCore.Mvc;
+using Models.RequestResponse;
+using PayPal.Api;
 
 namespace API.Controllers
 {
@@ -27,8 +16,8 @@ namespace API.Controllers
         private readonly IConfiguration _configuration;
         private readonly IKardexRepository _kardexRepository;
         private readonly IKardexBussines _kardexBussines;
-        private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
-        private readonly IVentaBussines _IVentaBussines = null;
+        private readonly IDetalleVentaBussines _IDetalleVentaBussines;
+        private readonly IVentaBussines _IVentaBussines;
         private readonly IMapper _mapper;
         public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines)
         {
@@ -107,65 +96,71 @@ namespace API.Controllers
 
 
 
-
-
-
-        private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
-        {
-            await RegistrarVentaYDetalle(paymentRequest);
-            return Ok("Procesado con Exito");
-        }
         private async Task<IActionResult> RegistrarVentaYDetalle(ExecutePaymentModelRequest paymentRequest)
+        {
+            VentaRequest ventaRequest = new VentaRequest
             {
-                VentaRequest ventaRequest = new VentaRequest
+                //IdCliente = userId,
+                //TotalPrecio = paymentRequest.Amount, // Asumiendo que existe un campo Total en ExecutePaymentModelRequest.
+                FechaVenta = DateTime.Now,
+                TipoComprobante = "Boleta",
+                IdUsuario = 8,
+                NroComprobante = "FAC00",//por ver
+                IdPersona = 8//Por Ver  paymentRequest.Carrito.IdCliente,
+            };
+
+            var ventaResponse = _IVentaBussines.Create(ventaRequest);
+            if (ventaResponse == null || ventaResponse.IdVentas <= 0)
+            {
+                return StatusCode(500, "Error al crear la venta");
+            }
+
+            int idVenta = ventaResponse.IdVentas; // ID de la venta creada
+            string emailCliente = "yarasala64@gmail.com"; // Email del cliente desde el request
+
+            List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
+            foreach (var item in paymentRequest.Carrito.Items)
+            {
+                var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
+                if (kardexActual == null || kardexActual.Stock < item.Cantidad)
                 {
-                    //IdCliente = userId,
-                    //TotalPrecio = paymentRequest.Amount, // Asumiendo que existe un campo Total en ExecutePaymentModelRequest.
-                    FechaVenta = DateTime.Now,
-                    TipoComprobante = "Boleta",
-                    IdUsuario = 8,
-                    NroComprobante = "FAC00",//por ver
-                    IdPersona = 8
-                    // Otros campos necesarios...
+                    return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
+                }
+
+                kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
+                _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
+
+                DetalleVentaRequest detalleVentaRequest = new DetalleVentaRequest
+                {
+                    IdVentas = idVenta,
+                    NombreProducto = item.libro.Titulo,
+                    PrecioUnit = item.PrecioVenta,
+                    IdLibro = item.libro.IdLibro,
+                    Cantidad = item.Cantidad,
+                    Importe = item.PrecioVenta * item.Cantidad
                 };
-                var venta = _IVentaBussines.Create(ventaRequest);
-                if (venta == null)
-                {
-                    return StatusCode(500, "Error al crear la venta");
-                }
-                List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
-                foreach (var item in paymentRequest.Carrito.Items)
-                {
-                    var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
-                    if (kardexActual == null || kardexActual.Stock < item.Cantidad)
-                    {
-                        return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
-                    }
+                listaDetalle.Add(detalleVentaRequest);
+            }
 
-                    // Actualiza el stock uno por uno
-                    kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
-                    _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
-                    DetalleVentaRequest detalleventarequest = new DetalleVentaRequest
-                    {
-                        IdVentas = venta.IdVentas,
-                        NombreProducto = item.libro.Titulo,
-                        PrecioUnit = item.PrecioVenta,
-                        IdLibro = item.libro.IdLibro,
-                        Cantidad = item.Cantidad,
-                        Importe = item.PrecioVenta * item.Cantidad
-                        // otros campos necesarios...
-                    };
-                    listaDetalle.Add(detalleventarequest);
-                }
-                _IDetalleVentaBussines.CreateMultiple(listaDetalle);
-                if (listaDetalle == null)
-                {
-                    return StatusCode(500, "error al crear el detalle de la venta" + listaDetalle);
-                }
-                return Ok(new { Message = "Venta y detalles registrados con éxito" });
+            _IDetalleVentaBussines.CreateMultiple(listaDetalle);
+            if (listaDetalle == null || !listaDetalle.Any())
+            {
+                return StatusCode(500, "Error al crear el detalle de la venta");
+            }
 
+            try
+            {
+                await _IVentaBussines.GenerarYEnviarPdfDeVenta(idVenta, emailCliente);
+                return Ok(new { Message = "Venta y detalles registrados con éxito, correo enviado." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "La venta se registró, pero el correo con el PDF no se pudo enviar: " + ex.Message);
             }
         }
+
+
     }
+}
 
 
