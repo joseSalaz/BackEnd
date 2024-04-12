@@ -1,7 +1,22 @@
-﻿using AutoMapper;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using PayPal.Api;
+using Service;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Models.RequestResponse;
+using IService;
+using DBModel.DB;
+using DocumentFormat.OpenXml.InkML;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using IRepository;
+using Repository;
+using Bussines;
 using IBussines;
 using DocumentFormat.OpenXml.Spreadsheet;
-
+using DocumentFormat.OpenXml.Office2010.CustomUI;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -12,8 +27,8 @@ namespace API.Controllers
         private readonly IConfiguration _configuration;
         private readonly IKardexRepository _kardexRepository;
         private readonly IKardexBussines _kardexBussines;
-        private readonly IDetalleVentaBussines _IDetalleVentaBussines;
-        private readonly IVentaBussines _IVentaBussines;
+        private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
+        private readonly IVentaBussines _IVentaBussines = null;
         private readonly IMapper _mapper;
         public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines)
         {
@@ -25,8 +40,6 @@ namespace API.Controllers
             _IDetalleVentaBussines = detalleVentaBussines;
             _IVentaBussines = ventaBussines;
         }
-
-
         [HttpPost("create-payment")]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentCreationRequest paymentRequest)
         {
@@ -37,18 +50,14 @@ namespace API.Controllers
                 {
                     // Construir el detalle del carrito aquí
                 };
-
                 string returnUrl = $"{_configuration["http://localhost:4200"]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
                 string cancelUrl = $"{_configuration["http://localhost:4200"]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
-
                 var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, paymentRequest.Amount, returnUrl, cancelUrl);
                 var approvalUrl = payment.links.FirstOrDefault(lnk => lnk.rel.Equals("approval_url", StringComparison.OrdinalIgnoreCase))?.href;
-
                 if (string.IsNullOrWhiteSpace(approvalUrl))
                 {
                     return BadRequest("No se pudo obtener la URL de aprobación de PayPal.");
                 }
-
                 return Ok(new { PaymentId = payment.id, ApprovalUrl = approvalUrl });
             }
             catch (Exception ex)
@@ -56,8 +65,6 @@ namespace API.Controllers
                 return StatusCode(500, "Error interno al crear el pago: " + ex.Message);
             }
         }
-
-
         [HttpPost("execute-payment")]
         public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRequest paymentRequest)
         {
@@ -65,10 +72,8 @@ namespace API.Controllers
                 _configuration["PayPalSettings:ClientId"],
                 _configuration["PayPalSettings:Secret"]
             ).GetAccessToken());
-
             var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
             var payment = new Payment { id = paymentRequest.PaymentId };
-
             try
             {
                 var executedPayment = payment.Execute(apiContext, paymentExecution);
@@ -89,38 +94,29 @@ namespace API.Controllers
                 return StatusCode(500, "Error al ejecutar el pago: " + ex.Message);
             }
         }
-
-
-
-
-
-
-        private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
-        {
-            await RegistrarVentaYDetalle(paymentRequest);
-            return Ok("Procesado con Exito");
-        }
+        //private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
+        //{
+        //    await RegistrarVentaYDetalle(paymentRequest);
+        //    return Ok("Procesado con Exito");
+        //}
         private async Task<IActionResult> RegistrarVentaYDetalle(ExecutePaymentModelRequest paymentRequest)
         {
+            // Extraer y preparar la información de la venta a partir del paymentRequest
             VentaRequest ventaRequest = new VentaRequest
             {
-                //IdCliente = userId,
-                //TotalPrecio = paymentRequest.Amount, // Asumiendo que existe un campo Total en ExecutePaymentModelRequest.
                 FechaVenta = DateTime.Now,
                 TipoComprobante = "Boleta",
-                IdUsuario = 8,
-                NroComprobante = "FAC00",//por ver
-                IdPersona = 8//Por Ver  paymentRequest.Carrito.IdCliente,
+                IdUsuario = 8, // Usar el UserId desde el paymentRequest si está disponible
+                NroComprobante = "FAC00",
+                IdPersona = paymentRequest.Carrito.Persona.IdPersona,
+                TotalPrecio = paymentRequest.Carrito.TotalAmount, // Asegúrate de que existe un campo Total en ExecutePaymentModelRequest
             };
 
-            var ventaResponse = _IVentaBussines.Create(ventaRequest);
-            if (ventaResponse == null || ventaResponse.IdVentas <= 0)
+            var venta = _IVentaBussines.Create(ventaRequest);
+            if (venta == null || venta.IdVentas <= 0)
             {
                 return StatusCode(500, "Error al crear la venta");
             }
-
-            int idVenta = ventaResponse.IdVentas; // ID de la venta creada
-            string emailCliente = "yarasala64@gmail.com"; // Email del cliente desde el request
 
             List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
             foreach (var item in paymentRequest.Carrito.Items)
@@ -131,31 +127,33 @@ namespace API.Controllers
                     return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
                 }
 
-                    // Actualiza el stock uno por uno
-                    kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
-                    _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
-                    DetalleVentaRequest detalleventarequest = new DetalleVentaRequest
-                    {
-                        IdVentas = venta.IdVentas,
-                        NombreProducto = item.libro.Titulo,
-                        PrecioUnit = item.PrecioVenta,
-                        IdLibro = item.libro.IdLibro,
-                        Cantidad = item.Cantidad,
-                        Importe = item.PrecioVenta * item.Cantidad
-                        // otros campos necesarios...
-                    };
-                    listaDetalle.Add(detalleventarequest);
-                }
-                _IDetalleVentaBussines.CreateMultiple(listaDetalle);
-                if (listaDetalle == null)
+                kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
+                _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
+
+                DetalleVentaRequest detalleVentaRequest = new DetalleVentaRequest
                 {
-                    return StatusCode(500, "error al crear el detalle de la venta" + listaDetalle);
-                }
-                return Ok(new { Message = "Venta y detalles registrados con éxito" });
+                    IdVentas = venta.IdVentas,
+                    NombreProducto = item.libro.Titulo,
+                    PrecioUnit = item.PrecioVenta,
+                    IdLibro = item.libro.IdLibro,
+                    Cantidad = item.Cantidad,
+                    Importe = item.PrecioVenta * item.Cantidad,
+                    Estado = "Pendiente" // Añadir el estado si es relevante
+                };
+                listaDetalle.Add(detalleVentaRequest);
+            }
+
+            var result = _IDetalleVentaBussines.CreateMultiple(listaDetalle);
+            if (listaDetalle == null || !listaDetalle.Any())
+            {
+                return StatusCode(500, "Error al crear el detalle de la venta");
+            }
 
             try
             {
-                await _IVentaBussines.GenerarYEnviarPdfDeVenta(idVenta, emailCliente);
+                // Asumimos que el correo del cliente se puede obtener de paymentRequest o de otra fuente relevante
+                string emailCliente = paymentRequest.Carrito.Persona.Correo; // Asegúrate de obtener el correo electrónico correctamente
+                await _IVentaBussines.GenerarYEnviarPdfDeVenta(venta.IdVentas, emailCliente);
                 return Ok(new { Message = "Venta y detalles registrados con éxito, correo enviado." });
             }
             catch (Exception ex)
@@ -164,8 +162,5 @@ namespace API.Controllers
             }
         }
 
-
     }
 }
-
-
