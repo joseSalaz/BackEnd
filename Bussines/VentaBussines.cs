@@ -107,12 +107,21 @@ namespace Bussines
 
         public async Task<MemoryStream> CreateVentaPdf(int idVenta)
         {
-            // Obtener la venta y sus detalles.
-            (Venta venta, List<DetalleVenta> detallesVenta) = await _IVentaRepository.GetVentaConDetalles(idVenta);
+            // Obtener la venta y sus detalles de venta.
+            var result = await _IVentaRepository.GetVentaConDetalles(idVenta);
+            var venta = result.venta;
+            var detallesVenta = result.detalles;
 
             if (venta == null || !detallesVenta.Any())
             {
                 throw new Exception("No se encontraron datos para la venta.");
+            }
+
+            // Obtener la información de la persona asociada con la venta.
+            var persona = await _IVentaRepository.GetPersonaByVentaId(idVenta);
+            if (persona == null)
+            {
+                throw new Exception("No se pudo obtener información de la persona para la venta.");
             }
 
             // Convierte los detalles de venta a DetalleVentaRequest si es necesario.
@@ -120,8 +129,8 @@ namespace Bussines
                 .Select(dv => _Mapper.Map<DetalleVentaRequest>(dv))
                 .ToList();
 
-            // Genera el PDF con la información de la venta y los detalles.
-            MemoryStream pdfStream = PdfGenerator.CreateDetalleVentaPdf(detallesVentaRequest,venta);
+            // Genera el PDF con la información de la venta, los detalles y la persona.
+            MemoryStream pdfStream = PdfGenerator.CreateDetalleVentaPdf(detallesVentaRequest, venta, persona);
 
             return pdfStream;
         }

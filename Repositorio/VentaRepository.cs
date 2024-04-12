@@ -41,6 +41,16 @@ namespace Repository
             return (ventaConDetalles, ventaConDetalles.DetalleVenta.ToList());
         }
 
+        public async Task<Persona> GetPersonaByVentaId(int idVenta)
+        {
+            // Intenta obtener la venta incluyendo los detalles de la persona asociada usando la propiedad de navegación.
+            var venta = await dbSet
+                .Include(v => v.IdPersonaNavigation)  // Usar la propiedad de navegación para incluir la entidad Persona.
+                .FirstOrDefaultAsync(v => v.IdVentas == idVenta);
+
+            // Devuelve la persona asociada, o null si no se encuentra la venta.
+            return venta?.IdPersonaNavigation;
+        }
 
     }
 }

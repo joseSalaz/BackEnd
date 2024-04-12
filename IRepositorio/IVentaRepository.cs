@@ -12,5 +12,6 @@ namespace IRepository
     {
         Task<List<DetalleVenta>> GetDetallesByVentaId(int idVenta);
         Task<(Venta venta, List<DetalleVenta> detalles)> GetVentaConDetalles(int idVenta);
+        Task<Persona> GetPersonaByVentaId(int idVenta);
     }
 }
