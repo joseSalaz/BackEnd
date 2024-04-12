@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using IBussines;
-using IRepository;
-using IService;
-using Microsoft.AspNetCore.Mvc;
-using Models.RequestResponse;
-using PayPal.Api;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace API.Controllers
 {
@@ -96,6 +92,14 @@ namespace API.Controllers
 
 
 
+
+
+
+        private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
+        {
+            await RegistrarVentaYDetalle(paymentRequest);
+            return Ok("Procesado con Exito");
+        }
         private async Task<IActionResult> RegistrarVentaYDetalle(ExecutePaymentModelRequest paymentRequest)
         {
             VentaRequest ventaRequest = new VentaRequest
@@ -127,26 +131,27 @@ namespace API.Controllers
                     return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
                 }
 
-                kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
-                _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
-
-                DetalleVentaRequest detalleVentaRequest = new DetalleVentaRequest
+                    // Actualiza el stock uno por uno
+                    kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
+                    _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
+                    DetalleVentaRequest detalleventarequest = new DetalleVentaRequest
+                    {
+                        IdVentas = venta.IdVentas,
+                        NombreProducto = item.libro.Titulo,
+                        PrecioUnit = item.PrecioVenta,
+                        IdLibro = item.libro.IdLibro,
+                        Cantidad = item.Cantidad,
+                        Importe = item.PrecioVenta * item.Cantidad
+                        // otros campos necesarios...
+                    };
+                    listaDetalle.Add(detalleventarequest);
+                }
+                _IDetalleVentaBussines.CreateMultiple(listaDetalle);
+                if (listaDetalle == null)
                 {
-                    IdVentas = idVenta,
-                    NombreProducto = item.libro.Titulo,
-                    PrecioUnit = item.PrecioVenta,
-                    IdLibro = item.libro.IdLibro,
-                    Cantidad = item.Cantidad,
-                    Importe = item.PrecioVenta * item.Cantidad
-                };
-                listaDetalle.Add(detalleVentaRequest);
-            }
-
-            _IDetalleVentaBussines.CreateMultiple(listaDetalle);
-            if (listaDetalle == null || !listaDetalle.Any())
-            {
-                return StatusCode(500, "Error al crear el detalle de la venta");
-            }
+                    return StatusCode(500, "error al crear el detalle de la venta" + listaDetalle);
+                }
+                return Ok(new { Message = "Venta y detalles registrados con éxito" });
 
             try
             {

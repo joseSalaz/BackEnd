@@ -19,5 +19,14 @@ namespace Repository
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<DetalleVenta>> GetDetalleVentasByPersonaId(int idPersona)
+        {
+            var detalleVentas = await db.DetalleVentas
+                                        .Include(dv => dv.IdVentasNavigation) 
+                                        .Where(dv => dv.IdVentasNavigation.IdPersona == idPersona)
+                                        .ToListAsync();
+            return detalleVentas;
+        }
+
     }
 }

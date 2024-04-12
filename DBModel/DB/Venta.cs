@@ -19,6 +19,7 @@ public partial class Venta
     public int IdPersona { get; set; }
 
     public int IdUsuario { get; set; }
+
     [JsonIgnore]
     public virtual ICollection<Caja> Cajas { get; set; } = new List<Caja>();
     [JsonIgnore]
@@ -28,4 +29,5 @@ public partial class Venta
 
     [JsonIgnore]
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
+
 }
