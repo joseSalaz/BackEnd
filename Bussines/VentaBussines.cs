@@ -152,6 +152,17 @@ namespace Bussines
                 $"BoletaVenta_{idVenta}.pdf"
             );
         }
+        public async Task<string> GenerarNumeroComprobante()
+        {
+            string ultimoComprobante = await _IVentaRepository.ObtenerUltimoNumeroComprobante();
 
+            int numeroActual = 0;
+            if (ultimoComprobante != null)
+            {
+                int.TryParse(ultimoComprobante.Substring(3), out numeroActual);
+            }
+            numeroActual++;
+            return $"FAC{numeroActual.ToString("D4")}";
+        }
     }
 }

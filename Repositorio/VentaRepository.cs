@@ -52,5 +52,14 @@ namespace Repository
             return venta?.IdPersonaNavigation;
         }
 
+        public async Task<string> ObtenerUltimoNumeroComprobante()
+        {
+            var ultimoComprobante = await db.Ventas
+                        .OrderByDescending(v => v.FechaVenta)
+                        .Select(v => v.NroComprobante)
+                        .FirstOrDefaultAsync();
+
+            return ultimoComprobante;
+        }
     }
 }
