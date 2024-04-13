@@ -94,7 +94,7 @@ namespace API.Controllers
             int res = _detalleVentaBussines.Delete(id);
             return Ok(res);
         }
-        [HttpGet("detalleVenta/{idPersona}")]
+        [HttpGet("traer/{idPersona}")]
         public async Task<IActionResult> GetDetalleVentasByPersonaId(int idPersona)
         {
                 var detalleVentas = await _detalleVentaBussines.GetDetalleVentasByPersonaId(idPersona);

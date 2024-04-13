@@ -164,5 +164,21 @@ namespace Bussines
             numeroActual++;
             return $"FAC{numeroActual.ToString("D4")}";
         }
+        public async Task<IEnumerable<VentaRequest>> ObtenerVentasPorFechaAsync(DateTime fechaInicio, DateTime fechaFin)
+        {
+            var ventas = await _IVentaRepository.ObtenerVentasPorFechaAsync(fechaInicio, fechaFin);
+
+            return ventas.Select(v => new VentaRequest
+            {
+                IdVentas = v.IdVentas,
+                TotalPrecio = v.TotalPrecio,
+                TipoComprobante = v.TipoComprobante,
+                FechaVenta = v.FechaVenta,
+                NroComprobante = v.NroComprobante,
+                IdPersona = v.IdPersona,
+                IdUsuario = v.IdUsuario
+            });
+        }
+
     }
 }
