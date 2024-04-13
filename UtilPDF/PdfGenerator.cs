@@ -45,7 +45,7 @@ namespace UtilPDF
 
                 // Configurar márgenes y dimensiones de la tabla
                 double marginLeft = 40;
-                double marginTop = 200; // Asumiendo que hay contenido antes de la tabla
+                double marginTop = 220; // Asumiendo que hay contenido antes de la tabla
                 double tableWidth = page.Width - marginLeft * 2; // El ancho de la tabla es el ancho de la página menos los márgenes izquierdo y derecho
                 double numberColumnWidth = tableWidth * 0.05; // Ancho para el número de ítem
                 double columnWidth1 = tableWidth * 0.10; // Cant.
