@@ -101,13 +101,15 @@ namespace API.Controllers
         //}
         private async Task<IActionResult> RegistrarVentaYDetalle(ExecutePaymentModelRequest paymentRequest)
         {
+            string numeroComprobante = await _IVentaBussines.GenerarNumeroComprobante();
+
             // Extraer y preparar la información de la venta a partir del paymentRequest
             VentaRequest ventaRequest = new VentaRequest
             {
                 FechaVenta = DateTime.Now,
                 TipoComprobante = "Boleta",
                 IdUsuario = 8, // Usar el UserId desde el paymentRequest si está disponible
-                NroComprobante = "FAC00",
+                NroComprobante = numeroComprobante,
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona,
                 TotalPrecio = paymentRequest.Carrito.TotalAmount, // Asegúrate de que existe un campo Total en ExecutePaymentModelRequest
             };
@@ -138,7 +140,7 @@ namespace API.Controllers
                     IdLibro = item.libro.IdLibro,
                     Cantidad = item.Cantidad,
                     Importe = item.PrecioVenta * item.Cantidad,
-                    Estado = "Pendiente" // Añadir el estado si es relevante
+                    Estado = "Reservado" // Añadir el estado si es relevante
                 };
                 listaDetalle.Add(detalleVentaRequest);
             }

@@ -9,5 +9,6 @@ namespace IBussines
         Task<List<DetalleVenta>> GetDetalleVentaByVentaId(int idVenta);
         Task<MemoryStream> CreateVentaPdf(int idVenta);
         Task GenerarYEnviarPdfDeVenta(int idVenta, string emailCliente);
+        Task<string> GenerarNumeroComprobante();
     }
 }
