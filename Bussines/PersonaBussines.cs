@@ -107,33 +107,6 @@ namespace Bussines
         }
 
 
-        //public PersonaResponse BuscarporDNI(string dni)
-        //{
-        //    Persona persona = _persona.buscarporDNI(dni);
-        //    PersonaResponse resultado = new PersonaResponse();
-        //    if (persona.IdPersona != 0)
-        //    {
-        //        resultado = _Mapper.Map<PersonaResponse>(persona);
-        //        return resultado;
-        //    }
-        //    //https://dniruc.apisperu.com/api/v1/dni/12345678?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsYmVydG9wYXJpb25hcmFtb3M2QGdtYWlsLmNvbSJ9.l5YJzVRBy16cuBnQ40M8usGf3S39ZiVtLGaPDK8WUuo
-
-        //    string urlApi = "https://dniruc.apisperu.com/api/v1/dni/12345678?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFsYmVydG9wYXJpb25hcmFtb3M2QGdtYWlsLmNvbSJ9.l5YJzVRBy16cuBnQ40M8usGf3S39ZiVtLGaPDK8WUuo";
-        //    List<string> lista = new List<string>();
-        //    string resultadoApiPeru = _apisPeruServices.Get("URL", "headresBacios", "token");
-        //    ApisPeruPersonaResponse _person = new ApisPeruPersonaResponse();
-        //    _person = JsonConvert.Deserialize<ApisPeruPersonaResponse>(resultadoApisPeru);
-        //    //string resultadoApisPeru = "{\"success\":true,\"dni\":\"73444819\",\"nombres\":\"JOSE ALBERTO\",\"apellidoPaterno\":\"SALAZAR\",\"apellidoMaterno\":\"CHIRINOS\",\"codVerifica\":\"8\"}"
-
-
-        //    //newttonsfot
-        //    //var jsonString= JsonConvert.SerializeObject(obj);
-        //    //var jsonString = JsonSerialize.Serialize(obj, options);
-
-
-        //    return resultado;   
-        //}
-
         public Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento)
         {
             Persona vPersona = _IPersonaRepository.GetByTipoNroDocumento(TipoDocumento, NumeroDocumento);
@@ -174,6 +147,28 @@ namespace Bussines
                 return _Mapper.Map<PersonaResponse>(persona);
             }
             return null;
+        }
+
+
+        public Persona GetPersonaByDocumento(string documento)
+        {
+            if (string.IsNullOrEmpty(documento))
+            {
+                throw new ArgumentException("El documento no puede ser nulo o vacío.");
+            }
+
+            Persona persona = _IPersonaRepository.GetByDni(documento);
+            if (persona != null)
+            {
+                // La persona existe, puedes realizar otras operaciones aquí si es necesario
+                // Por ejemplo, validar estados, modificar datos adicionales, etc.
+                return persona;
+            }
+            else
+            {
+                // No se encontró la persona, podrías lanzar una excepción o manejar este caso específico
+                return null; // o manejar de otra forma
+            }
         }
 
     }
