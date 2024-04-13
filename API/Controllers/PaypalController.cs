@@ -40,6 +40,9 @@ namespace API.Controllers
             _IDetalleVentaBussines = detalleVentaBussines;
             _IVentaBussines = ventaBussines;
         }
+
+
+
         [HttpPost("create-payment")]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentCreationRequest paymentRequest)
         {
@@ -65,6 +68,9 @@ namespace API.Controllers
                 return StatusCode(500, "Error interno al crear el pago: " + ex.Message);
             }
         }
+
+
+
         [HttpPost("execute-payment")]
         public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRequest paymentRequest)
         {
@@ -94,11 +100,14 @@ namespace API.Controllers
                 return StatusCode(500, "Error al ejecutar el pago: " + ex.Message);
             }
         }
+
+
         //private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
         //{
         //    await RegistrarVentaYDetalle(paymentRequest);
         //    return Ok("Procesado con Exito");
         //}
+
         private async Task<IActionResult> RegistrarVentaYDetalle(ExecutePaymentModelRequest paymentRequest)
         {
             // Extraer y preparar la información de la venta a partir del paymentRequest

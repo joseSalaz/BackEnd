@@ -111,7 +111,7 @@ namespace API.Controllers
                 TipoComprobante = "Boleta",
                 IdUsuario = 8, // Suponiendo que este ID viene de la sesión del usuario o es un valor fijo por ahora
                 NroComprobante = "FAC00", // Este valor podría generarse dinámicamente según tu lógica de negocio
-                IdPersona = 8, // Asumiendo que el IdCliente viene correctamente desde el front-end
+                IdPersona = detalleCarrito.Persona.IdPersona, // Asumiendo que el IdCliente viene correctamente desde el front-end
                                                      // Aquí podrías calcular el TotalPrecio basándote en los detalles del carrito si es necesario
             };
 

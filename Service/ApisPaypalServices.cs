@@ -24,9 +24,9 @@ public class ApisPaypalServices : IApisPaypalServices
         // Crear OAuthTokenCredential con las credenciales y el modo obtenidos de la configuración
         var tokenCredential = new OAuthTokenCredential(clientId, clientSecret, new Dictionary<string, string> { { "mode", mode } });
         var accessToken = tokenCredential.GetAccessToken();
-        var apiContext = new APIContext(accessToken)
-        {
-            Config = new Dictionary<string, string> { { "mode", mode } }
+        var apiContext = new APIContext(accessToken);
+        apiContext.Config = new Dictionary<string, string>(){
+            { "mode", mode }
         };
 
         // Convertir los ítems del carrito a ítems de PayPal
@@ -76,6 +76,7 @@ public class ApisPaypalServices : IApisPaypalServices
         try
         {
             // Crear el pago con el contexto de la API de forma asincrónica
+
             var createdPayment = payment.Create(apiContext);
 
             return createdPayment;
