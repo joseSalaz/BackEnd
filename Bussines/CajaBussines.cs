@@ -2,6 +2,7 @@
 using DBModel.DB;
 using IBussines;
 using IRepository;
+using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
 using Repository;
 using System;
@@ -98,5 +99,11 @@ namespace Bussines
             List<CajaResponse> res = _Mapper.Map<List<CajaResponse>>(au);
             return res;
         }
+
+        //public Caja GetCajaWithVentaDetails(int idCaja)
+        //{
+        //    return _ICajaRepository.GetCajaWithVentaDetails(idCaja);
+        //}
+
     }
 }

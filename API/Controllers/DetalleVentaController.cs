@@ -22,10 +22,11 @@ namespace API.Controllers
         private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
         private readonly IVentaBussines _IVentaBussines = null;
         private readonly IPersonaBussines _IPersonaBussines;
+        private readonly ICajaBussines _ICajaBussines;
         #endregion
 
         #region constructor 
-        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IVentaBussines ventaBussines, IPersonaBussines personaBussines)
+        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IVentaBussines ventaBussines, IPersonaBussines personaBussines, ICajaBussines cajaBussines)
         {
             _detalleVentaBussines = detalleVentaBussines;
             _Mapper = mapper;
@@ -34,6 +35,7 @@ namespace API.Controllers
             _IDetalleVentaBussines = detalleVentaBussines;
             _IVentaBussines = ventaBussines;
             _IPersonaBussines = personaBussines;
+            _ICajaBussines = cajaBussines;
         }
         #endregion
 

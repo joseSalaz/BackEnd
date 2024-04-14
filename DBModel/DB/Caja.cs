@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DBModel.DB;
+﻿namespace DBModel.DB;
 
 public partial class Caja
 {

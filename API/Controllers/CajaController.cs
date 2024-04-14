@@ -84,6 +84,20 @@ namespace API.Controllers
             int res = _ICajaBussines.Delete(id);
             return Ok(res);
         }
+
+
+
+        //[HttpGet("{id}/venta")]
+        //public IActionResult GetCajaDetails(int id)
+        //{
+        //    var caja = _ICajaBussines.GetCajaWithVentaDetails(id);
+        //    if (caja != null)
+        //        return Ok(caja);
+        //    else
+        //        return NotFound();
+        //}
+
+
         #endregion
     }
 }
