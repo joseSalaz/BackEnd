@@ -61,5 +61,15 @@ namespace Repository
 
             return ultimoComprobante;
         }
+
+
+        public async Task<IEnumerable<Venta>> ObtenerVentasPorFechaAsync(DateTime fechaInicio, DateTime fechaFin)
+        {
+            return await dbSet
+                .Where(v => v.FechaVenta >= fechaInicio && v.FechaVenta < fechaFin.AddDays(1))
+            .ToListAsync();
+
+        }
+
     }
 }
