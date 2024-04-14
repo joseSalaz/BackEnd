@@ -28,5 +28,16 @@ namespace Repository
             return cajasDeHoy;
         }
 
+
+        // Método para buscar una caja por la fecha actual
+        public Caja FindCajaByDate(DateTime date)
+        {
+            return dbSet.FirstOrDefault(c => c.Fecha.HasValue && c.Fecha.Value.Date == date.Date);
+        }
+
+
+       
+
+
     }
 }
