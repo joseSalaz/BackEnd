@@ -1,4 +1,7 @@
-﻿namespace DBModel.DB;
+﻿using System;
+using System.Collections.Generic;
+
+namespace DBModel.DB;
 
 public partial class Caja
 {
@@ -10,11 +13,9 @@ public partial class Caja
 
     public DateTime? Fecha { get; set; }
 
-    public int IdVentas { get; set; }
-
     public decimal? RetiroDeCaja { get; set; }
 
     public decimal? IngresosACaja { get; set; }
 
-    public virtual Venta IdVentasNavigation { get; set; } = null!;
+    public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
 }

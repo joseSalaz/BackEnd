@@ -12,6 +12,6 @@ namespace IBussines
 {
     public interface ICajaBussines : ICRUDBussnies <CajaRequest, CajaResponse>
     {
-        //Caja GetCajaWithVentaDetails(int idCaja);
+        Caja RegistrarVentaEnCajaDelDia();
     }
 }

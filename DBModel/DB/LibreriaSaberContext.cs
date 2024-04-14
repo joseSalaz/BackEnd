@@ -21,8 +21,6 @@ public partial class LibreriaSaberContext : DbContext
 
     public virtual DbSet<Categoria> Categorias { get; set; }
 
-    public virtual DbSet<Cliente> Clientes { get; set; }
-
     public virtual DbSet<DatosGenerale> DatosGenerales { get; set; }
 
     public virtual DbSet<DetalleDocEntrada> DetalleDocEntradas { get; set; }
@@ -67,12 +65,10 @@ public partial class LibreriaSaberContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=Libreria_Saber.mssql.somee.com;Initial Catalog=Libreria_Saber;User ID=Cesae_SQLLogin_1;Password=5c8m9y4gg4;Packet Size=4096;TrustServerCertificate=True;Persist Security Info=False;");
+        => optionsBuilder.UseSqlServer("workstation id=Libreria_Saber.mssql.somee.com;packet size=4096;user id=Cesae_SQLLogin_1;pwd=5c8m9y4gg4;data source=Libreria_Saber.mssql.somee.com;persist security info=False;initial catalog=Libreria_Saber;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("Modern_Spanish_CI_AS");
-
         modelBuilder.Entity<Autor>(entity =>
         {
             entity.HasKey(e => e.IdAutor).HasName("PK__Autor__0DC8163E4DE7083C");
@@ -99,7 +95,6 @@ public partial class LibreriaSaberContext : DbContext
 
             entity.Property(e => e.IdCaja).HasColumnName("Id_Caja");
             entity.Property(e => e.Fecha).HasColumnType("datetime");
-            entity.Property(e => e.IdVentas).HasColumnName("Id_Ventas");
             entity.Property(e => e.IngresosACaja)
                 .HasColumnType("money")
                 .HasColumnName("Ingresos_a_CAja");
@@ -112,11 +107,6 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.SaldoInicial)
                 .HasColumnType("money")
                 .HasColumnName("Saldo_Inicial");
-
-            entity.HasOne(d => d.IdVentasNavigation).WithMany(p => p.Cajas)
-                .HasForeignKey(d => d.IdVentas)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Caja_Ventas");
         });
 
         modelBuilder.Entity<Categoria>(entity =>
@@ -128,22 +118,6 @@ public partial class LibreriaSaberContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Categoria");
-        });
-
-        modelBuilder.Entity<Cliente>(entity =>
-        {
-            entity.HasKey(e => e.IdCliente).HasName("PK__Cliente__3DD0A8CB10DB02BD");
-
-            entity.ToTable("Cliente");
-
-            entity.Property(e => e.IdCliente).HasColumnName("Id_Cliente");
-            entity.Property(e => e.CodigoCliente).HasColumnName("Codigo_Cliente");
-            entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
-
-            entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Clientes)
-                .HasForeignKey(d => d.IdPersona)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cliente_Persona");
         });
 
         modelBuilder.Entity<DatosGenerale>(entity =>
@@ -565,6 +539,7 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.FechaVenta)
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Venta");
+            entity.Property(e => e.IdCaja).HasColumnName("Id_Caja");
             entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
             entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
             entity.Property(e => e.NroComprobante)
@@ -577,6 +552,11 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.TotalPrecio)
                 .HasColumnType("money")
                 .HasColumnName("Total_Precio");
+
+            entity.HasOne(d => d.IdCajaNavigation).WithMany(p => p.Venta)
+                .HasForeignKey(d => d.IdCaja)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Ventas_Caja");
 
             entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Venta)
                 .HasForeignKey(d => d.IdPersona)
