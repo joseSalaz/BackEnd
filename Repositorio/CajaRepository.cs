@@ -1,5 +1,7 @@
 ﻿using DBModel.DB;
+using DocumentFormat.OpenXml.InkML;
 using IRepository;
+using Microsoft.EntityFrameworkCore;
 using Repository.Generic;
 using System;
 using System.Collections.Generic;
@@ -15,5 +17,16 @@ namespace Repository
         {
             throw new NotImplementedException();
         }
+
+
+
+        // Método para obtener todas las Cajas con fecha de hoy
+        public List<Caja> GetCajasDeHoy()
+        {
+            var today = DateTime.Today;
+            var cajasDeHoy = dbSet.Where(c => c.Fecha.HasValue && c.Fecha.Value.Date == today).ToList();
+            return cajasDeHoy;
+        }
+
     }
 }

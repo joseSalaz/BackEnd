@@ -67,10 +67,12 @@ public partial class LibreriaSaberContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-F93NQHU;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=Libreria_Saber.mssql.somee.com;Initial Catalog=Libreria_Saber;User ID=Cesae_SQLLogin_1;Password=5c8m9y4gg4;Packet Size=4096;TrustServerCertificate=True;Persist Security Info=False;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.UseCollation("Modern_Spanish_CI_AS");
+
         modelBuilder.Entity<Autor>(entity =>
         {
             entity.HasKey(e => e.IdAutor).HasName("PK__Autor__0DC8163E4DE7083C");

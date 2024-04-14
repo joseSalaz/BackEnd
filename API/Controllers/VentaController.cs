@@ -132,6 +132,28 @@ namespace API.Controllers
         }
 
 
+        [HttpGet("Paginator")]
+        public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var (ventaResponse, totalItems) = await _IVentaBussines.GetVentaPaginados(page, pageSize);
+                var response = new
+                {
+                    TotalItems = totalItems,
+                    TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    Venta = ventaResponse
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         #endregion
     }
 }

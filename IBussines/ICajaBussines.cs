@@ -1,4 +1,6 @@
-﻿using Models.RequestResponse;
+﻿using DBModel.DB;
+using Microsoft.AspNetCore.Mvc;
+using Models.RequestResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +12,6 @@ namespace IBussines
 {
     public interface ICajaBussines : ICRUDBussnies <CajaRequest, CajaResponse>
     {
+        //Caja GetCajaWithVentaDetails(int idCaja);
     }
 }
