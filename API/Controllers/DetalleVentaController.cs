@@ -94,7 +94,7 @@ namespace API.Controllers
             int res = _detalleVentaBussines.Delete(id);
             return Ok(res);
         }
-        [HttpGet("detalleVenta/{idPersona}")]
+        [HttpGet("traer/{idPersona}")]
         public async Task<IActionResult> GetDetalleVentasByPersonaId(int idPersona)
         {
                 var detalleVentas = await _detalleVentaBussines.GetDetalleVentasByPersonaId(idPersona);
@@ -109,7 +109,7 @@ namespace API.Controllers
             {
                 FechaVenta = DateTime.Now,
                 TipoComprobante = "Boleta",
-                IdUsuario = 8, // Suponiendo que este ID viene de la sesión del usuario o es un valor fijo por ahora
+                IdUsuario = 1, // Suponiendo que este ID viene de la sesión del usuario o es un valor fijo por ahora
                 NroComprobante = "FAC00", // Este valor podría generarse dinámicamente según tu lógica de negocio
                 IdPersona = detalleCarrito.Persona.IdPersona, // Asumiendo que el IdCliente viene correctamente desde el front-end
                                                      // Aquí podrías calcular el TotalPrecio basándote en los detalles del carrito si es necesario

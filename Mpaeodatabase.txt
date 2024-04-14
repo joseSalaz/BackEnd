@@ -9,3 +9,6 @@ Scaffold-DbContext "Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;I
 
 
 Scaffold-DbContext "Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;Integrated Security=True;Trusted_Connection=true;Trust Server Certificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir DB -Force
+
+
+
