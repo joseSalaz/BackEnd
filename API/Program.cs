@@ -76,6 +76,7 @@ builder.Services.AddScoped<IKardexBussines, KardexBussines>();
 builder.Services.AddScoped<IVentaBussines, VentaBussines>();
 builder.Services.AddScoped<IDetalleVentaBussines, DetalleVentaBussines>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IPersonaBussines, PersonaBussines>();
 
 
 

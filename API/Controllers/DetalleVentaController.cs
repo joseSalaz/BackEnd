@@ -21,10 +21,11 @@ namespace API.Controllers
         private readonly IKardexBussines _kardexBussines;
         private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
         private readonly IVentaBussines _IVentaBussines = null;
+        private readonly IPersonaBussines _IPersonaBussines;
         #endregion
 
         #region constructor 
-        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IVentaBussines ventaBussines)
+        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IVentaBussines ventaBussines, IPersonaBussines personaBussines)
         {
             _detalleVentaBussines = detalleVentaBussines;
             _Mapper = mapper;
@@ -32,6 +33,7 @@ namespace API.Controllers
             _kardexBussines = kardexBussines;
             _IDetalleVentaBussines = detalleVentaBussines;
             _IVentaBussines = ventaBussines;
+            _IPersonaBussines = personaBussines;
         }
         #endregion
 
@@ -94,6 +96,7 @@ namespace API.Controllers
             int res = _detalleVentaBussines.Delete(id);
             return Ok(res);
         }
+
         [HttpGet("traer/{idPersona}")]
         public async Task<IActionResult> GetDetalleVentasByPersonaId(int idPersona)
         {
@@ -101,9 +104,41 @@ namespace API.Controllers
 
                 return Ok(detalleVentas);
         }
+
+
+
+
         [HttpPost("registrar-venta-detalle")]
         public async Task<IActionResult> RegistrarVentaYDetalle([FromBody] DatalleCarrito detalleCarrito)
         {
+            // Verificar si la Persona con el documento proporcionado ya existe
+            var personaExistente =  _IPersonaBussines.GetPersonaByDocumento(detalleCarrito.Persona.NumeroDocumento);
+            int idPersona;  // Solo se declara, no se inicializa aquí.
+
+            if (personaExistente == null)
+            {
+                // La persona no existe, entonces la creamos
+                PersonaRequest nuevaPersona = new PersonaRequest
+                {
+                    Nombre = detalleCarrito.Persona.Nombre,
+                    ApellidoPaterno = detalleCarrito.Persona.ApellidoPaterno,
+                    ApellidoMaterno = detalleCarrito.Persona.ApellidoMaterno,
+                    Correo = detalleCarrito.Persona.Correo,
+                    TipoDocumento = detalleCarrito.Persona.TipoDocumento,
+                    NumeroDocumento = detalleCarrito.Persona.NumeroDocumento,
+                    Telefono = detalleCarrito.Persona.Telefono,
+                };
+                var personaCreada = _IPersonaBussines.Create(nuevaPersona);
+                if (personaCreada == null)
+                {
+                    return StatusCode(500, "Error al crear la persona");
+                }
+                idPersona = personaCreada.IdPersona; // Usamos el ID asignado automáticamente después de crear el registro
+            }
+            else
+            {
+                idPersona = personaExistente.IdPersona;
+            }
             // Preparación de la entidad Venta con los datos necesarios
             VentaRequest ventaRequest = new VentaRequest
             {

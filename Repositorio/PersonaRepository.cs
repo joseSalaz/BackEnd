@@ -7,16 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Repository
 {
     public class PersonaRepository : GenericRepository<Persona>, IPersonaRepository
     {
-        //public Persona buscarporDNI(string DNI)
-        //{
-        //    Persona person = db.Personas.Where(x => x.NumeroDocumento == DNI).FirstOrDefault();
-        //    return person;
-        //}
+        public Persona buscarporDNI(string DNI)
+        {
+            Persona person = db.Personas.Where(x => x.NumeroDocumento == DNI).FirstOrDefault();
+            return person;
+        }
 
         public List<Persona> GetAutoComplete(string query)
         {
@@ -64,6 +65,28 @@ namespace Repository
                                 .FirstOrDefault(p => p.Sub == sub);
             return persona;
         }
+
+        public Persona GetByDni(string documento)
+        {
+            if (string.IsNullOrEmpty(documento))
+            {
+                return null;
+            }
+
+            // Verifica la longitud del documento para determinar si es un DNI o un RUC
+            if (documento.Length > 8) // Consideramos que más de 8 dígitos es un RUC
+            {
+                // Busca como RUC
+                return db.Personas.FirstOrDefault(p => p.NumeroDocumento == documento && p.TipoDocumento == "RUC");
+            }
+            else
+            {
+                // Busca como DNI
+                return db.Personas.FirstOrDefault(p => p.NumeroDocumento == documento && p.TipoDocumento == "DNI");
+            }
+        }
+
+
 
     }
 }

@@ -14,7 +14,8 @@ namespace IBussines
         //PersonaResponse BuscarporDNI(string dni);
         Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento);
         PersonaResponse GetByIdSub(string sub);
-        
+        Persona GetPersonaByDocumento(string documento);
+
 
     }
 }

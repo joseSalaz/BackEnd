@@ -120,7 +120,16 @@ namespace API.Controllers
             }
         }
 
-
+        [HttpGet("ObtenerPorFechas")]
+        public async Task<IActionResult> ObtenerPorFechas(DateTime fechaInicio, DateTime fechaFin)
+        {
+            var ventas = await _IVentaBussines.ObtenerVentasPorFechaAsync(fechaInicio, fechaFin);
+            if (!ventas.Any())
+            {
+                return NotFound("No se encontraron ventas en el rango de fechas especificado.");
+            }
+            return Ok(ventas);
+        }
 
 
         #endregion
