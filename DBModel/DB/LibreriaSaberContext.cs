@@ -67,15 +67,13 @@ public partial class LibreriaSaberContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=Libreria_Saber.mssql.somee.com;Initial Catalog=Libreria_Saber;User ID=Cesae_SQLLogin_1;Password=5c8m9y4gg4;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-F93NQHU;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("Modern_Spanish_CI_AS");
-
         modelBuilder.Entity<Autor>(entity =>
         {
-            entity.HasKey(e => e.IdAutor).HasName("PK__Autor__0DC8163E94F100C0");
+            entity.HasKey(e => e.IdAutor).HasName("PK__Autor__0DC8163E4DE7083C");
 
             entity.ToTable("Autor");
 
@@ -93,7 +91,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Caja>(entity =>
         {
-            entity.HasKey(e => e.IdCaja).HasName("PK__Caja__A7BC8D9535099879");
+            entity.HasKey(e => e.IdCaja).HasName("PK__Caja__A7BC8D955B62570F");
 
             entity.ToTable("Caja");
 
@@ -121,7 +119,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Categoria>(entity =>
         {
-            entity.HasKey(e => e.IdCategoria).HasName("PK__Categori__CB903349F1E1085E");
+            entity.HasKey(e => e.IdCategoria).HasName("PK__Categori__CB90334925C9BB7A");
 
             entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.Categoria1)
@@ -132,7 +130,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Cliente>(entity =>
         {
-            entity.HasKey(e => e.IdCliente).HasName("PK__Cliente__3DD0A8CBE840B3FD");
+            entity.HasKey(e => e.IdCliente).HasName("PK__Cliente__3DD0A8CB10DB02BD");
 
             entity.ToTable("Cliente");
 
@@ -148,7 +146,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<DatosGenerale>(entity =>
         {
-            entity.HasKey(e => e.IdDatosGenerales).HasName("PK__DatosGen__015EFAAFC594F681");
+            entity.HasKey(e => e.IdDatosGenerales).HasName("PK__DatosGen__015EFAAF44DC12A7");
 
             entity.Property(e => e.IdDatosGenerales).HasColumnName("Id_DatosGenerales");
             entity.Property(e => e.RazonSocial)
@@ -166,7 +164,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<DetalleDocEntrada>(entity =>
         {
-            entity.HasKey(e => e.IdDetalleDocEntrada).HasName("PK__DetalleD__8B1294F4A14645B8");
+            entity.HasKey(e => e.IdDetalleDocEntrada).HasName("PK__DetalleD__8B1294F446BF4B91");
 
             entity.Property(e => e.IdDocEntrada).HasColumnName("IdDoc_Entrada");
             entity.Property(e => e.PorcentajeUtil).HasColumnType("decimal(5, 2)");
@@ -185,7 +183,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<DetalleDocSalida>(entity =>
         {
-            entity.HasKey(e => e.IdDetalleSalida).HasName("PK__Detalle___B5F901B226E8F97B");
+            entity.HasKey(e => e.IdDetalleSalida).HasName("PK__Detalle___B5F901B20A636983");
 
             entity.ToTable("Detalle_Doc_Salidas");
 
@@ -206,7 +204,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<DetalleVenta>(entity =>
         {
-            entity.HasKey(e => e.IdDetalleVentas).HasName("PK__Detalle___3AD941761442F50E");
+            entity.HasKey(e => e.IdDetalleVentas).HasName("PK__Detalle___3AD94176FBB99513");
 
             entity.ToTable("Detalle_Ventas");
 
@@ -237,7 +235,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<DocEntrada>(entity =>
         {
-            entity.HasKey(e => e.IdDocEntrada).HasName("PK__Doc_Entr__A667F4C7B1A19D1E");
+            entity.HasKey(e => e.IdDocEntrada).HasName("PK__Doc_Entr__A667F4C7904A090B");
 
             entity.ToTable("Doc_Entradas");
 
@@ -267,7 +265,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<DocSalida>(entity =>
         {
-            entity.HasKey(e => e.IdDocSalida).HasName("PK__DocSalid__A8C3420170B39BE6");
+            entity.HasKey(e => e.IdDocSalida).HasName("PK__DocSalid__A8C34201C60B60FA");
 
             entity.Property(e => e.Fecha).HasColumnType("datetime");
             entity.Property(e => e.IdSucursal).HasColumnName("Id_Sucursal");
@@ -286,7 +284,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Kardex>(entity =>
         {
-            entity.HasKey(e => e.IdLibro).HasName("PK__Kardex__3E0B49AD02C1C096");
+            entity.HasKey(e => e.IdLibro).HasName("PK__Kardex__3E0B49ADC540F9CA");
 
             entity.ToTable("Kardex");
 
@@ -309,16 +307,14 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Libro>(entity =>
         {
-            entity.HasKey(e => e.IdLibro).HasName("PK__Libro__3E0B49AD67A4FDBF");
+            entity.HasKey(e => e.IdLibro).HasName("PK__Libro__3E0B49AD50D02F69");
 
             entity.ToTable("Libro");
 
             entity.Property(e => e.Condicion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(200)
-                .IsUnicode(false);
+            entity.Property(e => e.Descripcion).IsUnicode(false);
             entity.Property(e => e.IdProveedor).HasColumnName("Id_Proveedor");
             entity.Property(e => e.IdSubcategoria).HasColumnName("Id_Subcategoria");
             entity.Property(e => e.Imagen).IsUnicode(false);
@@ -335,9 +331,7 @@ public partial class LibreriaSaberContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Tipo_Tapa");
-            entity.Property(e => e.Titulo)
-                .HasMaxLength(200)
-                .IsUnicode(false);
+            entity.Property(e => e.Titulo).IsUnicode(false);
 
             entity.HasOne(d => d.IdProveedorNavigation).WithMany(p => p.Libros)
                 .HasForeignKey(d => d.IdProveedor)
@@ -357,7 +351,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<LibroAutor>(entity =>
         {
-            entity.HasKey(e => e.IdLibroAutor).HasName("PK__LibroAut__6C662761A876682F");
+            entity.HasKey(e => e.IdLibroAutor).HasName("PK__LibroAut__6C662761C8048566");
 
             entity.ToTable("LibroAutor");
 
@@ -376,13 +370,9 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Persona>(entity =>
         {
-            entity.HasKey(e => e.IdPersona).HasName("PK__Persona__C95634AF01949CD8");
+            entity.HasKey(e => e.IdPersona).HasName("PK__Persona__C95634AFD7BBF33B");
 
             entity.ToTable("Persona");
-
-            entity.HasIndex(e => e.Sub, "UK_sub")
-                .IsUnique()
-                .HasFilter("([sub] IS NOT NULL)");
 
             entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
             entity.Property(e => e.ApellidoMaterno)
@@ -416,7 +406,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Precio>(entity =>
         {
-            entity.HasKey(e => e.IdPrecios).HasName("PK__Precios__F69F1CD05F4FED65");
+            entity.HasKey(e => e.IdPrecios).HasName("PK__Precios__F69F1CD067490C64");
 
             entity.Property(e => e.IdPrecios).HasColumnName("Id_Precios");
             entity.Property(e => e.IdPublicoObjetivo).HasColumnName("idPublicoObjetivo");
@@ -437,7 +427,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Proveedor>(entity =>
         {
-            entity.HasKey(e => e.IdProveedor).HasName("PK__Proveedo__477B858E86FCD28D");
+            entity.HasKey(e => e.IdProveedor).HasName("PK__Proveedo__477B858E7E5428CE");
 
             entity.ToTable("Proveedor");
 
@@ -462,7 +452,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<PublicoObjetivo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PublicoO__3213E83F3208BDA5");
+            entity.HasKey(e => e.Id).HasName("PK__PublicoO__3213E83F95E353B4");
 
             entity.ToTable("PublicoObjetivo");
 
@@ -472,7 +462,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Subcategoria>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__subcateg__3213E83F19C29BB5");
+            entity.HasKey(e => e.Id).HasName("PK__subcateg__3213E83F3970B026");
 
             entity.ToTable("subcategorias");
 
@@ -485,12 +475,12 @@ public partial class LibreriaSaberContext : DbContext
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Subcategoria)
                 .HasForeignKey(d => d.IdCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__subcatego__id_ca__2EDAF651");
+                .HasConstraintName("FK__subcatego__id_ca__7B5B524B");
         });
 
         modelBuilder.Entity<Sucursal>(entity =>
         {
-            entity.HasKey(e => e.IdSucursal).HasName("PK__Sucursal__02EDB3EA9BAAF859");
+            entity.HasKey(e => e.IdSucursal).HasName("PK__Sucursal__02EDB3EA7D9D9EA3");
 
             entity.ToTable("Sucursal");
 
@@ -502,7 +492,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<TipoDocEntrada>(entity =>
         {
-            entity.HasKey(e => e.IdTipoDocEntrada).HasName("PK__TipoDocE__570697845AE32E3A");
+            entity.HasKey(e => e.IdTipoDocEntrada).HasName("PK__TipoDocE__570697841515AEF2");
 
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(200)
@@ -511,7 +501,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<TipoDocSalida>(entity =>
         {
-            entity.HasKey(e => e.IdTipoDocSalida).HasName("PK__TipoDocS__18DCE9BE01784398");
+            entity.HasKey(e => e.IdTipoDocSalida).HasName("PK__TipoDocS__18DCE9BE60457837");
 
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(200)
@@ -520,7 +510,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<TipoPapel>(entity =>
         {
-            entity.HasKey(e => e.IdTipoPapel).HasName("PK__TipoPape__18A06AAFBAAC7B64");
+            entity.HasKey(e => e.IdTipoPapel).HasName("PK__TipoPape__18A06AAFBFD20086");
 
             entity.ToTable("TipoPapel");
 
@@ -531,7 +521,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<TipoProveedor>(entity =>
         {
-            entity.HasKey(e => e.IdTipoProveedor).HasName("PK__Tipo_Pro__B7282E35D1377475");
+            entity.HasKey(e => e.IdTipoProveedor).HasName("PK__Tipo_Pro__B7282E35C4DC09BA");
 
             entity.ToTable("Tipo_Proveedor");
 
@@ -543,7 +533,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__63C76BE22D7F2DA4");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__63C76BE216418901");
 
             entity.ToTable("Usuario");
 
@@ -567,7 +557,7 @@ public partial class LibreriaSaberContext : DbContext
 
         modelBuilder.Entity<Venta>(entity =>
         {
-            entity.HasKey(e => e.IdVentas).HasName("PK__Ventas__464C581FB0B13A78");
+            entity.HasKey(e => e.IdVentas).HasName("PK__Ventas__464C581F91FF5968");
 
             entity.Property(e => e.IdVentas).HasColumnName("Id_Ventas");
             entity.Property(e => e.FechaVenta)

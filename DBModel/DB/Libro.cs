@@ -45,11 +45,8 @@ public partial class Libro
     public virtual TipoPapel IdTipoPapelNavigation { get; set; } = null!;
 
     public virtual Kardex? Kardex { get; set; }
-
     [JsonIgnore]
     public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();
     [JsonIgnore]
     public virtual ICollection<Precio> Precios { get; set; } = new List<Precio>();
 }
-
-

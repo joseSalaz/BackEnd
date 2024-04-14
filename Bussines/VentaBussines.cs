@@ -162,7 +162,7 @@ namespace Bussines
                 int.TryParse(ultimoComprobante.Substring(3), out numeroActual);
             }
             numeroActual++;
-            return $"FAC{numeroActual.ToString("D4")}";
+            return $"BOL{numeroActual.ToString("D4")}";
         }
     }
 }

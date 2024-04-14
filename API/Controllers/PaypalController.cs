@@ -117,7 +117,7 @@ namespace API.Controllers
             {
                 FechaVenta = DateTime.Now,
                 TipoComprobante = "Boleta",
-                IdUsuario = 8, // Usar el UserId desde el paymentRequest si está disponible
+                IdUsuario = 1, // Usar el UserId desde el paymentRequest si está disponible
                 NroComprobante = numeroComprobante,
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona,
                 TotalPrecio = paymentRequest.Carrito.TotalAmount, // Asegúrate de que existe un campo Total en ExecutePaymentModelRequest
