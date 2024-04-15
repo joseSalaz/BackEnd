@@ -16,10 +16,7 @@ namespace Models.RequestResponse
 
         public DateTime? Fecha { get; set; }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 659483f76575f0aaa47ab234b486fc7fa8bd8bea
         public decimal? RetiroDeCaja { get; set; }
 
         public decimal? IngresosACaja { get; set; }
