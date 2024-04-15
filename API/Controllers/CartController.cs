@@ -31,7 +31,7 @@ namespace API.Controllers
                 decimal total = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
 
                 // Crea el pedido en PayPal
-                var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, total, "http://localhost:4200/detalle-venta", "http://localhost:4200/detalle-venta");
+                var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, total, "https://libreriasaber.com/detalle-venta", "https://libreriasaber.com/detalle-venta");
                 
                 // Busca la URL de aprobación para redirigir al usuario para el pago
                 var approvalUrl = payment.links.FirstOrDefault(lnk => lnk.rel == "approval_url")?.href;
