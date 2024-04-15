@@ -161,7 +161,8 @@ namespace API.Controllers
                 IdUsuario = 1, // Suponiendo que este ID viene de la sesión del usuario o es un valor fijo por ahora
                 NroComprobante = "FAC00", // Este valor podría generarse dinámicamente según tu lógica de negocio
                 IdPersona = detalleCarrito.Persona.IdPersona, // Asumiendo que el IdCliente viene correctamente desde el front-end
-                IdCaja = cajaDelDia.IdCaja     
+                IdCaja = cajaDelDia.IdCaja ,
+                
              };
 
             // Intento de creación de la venta en el sistema
@@ -171,7 +172,7 @@ namespace API.Controllers
                 return StatusCode(500, "Error al crear la venta");
             }
 
-            cajaDelDia.IngresosACaja += cajaDelDia.IngresosACaja;
+            cajaDelDia.IngresosACaja += totalVenta;
             cajaDelDia.SaldoFinal = cajaDelDia.SaldoInicial + cajaDelDia.IngresosACaja;
             _ICajaRepository.Update(cajaDelDia);
 

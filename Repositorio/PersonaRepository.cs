@@ -86,6 +86,13 @@ namespace Repository
             }
         }
 
+        public async Task<(List<Persona>, int)> GetPersonaPaginados(int page, int pageSize)
+        {
+            var query = dbSet.AsQueryable();
+            int totalItems = await query.CountAsync();
+            var persona = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return (persona, totalItems);
+        }
 
 
     }

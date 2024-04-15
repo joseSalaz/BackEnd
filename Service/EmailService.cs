@@ -10,8 +10,8 @@ namespace Service
         private string host = "smtp.gmail.com";
         private int port = 587; // Asegúrate de usar el puerto correcto para tu caso
         private bool enableSSL = true;
-        private string smtpUsername = "josealvertosalazarchirinos@gmail.com"; // Usa tu correo real aquí
-        private string smtpPassword = "hwiyiwydirxqbuah"; // Usa tu contraseña real aquí
+        private string smtpUsername = "libreriasabers@gmail.com"; // Usa tu correo real aquí
+        private string smtpPassword = "u h z f c b i n e c h h u z e c"; // Usa tu contraseña real aquí
 
         public async Task SendEmailAsync(string to, string subject, string body, Stream attachment, string attachmentName)
         {
