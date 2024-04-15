@@ -153,6 +153,7 @@ namespace API.Controllers
             }
             decimal totalVenta = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
 
+            decimal totalPrecio = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
             // Preparación de la entidad Venta con los datos necesarios
             VentaRequest ventaRequest = new VentaRequest
             {
@@ -162,8 +163,9 @@ namespace API.Controllers
                 NroComprobante = "FAC00", // Este valor podría generarse dinámicamente según tu lógica de negocio
                 IdPersona = detalleCarrito.Persona.IdPersona, // Asumiendo que el IdCliente viene correctamente desde el front-end
                 IdCaja = cajaDelDia.IdCaja ,
-                
-             };
+                TotalPrecio = (decimal?)totalPrecio
+
+            };
 
             // Intento de creación de la venta en el sistema
             var venta = _IVentaBussines.Create(ventaRequest);
