@@ -10,5 +10,6 @@ namespace IRepository
 {
     public interface ICajaRepository : ICRUDRepositorio<Caja>  
     {
+        Caja FindCajaByDate(DateTime date);
     }
 }

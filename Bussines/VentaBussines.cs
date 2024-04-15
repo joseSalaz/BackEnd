@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DBModel.DB;
 using IBussines;
+using IRepositorio;
 using IRepository;
 using IService;
 using Models.RequestResponse;
@@ -179,6 +180,14 @@ namespace Bussines
                 IdUsuario = v.IdUsuario
             });
         }
+
+        public async Task<(List<VentaResponse>, int)> GetVentaPaginados(int page, int pageSize)
+        {
+            var (ventas, totalItems) = await _IVentaRepository.GetVentaPaginados(page, pageSize);
+            var ventaResponse = _Mapper.Map<List<VentaResponse>>(ventas);
+            return (ventaResponse, totalItems);
+        }
+
 
     }
 }

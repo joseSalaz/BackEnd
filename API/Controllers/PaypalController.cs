@@ -29,8 +29,10 @@ namespace API.Controllers
         private readonly IKardexBussines _kardexBussines;
         private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
         private readonly IVentaBussines _IVentaBussines = null;
+        private readonly ICajaBussines _ICajaBussines;
+        private readonly ICajaRepository _ICajaRepository;
         private readonly IMapper _mapper;
-        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines)
+        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines, ICajaBussines iCajaBussines, ICajaRepository iCajaRepository)
         {
             _apisPaypalServices = apisPaypalServices;
             _configuration = configuration;
@@ -39,6 +41,8 @@ namespace API.Controllers
             _mapper = mapper;
             _IDetalleVentaBussines = detalleVentaBussines;
             _IVentaBussines = ventaBussines;
+            _ICajaBussines = iCajaBussines;
+            _ICajaRepository = iCajaRepository;
         }
 
 
@@ -112,6 +116,11 @@ namespace API.Controllers
         {
             string numeroComprobante = await _IVentaBussines.GenerarNumeroComprobante();
 
+            var cajaDelDia = _ICajaBussines.RegistrarVentaEnCajaDelDia();
+            if (cajaDelDia == null)
+            {
+                return BadRequest("Es necesario abrir una caja para hoy antes de registrar ventas.");
+            }
             // Extraer y preparar la información de la venta a partir del paymentRequest
             VentaRequest ventaRequest = new VentaRequest
             {
@@ -121,7 +130,11 @@ namespace API.Controllers
                 NroComprobante = numeroComprobante,
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona,
                 TotalPrecio = paymentRequest.Carrito.TotalAmount, // Asegúrate de que existe un campo Total en ExecutePaymentModelRequest
+<<<<<<< HEAD
                 IdCaja=1,   
+=======
+                IdCaja= cajaDelDia.IdCaja
+>>>>>>> 659483f76575f0aaa47ab234b486fc7fa8bd8bea
             };
 
             var venta = _IVentaBussines.Create(ventaRequest);
@@ -129,6 +142,7 @@ namespace API.Controllers
             {
                 return StatusCode(500, "Error al crear la venta");
             }
+            _ICajaRepository.Update(cajaDelDia);
 
             List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
             foreach (var item in paymentRequest.Carrito.Items)

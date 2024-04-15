@@ -2,6 +2,7 @@
 using DBModel.DB;
 using IBussines;
 using IRepository;
+using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
 using Repository;
 using System;
@@ -17,10 +18,9 @@ namespace Bussines
         #region Declaracion de vcariables generales
         public readonly ICajaRepository _ICajaRepository = null;
         public readonly IMapper _Mapper;
+        public readonly IVentaBussines _IVentaBussines;
 
-        public CajaBussines()
-        {
-        }
+
         #endregion
 
         #region constructor 
@@ -85,11 +85,24 @@ namespace Bussines
 
         public CajaResponse Update(CajaRequest entity)
         {
-            Caja au = _Mapper.Map<Caja>(entity);
-            au = _ICajaRepository.Update(au);
-            CajaResponse res = _Mapper.Map<CajaResponse>(au);
+            // Mapear CajaRequest a Caja (entidad)
+            Caja cajaToUpdate = _Mapper.Map<Caja>(entity);
+
+            // Llamar al método Update del repositorio
+            Caja updatedCaja = _ICajaRepository.Update(cajaToUpdate);
+
+            // Comprobar si la caja se ha actualizado correctamente
+            if (updatedCaja == null)
+            {
+                // Manejar el caso en que la caja no se actualizó correctamente
+                // Puedes lanzar una excepción o devolver un valor que indique el fallo
+            }
+
+            // Mapear la caja actualizada de nuevo a CajaResponse
+            CajaResponse res = _Mapper.Map<CajaResponse>(updatedCaja);
             return res;
         }
+
 
         public List<CajaResponse> UpdateMultiple(List<CajaRequest> request)
         {
@@ -98,5 +111,19 @@ namespace Bussines
             List<CajaResponse> res = _Mapper.Map<List<CajaResponse>>(au);
             return res;
         }
+
+        public Caja RegistrarVentaEnCajaDelDia()
+        {
+            var cajaDelDia = _ICajaRepository.FindCajaByDate(DateTime.Today);
+            if (cajaDelDia == null)
+            {
+                throw new Exception("No hay una caja abierta para hoy. Por favor, crea una caja primero.");
+            }
+            return cajaDelDia;
+        }
+
+
+
+
     }
 }

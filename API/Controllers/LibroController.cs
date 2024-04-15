@@ -196,13 +196,8 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                // Asegúrate de que todos los bloques catch terminen con un "return"
-                // Log the exception details here to help with debugging
                 return StatusCode(500, ex.Message);
             }
-
-            // Si tienes condiciones que pueden terminar el método sin entrar al try-catch, también deben retornar un valor.
-            // return algo...
         }
 
         [HttpGet("filtroComplete")]
