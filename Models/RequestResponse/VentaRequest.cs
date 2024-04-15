@@ -21,5 +21,6 @@ namespace Models.RequestResponse
         public int IdPersona { get; set; }
 
         public int IdUsuario { get; set; }
+        public int IdCaja { get; set; }
     }
 }

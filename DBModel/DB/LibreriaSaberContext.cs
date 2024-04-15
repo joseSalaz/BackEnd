@@ -21,8 +21,6 @@ public partial class LibreriaSaberContext : DbContext
 
     public virtual DbSet<Categoria> Categorias { get; set; }
 
-    public virtual DbSet<Cliente> Clientes { get; set; }
-
     public virtual DbSet<DatosGenerale> DatosGenerales { get; set; }
 
     public virtual DbSet<DetalleDocEntrada> DetalleDocEntradas { get; set; }
@@ -97,7 +95,6 @@ public partial class LibreriaSaberContext : DbContext
 
             entity.Property(e => e.IdCaja).HasColumnName("Id_Caja");
             entity.Property(e => e.Fecha).HasColumnType("datetime");
-            entity.Property(e => e.IdVentas).HasColumnName("Id_Ventas");
             entity.Property(e => e.IngresosACaja)
                 .HasColumnType("money")
                 .HasColumnName("Ingresos_a_CAja");
@@ -110,11 +107,6 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.SaldoInicial)
                 .HasColumnType("money")
                 .HasColumnName("Saldo_Inicial");
-
-            entity.HasOne(d => d.IdVentasNavigation).WithMany(p => p.Cajas)
-                .HasForeignKey(d => d.IdVentas)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Caja_Ventas");
         });
 
         modelBuilder.Entity<Categoria>(entity =>
@@ -126,22 +118,6 @@ public partial class LibreriaSaberContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Categoria");
-        });
-
-        modelBuilder.Entity<Cliente>(entity =>
-        {
-            entity.HasKey(e => e.IdCliente).HasName("PK__Cliente__3DD0A8CB10DB02BD");
-
-            entity.ToTable("Cliente");
-
-            entity.Property(e => e.IdCliente).HasColumnName("Id_Cliente");
-            entity.Property(e => e.CodigoCliente).HasColumnName("Codigo_Cliente");
-            entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
-
-            entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Clientes)
-                .HasForeignKey(d => d.IdPersona)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cliente_Persona");
         });
 
         modelBuilder.Entity<DatosGenerale>(entity =>
@@ -563,6 +539,7 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.FechaVenta)
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Venta");
+            entity.Property(e => e.IdCaja).HasColumnName("Id_Caja");
             entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
             entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
             entity.Property(e => e.NroComprobante)
@@ -575,6 +552,11 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.TotalPrecio)
                 .HasColumnType("money")
                 .HasColumnName("Total_Precio");
+
+            entity.HasOne(d => d.IdCajaNavigation).WithMany(p => p.Venta)
+                .HasForeignKey(d => d.IdCaja)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Ventas_Caja");
 
             entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Venta)
                 .HasForeignKey(d => d.IdPersona)

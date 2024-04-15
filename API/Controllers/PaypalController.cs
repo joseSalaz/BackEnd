@@ -121,6 +121,7 @@ namespace API.Controllers
                 NroComprobante = numeroComprobante,
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona,
                 TotalPrecio = paymentRequest.Carrito.TotalAmount, // Asegúrate de que existe un campo Total en ExecutePaymentModelRequest
+                IdCaja=1,   
             };
 
             var venta = _IVentaBussines.Create(ventaRequest);
