@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Bussines;
 using DBModel.DB;
+using DocumentFormat.OpenXml.Vml.Office;
 using IBussines;
 using IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
+using Repository;
 
 namespace API.Controllers
 {
@@ -22,10 +24,12 @@ namespace API.Controllers
         private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
         private readonly IVentaBussines _IVentaBussines = null;
         private readonly IPersonaBussines _IPersonaBussines;
+        private readonly ICajaBussines _ICajaBussines;
+        private readonly ICajaRepository _ICajaRepository;
         #endregion
 
         #region constructor 
-        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IVentaBussines ventaBussines, IPersonaBussines personaBussines)
+        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IVentaBussines ventaBussines, IPersonaBussines personaBussines, ICajaBussines cajaBussines, ICajaRepository iCajaRepository)
         {
             _detalleVentaBussines = detalleVentaBussines;
             _Mapper = mapper;
@@ -34,6 +38,8 @@ namespace API.Controllers
             _IDetalleVentaBussines = detalleVentaBussines;
             _IVentaBussines = ventaBussines;
             _IPersonaBussines = personaBussines;
+            _ICajaBussines = cajaBussines;
+            _ICajaRepository = iCajaRepository;
         }
         #endregion
 
@@ -139,6 +145,14 @@ namespace API.Controllers
             {
                 idPersona = personaExistente.IdPersona;
             }
+            // Verificar la existencia de una caja para el día actual
+            var cajaDelDia = _ICajaBussines.RegistrarVentaEnCajaDelDia();
+            if (cajaDelDia == null)
+            {
+                return BadRequest("Es necesario abrir una caja para hoy antes de registrar ventas.");
+            }
+            decimal totalVenta = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
+
             // Preparación de la entidad Venta con los datos necesarios
             VentaRequest ventaRequest = new VentaRequest
             {
@@ -147,8 +161,8 @@ namespace API.Controllers
                 IdUsuario = 1, // Suponiendo que este ID viene de la sesión del usuario o es un valor fijo por ahora
                 NroComprobante = "FAC00", // Este valor podría generarse dinámicamente según tu lógica de negocio
                 IdPersona = detalleCarrito.Persona.IdPersona, // Asumiendo que el IdCliente viene correctamente desde el front-end
-                                                     // Aquí podrías calcular el TotalPrecio basándote en los detalles del carrito si es necesario
-            };
+                IdCaja = cajaDelDia.IdCaja     
+             };
 
             // Intento de creación de la venta en el sistema
             var venta = _IVentaBussines.Create(ventaRequest);
@@ -157,7 +171,10 @@ namespace API.Controllers
                 return StatusCode(500, "Error al crear la venta");
             }
 
-            // Procesamiento de cada item del carrito para crear los detalles de venta
+            cajaDelDia.IngresosACaja += cajaDelDia.IngresosACaja;
+            cajaDelDia.SaldoFinal = cajaDelDia.SaldoInicial + cajaDelDia.IngresosACaja;
+            _ICajaRepository.Update(cajaDelDia);
+
             List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
             foreach (var item in detalleCarrito.Items)
             {

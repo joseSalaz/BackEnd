@@ -71,5 +71,19 @@ namespace Repository
 
         }
 
+
+        public async Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize)
+        {
+            var query = dbSet.AsQueryable();
+            int totalItems = await query.CountAsync();
+            var venta = await query.Skip((page-1) * pageSize).Take(pageSize).ToListAsync();
+            return (venta, totalItems);
+        }
+
+
+       
+
+
+
     }
 }
