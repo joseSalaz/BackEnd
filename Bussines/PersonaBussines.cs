@@ -171,5 +171,12 @@ namespace Bussines
             }
         }
 
+        public async Task<(List<PersonaResponse>, int)> GetPersonaPaginados(int page, int pageSize)
+        {
+            var (persona, totalItems) = await _IPersonaRepository.GetPersonaPaginados(page, pageSize);
+            var personaResponse = _Mapper.Map<List<PersonaResponse>>(persona);
+            return (personaResponse, totalItems);
+        }
+
     }
 }

@@ -166,9 +166,9 @@ namespace Bussines
         }
 
 
-        public async Task<int?> GetStockByLibroId(int libroId)
+        public async Task<Kardex> GetKardexByLibroId(int libroId)
         {
-            return await _ILibroRepository.GetStockByLibroId(libroId);
+            return await _ILibroRepository.GetKardexByLibroId(libroId);
         }
 
         public async Task<(List<LibroResponse>, int)> GetLibrosPaginados(int page, int pageSize)

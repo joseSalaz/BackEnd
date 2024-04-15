@@ -133,6 +133,29 @@ namespace API.Controllers
                 }
             }
         }
-   
+
+
+        [HttpGet("Paginator")]
+        public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var (personaResponse, totalItems) = await _IPersonaBussines.GetPersonaPaginados(page, pageSize);
+                var response = new
+                {
+                    TotalItems = totalItems,
+                    TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    persona = personaResponse
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

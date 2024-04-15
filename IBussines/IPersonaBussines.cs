@@ -15,6 +15,7 @@ namespace IBussines
         Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento);
         PersonaResponse GetByIdSub(string sub);
         Persona GetPersonaByDocumento(string documento);
+        Task<(List<PersonaResponse>, int)> GetPersonaPaginados(int page, int pageSize);
 
 
     }

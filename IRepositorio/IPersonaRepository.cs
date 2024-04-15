@@ -14,6 +14,7 @@ namespace IRepository
         Persona GetByTipoNroDocumento(string TipoDocumento, string NumeroDocumento);
         Persona GetByIdSub(string sub);
         Persona GetByDni(string documento);
+        Task<(List<Persona>, int)> GetPersonaPaginados(int page, int pageSize);
 
 
     }

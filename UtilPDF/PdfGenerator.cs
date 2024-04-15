@@ -10,6 +10,13 @@ namespace UtilPDF
 {
     public class PdfGenerator
     {
+        // Función auxiliar para medir el ancho del texto
+        public static double MeasureTextWidth(XGraphics gfx, string text, XFont font)
+        {
+            XSize size = gfx.MeasureString(text, font);
+            return size.Width;
+        }
+
         public static MemoryStream CreateDetalleVentaPdf(List<DetalleVentaRequest> detalles, Venta venta, Persona persona)
         {
             {
@@ -56,6 +63,9 @@ namespace UtilPDF
 
                 // Calcular la altura total de la tabla basada en el número de detalles
                 double tableHeight = detalles.Count * rowHeight + rowHeight; // Agrega espacio para el encabezado
+                                                                             // Actualización de los anchos de las columnas aquí
+
+
 
                 // Dibujar la cabecera de la tabla
                 double x = marginLeft;
@@ -90,24 +100,59 @@ namespace UtilPDF
                 int itemNumber = 1; // Contador para el número de ítem
                 decimal totalGeneral = 0m;
 
+
+                // Asumiendo que ya tienes 'maxProductWidth' definido como el ancho máximo para la columna de productos.
+                double maxProductWidth = tableWidth * 0.50; // Ajusta esto según tus necesidades.
+
+                // Encuentra el ancho de producto más largo, pero no permitas que sea mayor que 'maxProductWidth'.
+                double maxActualProductWidth = detalles
+                    .Select(d => MeasureTextWidth(gfx, d.NombreProducto, normalFont))
+                    .Max();
+                maxActualProductWidth = Math.Min(maxActualProductWidth, maxProductWidth);
+
+                // Ajusta las anchuras de las otras columnas si es necesario
+                columnWidth2 = maxActualProductWidth; // Actualiza el ancho de la columna de productos al valor calculado
+                columnWidth3 = tableWidth * 0.20; // Puedes ajustar este valor según sea necesario
+                columnWidth4 = tableWidth * 0.15; // Puedes ajustar este valor según sea necesario
+
+                // Asegúrate de que la suma de todas las anchuras de las columnas no sea mayor que el ancho total de la tabla
+                double totalColumnsWidth = numberColumnWidth + columnWidth1 + columnWidth2 + columnWidth3 + columnWidth4;
+                if (totalColumnsWidth > tableWidth)
+                {
+                    // Si excede, ajusta las columnas proporcionalmente o maneja el error como prefieras.
+                    // Este código es solo un ejemplo de cómo podrías manejar un ancho excesivo.
+                    double scale = tableWidth / totalColumnsWidth;
+                    numberColumnWidth *= scale;
+                    columnWidth1 *= scale;
+                    columnWidth2 *= scale; // Esta columna ya está ajustada, pero la incluimos por consistencia.
+                    columnWidth3 *= scale;
+                    columnWidth4 *= scale;
+                }
+
+                // Ahora dibuja los detalles de la tabla con las anchuras ajustadas
                 foreach (var detalle in detalles)
                 {
                     x = marginLeft;
                     gfx.DrawString(itemNumber.ToString(), normalFont, XBrushes.Black, new XRect(x, y, numberColumnWidth, rowHeight), XStringFormats.Center);
                     x += numberColumnWidth;
+
                     gfx.DrawString(detalle.Cantidad?.ToString() ?? "0", normalFont, XBrushes.Black, new XRect(x, y, columnWidth1, rowHeight), XStringFormats.Center);
                     x += columnWidth1;
-                    gfx.DrawString(detalle.NombreProducto, normalFont, XBrushes.Black, new XRect(x, y, columnWidth2, rowHeight), XStringFormats.Center);
+
+                    gfx.DrawString(detalle.NombreProducto, normalFont, XBrushes.Black, new XRect(x, y, columnWidth2, rowHeight), XStringFormats.TopLeft);
                     x += columnWidth2;
+
                     gfx.DrawString($"S/ {detalle.PrecioUnit?.ToString("0.00")}", normalFont, XBrushes.Black, new XRect(x, y, columnWidth3, rowHeight), XStringFormats.Center);
                     x += columnWidth3;
-                    // Asegúrate de multiplicar los valores correctos y de manejar valores nulos
+
                     var subtotal = (detalle.Cantidad ?? 0) * (detalle.PrecioUnit ?? 0);
                     gfx.DrawString($"S/ {subtotal.ToString("0.00")}", normalFont, XBrushes.Black, new XRect(x, y, columnWidth4, rowHeight), XStringFormats.Center);
 
+                    // No incrementes 'x' aquí porque vamos a reiniciar a 'marginLeft' para la próxima fila.
                     y += rowHeight;
                     itemNumber++;
-
+                
+                    
                     decimal cantidad = detalle.Cantidad ?? 0m;
                     decimal precioUnitario = detalle.PrecioUnit ?? 0m;
                     totalGeneral += subtotal;

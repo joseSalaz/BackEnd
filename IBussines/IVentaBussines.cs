@@ -13,5 +13,7 @@ namespace IBussines
         Task<IEnumerable<VentaRequest>> ObtenerVentasPorFechaAsync(DateTime fechaInicio, DateTime fechaFin);
 
         Task<(List<VentaResponse>, int)> GetVentaPaginados(int page, int pageSize);
+
+        
     }
 }
