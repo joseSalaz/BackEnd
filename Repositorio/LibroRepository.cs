@@ -45,13 +45,13 @@ namespace Repository
             return new List<Precio>();
         }
 
-        public async Task<int?> GetStockByLibroId(int libroId)
+        public async Task<Kardex> GetKardexByLibroId(int libroId)
         {
             var libro = await dbSet
                 .Include(l => l.Kardex)
                 .FirstOrDefaultAsync(l => l.IdLibro == libroId);
 
-            return libro?.Kardex?.Stock;
+            return libro?.Kardex;
         }
 
         public async Task<(List<Libro>, int)> GetLibrosPaginados(int page, int pageSize)

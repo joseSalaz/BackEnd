@@ -164,13 +164,13 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("stock/{libroId}")]
-        public async Task<IActionResult> GetStockByLibroId(int libroId)
+        [HttpGet("kardex/{libroId}")]
+        public async Task<IActionResult> GetKardexByLibroId(int libroId)
         {
-            var stock = await _ILibroBussines.GetStockByLibroId(libroId);
-            if (stock != null)
+            var kardex = await _ILibroBussines.GetKardexByLibroId(libroId);
+            if (kardex != null)
             {
-                return Ok(stock);
+                return Ok(kardex);
             }
             else
             {

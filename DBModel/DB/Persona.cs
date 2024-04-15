@@ -23,11 +23,9 @@ public partial class Persona
     public string? Telefono { get; set; }
 
     public string? Sub { get; set; }
-<<<<<<< HEAD
-    [JsonIgnore]
-=======
 
->>>>>>> 659483f76575f0aaa47ab234b486fc7fa8bd8bea
+    [JsonIgnore]
+
     public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
     [JsonIgnore]
     public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
