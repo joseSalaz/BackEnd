@@ -68,30 +68,27 @@ namespace API.Controllers
         /// <param name="request">Registro a insertar</param>
         /// <returns>Retorna el registro insertado</returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] LibroRequest request, IFormFile imageFile)
+        public async Task<IActionResult> Create([FromForm] LibroRequest request, IFormFile imageFile = null)
         {
-
             try
             {
                 if (imageFile != null && imageFile.Length > 0)
                 {
-                    // Verificar si se proporcionó una imagen y guardarla en Azure Blob Storage
                     var imageUrl = await _ILibroBussines.CreateWithImage(request, imageFile);
                     return Ok(imageUrl);
                 }
                 else
                 {
-                    // Si no se proporcionó una imagen, crear el libro sin ella
                     var libroResponse = _ILibroBussines.Create(request);
                     return Ok(libroResponse);
                 }
             }
             catch (Exception ex)
             {
-                // Manejar cualquier excepción y devolver un mensaje de error
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+
 
 
 
