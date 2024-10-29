@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace Models.RequestResponse
 {
-    public class ExecutePaymentModelRequest
+    public class ExecuteMercadopagoRequest
     {
         public string PaymentId { get; set; }
-        public string PayerID { get; set; }
-        
+        public string PreferenceId { get; set; }
 
         public DatalleCarrito Carrito { get; set; }
 
         public MetodoDePago MetodoDePago { get; set; }
-     }
-
-   
+    }
 }
