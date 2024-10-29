@@ -79,6 +79,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IPersonaBussines, PersonaBussines>();
 builder.Services.AddScoped<ICajaBussines, CajaBussines>();
 builder.Services.AddScoped<ICajaRepository, CajaRepository>();
+builder.Services.AddScoped<IPaymentService,MercadoPagoService>();
 
 
 

@@ -38,8 +38,8 @@ namespace Bussines
         public LoginResponse login(LoginRequest request)
         {
             LoginResponse res = new LoginResponse();
-            UsuarioResponse user = _userBussnies.GetByUserName(request.email);
-            if (user.Username != null && !(user.Username.ToLower() == request.email.ToLower()))
+            UsuarioResponse user = _userBussnies.GetByUserName(request.username);
+            if (user.Username != null && !(user.Username.ToLower() == request.username.ToLower()))
             {
                 res.Message = "Usuario y/o password invalido";
                 res.Usuario = null;

@@ -11,5 +11,7 @@ namespace Models.RequestResponse
         public decimal Amount { get; set; }
         public string ReturnUrl { get; set; }
         public string CancelUrl { get; set; }
+
+        public DatalleCarrito Carrito { get; set; }
     }
 }
