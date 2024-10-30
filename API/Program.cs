@@ -80,6 +80,8 @@ builder.Services.AddScoped<IPersonaBussines, PersonaBussines>();
 builder.Services.AddScoped<ICajaBussines, CajaBussines>();
 builder.Services.AddScoped<ICajaRepository, CajaRepository>();
 builder.Services.AddScoped<IPaymentService,MercadoPagoService>();
+builder.Services.AddScoped<IAzureStorage, AzureStorage>();
+builder.Services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 
 
 

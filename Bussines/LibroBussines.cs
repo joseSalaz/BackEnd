@@ -28,16 +28,17 @@ namespace Bussines
         public readonly ILibroRepository _ILibroRepository = null;
         public readonly IMapper _Mapper;
         private readonly IAzureStorage _azureStorage;
+        private readonly IFirebaseStorageService _firebaseStorageService;
 
         #endregion
 
         #region constructor 
-        public LibroBussines(IMapper mapper, IAzureStorage azureStorage)
+        public LibroBussines(IMapper mapper, IAzureStorage azureStorage, IFirebaseStorageService firebaseStorageService)
         {
             _Mapper = mapper;
             _ILibroRepository = new LibroRepository();
             _azureStorage = azureStorage;
-
+            _firebaseStorageService = firebaseStorageService;
         }
         #endregion
 
@@ -109,13 +110,32 @@ namespace Bussines
             return res;
         }
 
-        public async Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile)
+        //public async Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile)
+        //{
+        //    // Mapear la entidad de solicitud a la entidad de modelo
+        //    Libro libro = _Mapper.Map<Libro>(entity);
+
+        //    // Guardar la imagen en Azure Blob Storage y obtener su URL
+        //    string imageUrl = await _azureStorage.SaveFile("imagenes", imageFile);
+
+        //    // Asignar la URL de la imagen al campo correspondiente en la entidad
+        //    libro.Imagen = imageUrl;
+
+        //    // Crear el libro en la base de datos
+        //    libro = _ILibroRepository.Create(libro);
+
+        //    // Mapear el libro creado a la respuesta y devolverlo
+        //    return _Mapper.Map<LibroResponse>(libro);
+        //}
+
+
+        public async Task<LibroResponse> CreateWithImagefirebase(LibroRequest entity, IFormFile imageFile)
         {
             // Mapear la entidad de solicitud a la entidad de modelo
             Libro libro = _Mapper.Map<Libro>(entity);
 
-            // Guardar la imagen en Azure Blob Storage y obtener su URL
-            string imageUrl = await _azureStorage.SaveFile("imagenes", imageFile);
+            // Guardar la imagen en Firebase Storage y obtener su URL
+            string imageUrl = await _firebaseStorageService.UploadFileAsync(imageFile, "libros-images");
 
             // Asignar la URL de la imagen al campo correspondiente en la entidad
             libro.Imagen = imageUrl;
@@ -185,6 +205,10 @@ namespace Bussines
             return _Mapper.Map<List<LibroResponse>>(libros);
         }
 
+        public Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
