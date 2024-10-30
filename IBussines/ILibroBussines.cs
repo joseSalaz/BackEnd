@@ -15,6 +15,7 @@ namespace IBussines
     public interface ILibroBussines : ICRUDBussnies<LibroRequest,LibroResponse>
     {
         Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile);
+        Task<LibroResponse> CreateWithImagefirebase(LibroRequest entity, IFormFile imageFile);
         Task<List<Libro>> GetLibrosByIds(List<int> ids);
         Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId);
         Task<Libro> ObtenerLibroCompletoPorIds(Libro libroConIds);

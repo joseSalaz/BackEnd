@@ -31,7 +31,7 @@ namespace API.Controllers
         {
             _Mapper = mapper;
             _ILibroBussines = libroBussines;
-            
+           
         }
         #endregion
 
@@ -219,6 +219,35 @@ namespace API.Controllers
         }
 
 
+
+        /// <summary>
+        /// Inserta un nuevo registro con la opción de subir un archivo a Firebase
+        /// </summary>
+        /// <param name="request">Registro a insertar</param>
+        /// <param name="imageFile">Archivo de imagen a subir</param>
+        /// <returns>Retorna el registro insertado con la URL de la imagen</returns>
+        [HttpPost("create-with-image-firebase")]
+        public async Task<IActionResult> CreateWithImageFirebase([FromForm] LibroRequest request, IFormFile imageFile = null)
+        {
+            try
+            {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    // Llama al método en la capa de negocio que maneja la creación y subida de imagen a Firebase
+                    var libroResponse = await _ILibroBussines.CreateWithImagefirebase(request, imageFile);
+                    return Ok(libroResponse);
+                }
+                else
+                {
+                    var libroResponse = _ILibroBussines.Create(request);
+                    return Ok(libroResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error interno del servidor: " + ex.Message);
+            }
+        }
 
         #endregion
 

@@ -46,7 +46,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilInterface", "UtilInterface\UtilInterface.csproj", "{0DA3D485-81DB-4149-B760-592487AE7F9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilPDF", "UtilPDF\UtilPDF.csproj", "{C6546E33-E5D5-4010-8BD3-A31DADDA1FBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilPDF", "UtilPDF\UtilPDF.csproj", "{C6546E33-E5D5-4010-8BD3-A31DADDA1FBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
