@@ -227,14 +227,14 @@ namespace API.Controllers
         /// <param name="imageFile">Archivo de imagen a subir</param>
         /// <returns>Retorna el registro insertado con la URL de la imagen</returns>
         [HttpPost("create-with-image-firebase")]
-        public async Task<IActionResult> CreateWithImageFirebase([FromForm] LibroRequest request, IFormFile imageFile = null)
+        public async Task<IActionResult> CreateWithImageFirebase([FromForm] LibroRequest request, decimal precioVenta, int stock, IFormFile imageFile = null)
         {
             try
             {
                 if (imageFile != null && imageFile.Length > 0)
                 {
                     // Llama al método en la capa de negocio que maneja la creación y subida de imagen a Firebase
-                    var libroResponse = await _ILibroBussines.CreateWithImagefirebase(request, imageFile);
+                    var libroResponse = await _ILibroBussines.CreateWithImageFirebase(request, imageFile,precioVenta,stock);
                     return Ok(libroResponse);
                 }
                 else
