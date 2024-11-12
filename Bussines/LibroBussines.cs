@@ -29,16 +29,20 @@ namespace Bussines
         public readonly IMapper _Mapper;
         private readonly IAzureStorage _azureStorage;
         private readonly IFirebaseStorageService _firebaseStorageService;
+        private readonly IPrecioRepository _PrecioRepository;
+        private readonly IKardexRepository _KardexRepository;
 
         #endregion
 
         #region constructor 
-        public LibroBussines(IMapper mapper, IAzureStorage azureStorage, IFirebaseStorageService firebaseStorageService)
+        public LibroBussines(IMapper mapper, IAzureStorage azureStorage, IFirebaseStorageService firebaseStorageService, IPrecioRepository iPrecioRepository,IKardexRepository kardexRepository)
         {
             _Mapper = mapper;
             _ILibroRepository = new LibroRepository();
             _azureStorage = azureStorage;
             _firebaseStorageService = firebaseStorageService;
+            _PrecioRepository = iPrecioRepository;
+            _KardexRepository = kardexRepository;
         }
         #endregion
 
@@ -110,26 +114,26 @@ namespace Bussines
             return res;
         }
 
-        //public async Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile)
-        //{
-        //    // Mapear la entidad de solicitud a la entidad de modelo
-        //    Libro libro = _Mapper.Map<Libro>(entity);
+        public async Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile)
+        {
+            // Mapear la entidad de solicitud a la entidad de modelo
+            Libro libro = _Mapper.Map<Libro>(entity);
 
-        //    // Guardar la imagen en Azure Blob Storage y obtener su URL
-        //    string imageUrl = await _azureStorage.SaveFile("imagenes", imageFile);
+            // Guardar la imagen en Azure Blob Storage y obtener su URL
+            string imageUrl = await _azureStorage.SaveFile("imagenes", imageFile);
 
-        //    // Asignar la URL de la imagen al campo correspondiente en la entidad
-        //    libro.Imagen = imageUrl;
+            // Asignar la URL de la imagen al campo correspondiente en la entidad
+            libro.Imagen = imageUrl;
 
-        //    // Crear el libro en la base de datos
-        //    libro = _ILibroRepository.Create(libro);
+            // Crear el libro en la base de datos
+            libro = _ILibroRepository.Create(libro);
 
-        //    // Mapear el libro creado a la respuesta y devolverlo
-        //    return _Mapper.Map<LibroResponse>(libro);
-        //}
+            // Mapear el libro creado a la respuesta y devolverlo
+            return _Mapper.Map<LibroResponse>(libro);
+        }
 
 
-        public async Task<LibroResponse> CreateWithImagefirebase(LibroRequest entity, IFormFile imageFile)
+        public async Task<LibroResponse> CreateWithImageFirebase(LibroRequest entity, IFormFile imageFile, decimal precioVenta, int stock)
         {
             // Mapear la entidad de solicitud a la entidad de modelo
             Libro libro = _Mapper.Map<Libro>(entity);
@@ -143,9 +147,34 @@ namespace Bussines
             // Crear el libro en la base de datos
             libro = _ILibroRepository.Create(libro);
 
+            // Crear una instancia de Precios con los valores predeterminados
+            Precio precios = new Precio
+            {
+                PrecioVenta = precioVenta,
+                PorcUtilidad = null,            
+                IdLibro = libro.IdLibro,             
+                IdPublicoObjetivo = 1           
+            };
+
+            // Guardar los precios en la base de datos
+            _PrecioRepository.Create(precios);
+
+            Kardex kardex = new Kardex
+            {
+                IdSucursal = 1,
+                IdLibro = libro.IdLibro,
+                CantidadSalida = 0,
+                CantidadEntrada = 0,
+                Stock = stock,
+                UltPrecioCosto = 0,
+
+            };
+            _KardexRepository.Create(kardex);
+
             // Mapear el libro creado a la respuesta y devolverlo
             return _Mapper.Map<LibroResponse>(libro);
         }
+
 
         public async Task<List<Libro>> GetLibrosByIds(List<int> ids)
         {
@@ -205,10 +234,6 @@ namespace Bussines
             return _Mapper.Map<List<LibroResponse>>(libros);
         }
 
-        public Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 }
