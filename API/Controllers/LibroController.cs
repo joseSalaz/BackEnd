@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Bussines;
 using DBModel.DB;
-
 //using Bussines;
 using IBussines;
 using IService;
@@ -10,6 +9,7 @@ using Models.RequestResponse;
 using Service;
 using System.Threading.Tasks;
 using System;
+using Models.Comon;
 
 namespace API.Controllers
 {
@@ -21,17 +21,18 @@ namespace API.Controllers
         #region Declaracion de vcariables generales
         public readonly ILibroBussines _ILibroBussines = null;
         public readonly IMapper _Mapper;
-
+        private readonly IAzureComputerVisionService _visionService;
 
         private readonly IConfiguration _configuration;
         #endregion
 
         #region constructor 
-        public LibroController(IMapper mapper, ILibroBussines libroBussines)
+        public LibroController(IMapper mapper, ILibroBussines libroBussines, IAzureComputerVisionService visionService)
         {
             _Mapper = mapper;
             _ILibroBussines = libroBussines;
-           
+            _visionService = visionService;
+
         }
         #endregion
 
@@ -248,6 +249,21 @@ namespace API.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
+        [HttpPost("validar-imagen")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> ValidarImagenLibro([FromForm] ValidarImagenRequest request)
+        {
+            var file = request.File;
+
+            if (file == null || file.Length == 0)
+                return BadRequest("No se subió ningún archivo.");
+
+            using var stream = file.OpenReadStream();
+            bool esLibroOAgenda = await _visionService.IsBookOrAgendaAsync(stream);
+
+            return esLibroOAgenda ? Ok("La imagen corresponde a un libro o agenda.") : BadRequest("La imagen no parece ser un libro o agenda.");
+        }
+
 
         #endregion
 
