@@ -44,8 +44,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // Agregar otros servicios al contenedor.
+// Si tu clase está en Models.Comon:
+builder.Services.Configure<Models.Comon.AzureCognitiveServicesSettings>(
+    builder.Configuration.GetSection("AzureCognitiveServices"));
+builder.Services.AddTransient<IAzureComputerVisionService, AzureComputerVisionService>();
 builder.Services.AddControllers();
-
 // Configuración de Swagger/OpenAPI.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
