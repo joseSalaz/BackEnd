@@ -17,11 +17,13 @@ namespace IBussines
         Task<LibroResponse> CreateWithImage(LibroRequest entity, IFormFile imageFile);
         Task<LibroResponse> CreateWithImageFirebase(LibroRequest entity, IFormFile imageFile, decimal precioVenta, int stock);
         Task<List<Libro>> GetLibrosByIds(List<int> ids);
+        Task<LibroResponse> GetByIdAsync(object id);
         Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId);
         Task<Libro> ObtenerLibroCompletoPorIds(Libro libroConIds);
         Task<List<Precio>> GetPreciosByLibroId(int libroId);
         Task<Kardex> GetKardexByLibroId(int libroId);
         Task<(List<LibroResponse>, int)> GetLibrosPaginados(int page, int pageSize);
         Task<List<LibroResponse>> filtroComplete(string query);
+        Task<LibroResponse> UpdateLib(LibroRequest entity, decimal precioVenta, int stock);
     }
 }

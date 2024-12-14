@@ -20,6 +20,11 @@ namespace Repository
             return await dbSet.Where(libro => ids.Contains(libro.IdLibro)).ToListAsync();
         }
 
+        public async Task<Libro> GetByIdAsync(object id)
+        {
+            return await dbSet.Where(libro => libro.IdLibro == (int)id).FirstOrDefaultAsync();
+        }
+
         public async Task<Libro> GetLibroConPreciosYPublicoObjetivo(int libroId)
         {
             return await dbSet.Where(l => l.IdLibro == libroId)
