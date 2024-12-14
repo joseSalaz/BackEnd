@@ -10,5 +10,6 @@ namespace IRepository
 {
     public interface IKardexRepository : ICRUDRepositorio<Kardex>
     {
+        Task<Kardex> GetByIdAsync(int id);
     }
 }

@@ -12,5 +12,6 @@ namespace IBussines
     public interface IPrecioBussines : ICRUDBussnies<PrecioRequest,PrecioResponse>
     {
         public Task<Libro> ObtenerLibroPorPrecioId(int precioId);
+        Task<Precio> GetPrecioByIdAsync(int idLibro);
     }
 }

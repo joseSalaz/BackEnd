@@ -32,6 +32,7 @@ namespace Bussines
         private readonly IPrecioRepository _PrecioRepository;
         private readonly IKardexRepository _KardexRepository;
 
+
         #endregion
 
         #region constructor 
@@ -43,6 +44,9 @@ namespace Bussines
             _firebaseStorageService = firebaseStorageService;
             _PrecioRepository = iPrecioRepository;
             _KardexRepository = kardexRepository;
+
+            
+
         }
         #endregion
 
@@ -95,6 +99,18 @@ namespace Bussines
         {
             Libro au = _ILibroRepository.GetById(id);
             LibroResponse res = _Mapper.Map<LibroResponse>(au);
+            return res;
+        }
+
+        public async Task<LibroResponse> GetByIdAsync(object id)
+        {
+            var libro = await _ILibroRepository.GetByIdAsync(id); // Llamada asincrónica
+            if (libro == null)
+            {
+                throw new Exception("Libro no encontrado");
+            }
+
+            LibroResponse res = _Mapper.Map<LibroResponse>(libro);
             return res;
         }
 
@@ -151,9 +167,9 @@ namespace Bussines
             Precio precios = new Precio
             {
                 PrecioVenta = precioVenta,
-                PorcUtilidad = null,            
-                IdLibro = libro.IdLibro,             
-                IdPublicoObjetivo = 1           
+                PorcUtilidad = null,
+                IdLibro = libro.IdLibro,
+                IdPublicoObjetivo = 1
             };
 
             // Guardar los precios en la base de datos
@@ -174,6 +190,7 @@ namespace Bussines
             // Mapear el libro creado a la respuesta y devolverlo
             return _Mapper.Map<LibroResponse>(libro);
         }
+
 
 
         public async Task<List<Libro>> GetLibrosByIds(List<int> ids)
@@ -232,6 +249,75 @@ namespace Bussines
         {
             var libros = await _ILibroRepository.filtroComplete(query);
             return _Mapper.Map<List<LibroResponse>>(libros);
+        }
+
+
+        public async Task<LibroResponse> UpdateLib(LibroRequest entity, decimal precioVenta, int stock)
+        {
+            // Obtener el libro desde el repositorio
+            var libro = await _ILibroRepository.GetByIdAsync(entity.IdLibro);
+            Console.WriteLine($"Recibiendo ID: {entity.IdLibro}");
+            if (libro == null)
+            {
+                throw new Exception("Libro no encontrado");
+            }
+
+            // Mapear los cambios desde el request hacia el libro
+            libro.Titulo = entity.Titulo;
+            libro.Isbn = entity.Isbn;
+            libro.Tamanno = entity.Tamanno;
+            libro.Descripcion = entity.Descripcion;
+            libro.Condicion = entity.Condicion;
+            libro.Impresion = entity.Impresion;
+            libro.TipoTapa = entity.TipoTapa;
+            libro.Estado = entity.Estado;
+            
+            // Actualizar el libro en la base de datos
+            _ILibroRepository.Update(libro);
+
+            // Actualizar el precio
+            var precio = await _PrecioRepository.GetByIdAsync(libro.IdLibro);
+            if (precio != null)
+            {
+                precio.PrecioVenta = precioVenta;
+                _PrecioRepository.Update(precio);
+            }
+            else
+            {
+                // Si no existe un precio, crear uno nuevo
+                Precio nuevoPrecio = new Precio
+                {
+                    PrecioVenta = precioVenta,
+                    IdLibro = libro.IdLibro,
+                    IdPublicoObjetivo = 1  // Si es necesario, ajustar
+                };
+                _PrecioRepository.Create(nuevoPrecio);
+            }
+
+            // Actualizar el stock
+            var kardex = await _KardexRepository.GetByIdAsync(libro.IdLibro);
+            if (kardex != null)
+            {
+                kardex.Stock = stock;
+                _KardexRepository.Update(kardex);
+            }
+            else
+            {
+                // Si no existe un kardex, crear uno nuevo
+                Kardex nuevoKardex = new Kardex
+                {
+                    IdLibro = libro.IdLibro,
+                    Stock = stock,
+                    IdSucursal = 1,  // Ajustar según sea necesario
+                    CantidadEntrada = 0,
+                    CantidadSalida = 0,
+                    UltPrecioCosto = 0
+                };
+                _KardexRepository.Create(nuevoKardex);
+            }
+
+            // Mapear el libro actualizado a la respuesta
+            return _Mapper.Map<LibroResponse>(libro);
         }
 
     }

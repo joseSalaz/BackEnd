@@ -98,5 +98,11 @@ namespace Bussines
             List<KardexResponse> res = _Mapper.Map<List<KardexResponse>>(au);
             return res;
         }
+
+        public async Task<Kardex> GetKardexByIdAsync(int idLibro)
+        {
+            // Llamamos al repositorio para obtener el Kardex
+            return await _IKardexRepository.GetByIdAsync(idLibro);
+        }
     }
 }
