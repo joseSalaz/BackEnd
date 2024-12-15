@@ -21,6 +21,8 @@ public partial class DetalleVenta
 
     public string? Estado { get; set; }
 
+    public virtual ICollection<EstadoPedido> EstadoPedidos { get; set; } = new List<EstadoPedido>();
+
     public virtual Libro IdLibroNavigation { get; set; } = null!;
 
     public virtual Venta? IdVentasNavigation { get; set; }

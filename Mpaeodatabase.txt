@@ -13,3 +13,8 @@ Scaffold-DbContext "Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;I
 
 
 workstation id=Libreria_Saber.mssql.somee.com;packet size=4096;user id=Cesae_SQLLogin_1;pwd=5c8m9y4gg4;data source=Libreria_Saber.mssql.somee.com;persist security info=False;initial catalog=Libreria_Saber;TrustServerCertificate=True
+
+Data Source=JOSÉSALAZAR\SQLEXPRESS;Initial Catalog=Libreria_Saber;User ID=sa;Trust Server Certificate=True
+
+
+Scaffold-DbContext "Data Source=JOSÉSALAZAR\SQLEXPRESS;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir DB -Force
