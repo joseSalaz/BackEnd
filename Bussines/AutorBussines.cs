@@ -3,6 +3,7 @@ using Azure.Core;
 using DBModel.DB;
 using DocumentFormat.OpenXml.Vml.Office;
 using IBussines;
+using IRepositorio;
 using IRepository;
 using Models.RequestResponse;
 using Repository;
@@ -93,5 +94,7 @@ namespace Bussines
             List<AutorResponse> res = _Mapper.Map<List<AutorResponse>>(au);
             return res;
         }
+
+
     }
 }

@@ -102,5 +102,11 @@ namespace Bussines
         {
             return await _IPrecioRepository.GetLibroByPrecioId(precioId);
         }
+
+        public async Task<Precio> GetPrecioByIdAsync(int idLibro)
+        {
+            // Llamamos al repositorio para obtener el Precio
+            return await _IPrecioRepository.GetByIdAsync(idLibro);
+        }
     }
 }
