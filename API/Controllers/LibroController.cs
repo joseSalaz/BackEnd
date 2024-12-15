@@ -252,22 +252,29 @@ namespace API.Controllers
                 return StatusCode(500, "Error interno del servidor: " + ex.Message);
             }
         }
-        [HttpPost("validar-imagen")]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> ValidarImagenLibro([FromForm] ValidarImagenRequest request)
-        {
-            var file = request.File;
 
-            if (file == null || file.Length == 0)
+        /// <summary>
+        /// Sube una imagen y devuelve los detalles proporcionados por Azure Computer Vision.
+        /// </summary>
+        /// <param name="request">Archivo de imagen</param>
+        /// <returns>Detalles de la imagen analizada</returns>
+        [HttpPost("detalles-imagen")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> ObtenerDetallesImagen([FromForm] ValidarImagenRequest request)
+        {
+            // Validar que el archivo fue enviado
+            if (request.File == null || request.File.Length == 0)
                 return BadRequest("No se subió ningún archivo.");
 
-            using var stream = file.OpenReadStream();
-            bool esLibroOAgenda = await _visionService.IsBookOrAgendaAsync(stream);
+            // Leer el archivo como stream
+            using var stream = request.File.OpenReadStream();
 
-            return esLibroOAgenda ? Ok("La imagen corresponde a un libro o agenda.") : BadRequest("La imagen no parece ser un libro o agenda.");
+            // Llamar al servicio para obtener los detalles de la imagen
+            var analysisResult = await _visionService.AnalyzeImageAsync(stream);
+
+            // Retornar los detalles obtenidos
+            return Ok(analysisResult);
         }
-
-
         #endregion
 
     }
