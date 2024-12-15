@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace IService
 {
     public interface IAzureComputerVisionService
     {
-        Task<bool> IsBookOrAgendaAsync(Stream imageStream);
+        Task<ImageAnalysis> AnalyzeImageAsync(Stream imageStream);
     }
 }
