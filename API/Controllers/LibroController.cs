@@ -4,11 +4,19 @@ using DBModel.DB;
 using IBussines;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
+
 using Service;
 using System.Threading.Tasks;
 using System;
+<<<<<<< HEAD
 using IService;
 using Models.Comon;
+=======
+using Models.Comon;
+using IService;
+
+
+>>>>>>> 6e9143055e5137cc603aa186c1192a9b1ed95c38
 namespace API.Controllers
 {
     [Route("[controller]")]
