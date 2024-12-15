@@ -25,19 +25,22 @@ namespace Service
             };
         }
 
-        public async Task<bool> IsBookOrAgendaAsync(Stream imageStream)
+        public async Task<ImageAnalysis> AnalyzeImageAsync(Stream imageStream)
         {
-            // Definir las características que quieres analizar
-            var features = new List<VisualFeatureTypes?> { VisualFeatureTypes.Categories, VisualFeatureTypes.Tags };
+            // Seleccionamos las características que queremos analizar
+            var features = new List<VisualFeatureTypes?>
+            {
+                VisualFeatureTypes.Categories,
+                VisualFeatureTypes.Tags,
+                VisualFeatureTypes.Description,
+                VisualFeatureTypes.Objects,
+                VisualFeatureTypes.Color,
+                VisualFeatureTypes.Adult
+            };
 
-            // Analizar la imagen
-            var analysis = await _client.AnalyzeImageInStreamAsync(imageStream, features);
-
-            // Obtener las tags en minúsculas
-            var tags = analysis.Tags.Select(t => t.Name.ToLowerInvariant()).ToList();
-
-            // Verificar si contiene alguna de las palabras clave
-            return tags.Contains("book") || tags.Contains("notebook") || tags.Contains("agenda");
+            // Realizar el análisis completo de la imagen
+            return await _client.AnalyzeImageInStreamAsync(imageStream, features);
         }
-    }
+    }    
 }
+
