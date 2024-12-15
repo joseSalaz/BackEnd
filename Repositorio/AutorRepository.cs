@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repository.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -15,5 +16,13 @@ namespace Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Autor> GetByIds(List<int> ids)
+        {
+            return await dbSet.Where(autor => ids.Contains(autor.IdAutor)).FirstOrDefaultAsync();
+        }
+
+
+
     }
 }

@@ -6,6 +6,7 @@ namespace IRepositorio
     public interface ILibroRepository : ICRUDRepositorio<Libro>
     {
         public Task<List<Libro>> GetByIds(List<int> ids);
+        Task<Libro> GetByIdAsync(object id);
         Task<Libro> GetLibroConPreciosYPublicoObjetivo(int libroId);
         Task<List<Precio>> GetPreciosByLibroId(int libroId);
         Task<Kardex> GetKardexByLibroId(int libroId);

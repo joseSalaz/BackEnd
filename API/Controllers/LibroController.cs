@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
-using Bussines;
 using DBModel.DB;
 //using Bussines;
 using IBussines;
-using IService;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
 using Service;
 using System.Threading.Tasks;
 using System;
-using Models.Comon;
 
 namespace API.Controllers
 {
@@ -99,15 +96,17 @@ namespace API.Controllers
         //    LibroResponse res = _ILibroBussines.Create(request);
         //    return Ok(res);
         //}
+
         /// <summary>
         /// Actualiza un registro
         /// </summary>
         /// <param name="entity">registro a actualizar</param>
-        /// <returns>retorna el registro Actualiza</returns>
+        /// <returns>retorna el registro actualizado</returns>
         [HttpPut]
-        public IActionResult Update([FromBody] LibroRequest request)
+        public async Task<IActionResult> Update([FromForm] LibroRequest request, decimal precioVenta, int stock)
         {
-            LibroResponse res = _ILibroBussines.Update(request);
+            // Esperamos a que la tarea se complete
+            LibroResponse res = await _ILibroBussines.UpdateLib(request, precioVenta, stock);
             return Ok(res);
         }
 
@@ -235,7 +234,7 @@ namespace API.Controllers
                 if (imageFile != null && imageFile.Length > 0)
                 {
                     // Llama al método en la capa de negocio que maneja la creación y subida de imagen a Firebase
-                    var libroResponse = await _ILibroBussines.CreateWithImageFirebase(request, imageFile,precioVenta,stock);
+                    var libroResponse = await _ILibroBussines.CreateWithImageFirebase(request, imageFile, precioVenta, stock);
                     return Ok(libroResponse);
                 }
                 else

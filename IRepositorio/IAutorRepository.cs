@@ -10,5 +10,6 @@ namespace IRepository
 {
     public interface  IAutorRepository: ICRUDRepositorio<Autor>
     {
+        Task<Autor> GetByIds(List<int> ids);
     }
 }
