@@ -11,5 +11,6 @@ namespace IRepository
 {
     public interface IEstadoPedidoRepository : ICRUDRepositorio<EstadoPedido>
     {
+        Task<EstadoPedido> GetEstadoPedidoByDetalleVentaIdAsync(int idDetalleVenta);
     }
 }

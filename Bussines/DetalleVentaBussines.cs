@@ -22,15 +22,18 @@ namespace Bussines
         public readonly IDetalleVentaRepository _IDetalleVentaRepository;
         public readonly IMapper _Mapper;
         public readonly IEstadoPedidoImageneBussines _IEstadoPedidoImageneBussines;
+        public readonly IEstadoPedidoRepository _estadoPedidoRepository;
 
         #endregion
 
         #region constructor 
-        public DetalleVentaBussines(IMapper mapper, IEstadoPedidoImageneBussines iEstadoPedidoImageneBussines)
+        public DetalleVentaBussines(IMapper mapper, IEstadoPedidoImageneBussines iEstadoPedidoImageneBussines,IEstadoPedidoRepository estadoPedidoRepository)
         {
             _Mapper = mapper;
             _IDetalleVentaRepository = new DetalleVentaRepository();
             _IEstadoPedidoImageneBussines = iEstadoPedidoImageneBussines;
+            _estadoPedidoRepository = estadoPedidoRepository;
+            
         }
         #endregion
 
@@ -134,6 +137,12 @@ namespace Bussines
             }
 
             return true;
+        }
+
+        public async Task<EstadoPedido> GetEstadoPedidoByDetalleVentaIdAsync(int idDetalleVenta)
+        {
+            // Llama al repositorio para obtener el EstadoPedido por IdDetalleVenta
+            return await _estadoPedidoRepository.GetEstadoPedidoByDetalleVentaIdAsync(idDetalleVenta);
         }
 
     }

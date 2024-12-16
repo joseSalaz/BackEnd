@@ -247,6 +247,18 @@ namespace API.Controllers
             }
         }
 
+
+        [HttpGet("GetEstadoPedido/{idDetalleVenta}")]
+        public async Task<IActionResult> GetEstadoPedidoByDetalleVentaId(int idDetalleVenta)
+        {
+            var estadoPedido = await _detalleVentaBussines.GetEstadoPedidoByDetalleVentaIdAsync(idDetalleVenta);
+
+            if (estadoPedido == null)
+                return NotFound("Estado del pedido no encontrado");
+
+            return Ok(estadoPedido);
+        }
+
         #endregion
     }
 }
