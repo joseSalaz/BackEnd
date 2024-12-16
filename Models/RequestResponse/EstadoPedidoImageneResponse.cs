@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Models.RequestResponse
+{
+    public class EstadoPedidoImageneResponse
+    {
+        public int IdEstadoPedidoImagen { get; set; }
+
+        public int IdEstadoPedido { get; set; }
+
+        public string UrlImagen { get; set; }
+    }
+}
