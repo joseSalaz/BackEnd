@@ -88,6 +88,8 @@ namespace UtilMapper
 
             CreateMap<DetalleVentaResponse, DetalleVentaRequest>();
             //CreateMap<CajaResponse, CajaRequest>();
+            CreateMap<EstadoPedido, EstadoPedidoRequest>();
+            CreateMap<EstadoPedido, EstadoPedidoRequest>();
 
         }
 
