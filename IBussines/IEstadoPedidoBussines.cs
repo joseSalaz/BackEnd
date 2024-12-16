@@ -11,5 +11,6 @@ namespace IBussines
 {
     public interface IEstadoPedidoBussines : ICRUDBussnies<EstadoPedidoRequest,EstadoPedidoResponse>
     {
+
     }
 }
