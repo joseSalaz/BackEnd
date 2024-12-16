@@ -87,7 +87,7 @@ builder.Services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 builder.Services.AddScoped<IPrecioRepository, PrecioRepository>();
 builder.Services.AddScoped<IEstadoPedidoBussines, EstadoPedidoBussines>();
 builder.Services.AddScoped<IEstadoPedidoImageneBussines, EstadoPedidoImageneBussines>();
-
+builder.Services.AddHttpClient();
 
 
 
