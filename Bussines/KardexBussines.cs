@@ -17,10 +17,6 @@ namespace Bussines
         #region Declaracion de vcariables generales
         public readonly IKardexRepository _IKardexRepository = null;
         public readonly IMapper _Mapper;
-
-        public KardexBussines()
-        {
-        }
         #endregion
 
         #region constructor 

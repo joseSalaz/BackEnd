@@ -2,6 +2,7 @@
 using DBModel.DB;
 using IBussines;
 using IRepository;
+using Microsoft.AspNetCore.Http;
 using Models.RequestResponse;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
@@ -20,15 +21,16 @@ namespace Bussines
         #region Declaracion de vcariables generales
         public readonly IDetalleVentaRepository _IDetalleVentaRepository;
         public readonly IMapper _Mapper;
-      
+        public readonly IEstadoPedidoImageneBussines _IEstadoPedidoImageneBussines;
+
         #endregion
 
         #region constructor 
-        public DetalleVentaBussines(IMapper mapper)
+        public DetalleVentaBussines(IMapper mapper, IEstadoPedidoImageneBussines iEstadoPedidoImageneBussines)
         {
             _Mapper = mapper;
             _IDetalleVentaRepository = new DetalleVentaRepository();
-           
+            _IEstadoPedidoImageneBussines = iEstadoPedidoImageneBussines;
         }
         #endregion
 
@@ -104,5 +106,35 @@ namespace Bussines
         {
             return await _IDetalleVentaRepository.GetDetalleVentasByPersonaId(idPersona);
         }
+
+        public async Task<IEnumerable<DetalleVenta>> GetDetalleVentasByVentaId(int idVenta)
+        {
+            return await _IDetalleVentaRepository.GetDetalleVentasByVentaId(idVenta);
+        }
+
+        public async Task<bool> UpdateEstadoPedidosAndCreateImagenes(int idVenta, EstadoPedidoRequest request, List<IFormFile> images)
+        {
+            // Actualizar los estados de los pedidos en la tabla EstadoPedido
+            var result = await _IDetalleVentaRepository.UpdateEstadoPedidosByVentaId(idVenta, request);
+            if (!result)
+                return false;
+
+            // Ahora crear los registros correspondientes en EstadoPedidoImagene
+            var estadoPedidoImageneRequest = new EstadoPedidoImageneRequest
+            {
+                IdEstadoPedido = request.IdEstadoPedido,  // Este es el IdEstadoPedido que se está actualizando
+                Estado = request.Estado,
+                Fecha = request.FechaEstado  // Usar la fecha que se está recibiendo
+            };
+
+            // Llamamos al servicio para crear las imágenes
+            foreach (var image in images)
+            {
+                await _IEstadoPedidoImageneBussines.CreateWithImagesAsync(estadoPedidoImageneRequest, images);
+            }
+
+            return true;
+        }
+
     }
 }

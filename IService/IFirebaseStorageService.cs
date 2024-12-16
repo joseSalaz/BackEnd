@@ -10,5 +10,6 @@ namespace IService
     public interface IFirebaseStorageService
     {
         Task<string> UploadFileAsync(IFormFile file, string folderName);
+        Task<string> UploadPedidosImageAsync(IFormFile image);
     }
 }

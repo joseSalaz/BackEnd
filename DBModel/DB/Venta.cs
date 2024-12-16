@@ -21,7 +21,6 @@ public partial class Venta
     public int IdUsuario { get; set; }
 
     public int IdCaja { get; set; }
-
     [JsonIgnore]
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
     [JsonIgnore]

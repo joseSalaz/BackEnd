@@ -85,7 +85,8 @@ builder.Services.AddScoped<ICajaRepository, CajaRepository>();
 builder.Services.AddScoped<IPaymentService,MercadoPagoService>();
 builder.Services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 builder.Services.AddScoped<IPrecioRepository, PrecioRepository>();
-
+builder.Services.AddScoped<IEstadoPedidoBussines, EstadoPedidoBussines>();
+builder.Services.AddScoped<IEstadoPedidoImageneBussines, EstadoPedidoImageneBussines>();
 
 
 

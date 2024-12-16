@@ -69,7 +69,7 @@ public partial class LibreriaSaberContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-AAD7CCB;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=JOSÉSALAZAR\\SQLEXPRESS;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -293,6 +293,8 @@ public partial class LibreriaSaberContext : DbContext
             entity.ToTable("Estado_Pedido_Imagenes");
 
             entity.Property(e => e.IdEstadoPedidoImagen).HasColumnName("id_estado_pedido_imagen");
+            entity.Property(e => e.Estado).HasMaxLength(255);
+            entity.Property(e => e.Fecha).HasColumnType("datetime");
             entity.Property(e => e.IdEstadoPedido).HasColumnName("id_estado_pedido");
             entity.Property(e => e.UrlImagen)
                 .HasMaxLength(500)

@@ -11,5 +11,9 @@ public partial class EstadoPedidoImagene
 
     public string UrlImagen { get; set; } = null!;
 
+    public string? Estado { get; set; }
+
+    public DateTime? Fecha { get; set; }
+
     public virtual EstadoPedido IdEstadoPedidoNavigation { get; set; } = null!;
 }
