@@ -17,10 +17,6 @@ namespace Bussines
         #region Declaracion de vcariables generales
         public readonly IEstadoPedidoRepository _IEstadoPedidoRepository = null;
         public readonly IMapper _Mapper;
-
-        public EstadoPedidoBussines()
-        {
-        }
         #endregion
 
         #region constructor 

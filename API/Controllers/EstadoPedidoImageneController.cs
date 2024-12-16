@@ -17,10 +17,10 @@ namespace API.Controllers
         #endregion
 
         #region constructor 
-        public EstadoPedidoImageneController(IMapper mapper)
+        public EstadoPedidoImageneController(IEstadoPedidoImageneBussines estadoPedidoImageneBussines, IMapper mapper)
         {
+            _IEstadoPedidoImageneBussines = estadoPedidoImageneBussines;
             _Mapper = mapper;
-            _IEstadoPedidoImageneBussines = new EstadoPedidoImageneBussines(_Mapper);
         }
         #endregion
 
@@ -84,5 +84,24 @@ namespace API.Controllers
             return Ok(res);
         }
         #endregion
+
+        [HttpPost("create-with-images")]
+        public async Task<IActionResult> CreateWithImages([FromForm] EstadoPedidoImageneRequest request, [FromForm] List<IFormFile> images)
+        {
+            if (request.IdEstadoPedido == null || !images.Any())
+                return BadRequest("No se recibieron imágenes para subir.");
+
+            try
+            {
+                var pedidoRequest = new EstadoPedidoImageneRequest { IdEstadoPedido = request.IdEstadoPedido };
+                var responses = await _IEstadoPedidoImageneBussines.CreateWithImagesAsync(pedidoRequest, images);
+                return Ok(responses);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocurrió un error al procesar la solicitud: {ex.Message}");
+            }
+        }
+
     }
 }

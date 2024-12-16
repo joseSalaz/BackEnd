@@ -54,5 +54,13 @@ namespace Service
                 return url;
             }
         }
+
+
+        // Nueva función específica para subir imágenes de pedidos
+        public async Task<string> UploadPedidosImageAsync(IFormFile image)
+        {
+            // Llamamos al método UploadFileAsync con la carpeta "pedidosimagenes"
+            return await UploadFileAsync(image, "pedidosimagenes");
+        }
     }
 }

@@ -32,7 +32,10 @@ namespace API.Controllers
         private readonly ICajaBussines _ICajaBussines;
         private readonly ICajaRepository _ICajaRepository;
         private readonly IMapper _mapper;
-        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines, ICajaBussines iCajaBussines, ICajaRepository iCajaRepository)
+        private readonly IEstadoPedidoBussines _IEstadoPedidoBussines;
+        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, 
+            IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines, 
+            ICajaBussines iCajaBussines, ICajaRepository iCajaRepository, IEstadoPedidoBussines estadoPedidoBussines)
         {
             _apisPaypalServices = apisPaypalServices;
             _configuration = configuration;
@@ -43,6 +46,7 @@ namespace API.Controllers
             _IVentaBussines = ventaBussines;
             _ICajaBussines = iCajaBussines;
             _ICajaRepository = iCajaRepository;
+            _IEstadoPedidoBussines = estadoPedidoBussines;
         }
 
 
@@ -121,6 +125,7 @@ namespace API.Controllers
             {
                 return BadRequest("Es necesario abrir una caja para hoy antes de registrar ventas.");
             }
+
             // Extraer y preparar la información de la venta a partir del paymentRequest
             VentaRequest ventaRequest = new VentaRequest
             {
@@ -129,9 +134,8 @@ namespace API.Controllers
                 IdUsuario = 1, // Usar el UserId desde el paymentRequest si está disponible
                 NroComprobante = numeroComprobante,
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona,
-                TotalPrecio = paymentRequest.Carrito.TotalAmount, // Asegúrate de que existe un campo Total en ExecutePaymentModelRequest
-                IdCaja= cajaDelDia.IdCaja
-
+                TotalPrecio = paymentRequest.Carrito.TotalAmount,
+                IdCaja = cajaDelDia.IdCaja
             };
 
             var venta = _IVentaBussines.Create(ventaRequest);
@@ -139,6 +143,7 @@ namespace API.Controllers
             {
                 return StatusCode(500, "Error al crear la venta");
             }
+
             _ICajaRepository.Update(cajaDelDia);
 
             List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
@@ -150,8 +155,8 @@ namespace API.Controllers
                     return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
                 }
 
-                kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
-                _kardexRepository.Update(kardexActual); // Utiliza tu método Update del repositorio
+                kardexActual.Stock -= item.Cantidad;
+                _kardexRepository.Update(kardexActual);
 
                 DetalleVentaRequest detalleVentaRequest = new DetalleVentaRequest
                 {
@@ -161,29 +166,87 @@ namespace API.Controllers
                     IdLibro = item.libro.IdLibro,
                     Cantidad = item.Cantidad,
                     Importe = item.PrecioVenta * item.Cantidad,
-                    Estado = "Reservado" // Añadir el estado si es relevante
+                    Estado = "Reservado"
                 };
                 listaDetalle.Add(detalleVentaRequest);
             }
 
             var result = _IDetalleVentaBussines.CreateMultiple(listaDetalle);
-            if (listaDetalle == null || !listaDetalle.Any())
+            if (result == null || !result.Any())
             {
                 return StatusCode(500, "Error al crear el detalle de la venta");
             }
 
+            // Asignar los IdDetalleVentas manualmente si es necesario
+            for (int i = 0; i < listaDetalle.Count; i++)
+            {
+                listaDetalle[i].IdDetalleVentas = result[i].IdDetalleVentas; // Asignar el IdDetalleVentas devuelto
+            }
+
+            // Llamada al método RegistrarEstadoPedido después de haber creado el detalle de la venta
+            var estadoPedidoResult = await RegistrarEstadoPedido(listaDetalle);
+            if (estadoPedidoResult is ObjectResult objectResult && objectResult.StatusCode != 200)
+            {
+                return objectResult; // Propagar el error si ocurre durante el registro del estado del pedido
+            }
+
             try
             {
-                // Asumimos que el correo del cliente se puede obtener de paymentRequest o de otra fuente relevante
-                string emailCliente = paymentRequest.Carrito.Persona.Correo; // Asegúrate de obtener el correo electrónico correctamente
+                string emailCliente = paymentRequest.Carrito.Persona.Correo;
                 await _IVentaBussines.GenerarYEnviarPdfDeVenta(venta.IdVentas, emailCliente);
-                return Ok(new { Message = "Venta y detalles registrados con éxito, correo enviado." });
+                return Ok(new { Message = "Venta, detalles y estado registrados con éxito, correo enviado." });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "La venta se registró, pero el correo con el PDF no se pudo enviar: " + ex.Message);
             }
         }
+
+
+
+        private async Task<IActionResult> RegistrarEstadoPedido(List<DetalleVentaRequest> listaDetalle)
+        {
+            // Verificar que la lista de detalles no esté vacía
+            if (listaDetalle == null || !listaDetalle.Any())
+            {
+                return BadRequest("La lista de detalles de venta está vacía.");
+            }
+
+            // Asegurarse de que cada detalle tenga un IdDetalleVentas asignado
+            foreach (var detalle in listaDetalle)
+            {
+                if (detalle.IdDetalleVentas == 0)
+                {
+                    return StatusCode(500, "El detalle de venta con ID 0 no tiene un IdDetalleVentas asignado.");
+                }
+            }
+
+            // Ahora que tenemos los detalles creados, asignamos los IdDetalleVentas y creamos el estado del pedido
+            foreach (var detalle in listaDetalle)
+            {
+                EstadoPedidoRequest estadoPedidoRequest = new EstadoPedidoRequest
+                {
+                    IdDetalleVentas = detalle.IdDetalleVentas, // Usar el IdDetalleVentas del detalle
+                    Estado = "Pedido Realizado",  // Estado inicial
+                    FechaEstado = DateTime.Now,
+                    Comentario = "Pedido realizado exitosamente."
+                };
+
+                // Registrar el estado del pedido en la base de datos
+                var estadoPedido = _IEstadoPedidoBussines.Create(estadoPedidoRequest);
+                if (estadoPedido == null)
+                {
+                    return StatusCode(500, "Error al crear el estado del pedido para el detalle de la venta con ID " + detalle.IdDetalleVentas);
+                }
+            }
+
+            // Devolver respuesta exitosa
+            return Ok(new { Message = "Estado del pedido registrado correctamente para todos los detalles de la venta." });
+        }
+
+
+
+
 
     }
 }

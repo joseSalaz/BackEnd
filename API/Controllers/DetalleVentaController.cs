@@ -214,6 +214,39 @@ namespace API.Controllers
             return Ok(new { Message = "Venta y detalles registrados con éxito" });
         }
 
+        [HttpGet("GetByVenta/{idVenta}")]
+        public async Task<IActionResult> GetDetallesByVenta(int idVenta)
+        {
+            var detalles = await _detalleVentaBussines.GetDetalleVentasByVentaId(idVenta);
+
+            if (detalles == null || !detalles.Any())
+            {
+                return NotFound($"No se encontraron detalles de venta para la venta con ID {idVenta}.");
+            }
+
+            return Ok(detalles);
+        }
+
+
+        [HttpPut("UpdateEstadoPedidos/{idVenta}")]
+        public async Task<IActionResult> UpdateEstadoPedidos(int idVenta, [FromForm] EstadoPedidoRequest request, [FromForm] List<IFormFile> images)
+        {
+            try
+            {
+                // Llamar al servicio de negocio que actualiza el estado y crea las imágenes
+                var result = await _detalleVentaBussines.UpdateEstadoPedidosAndCreateImagenes(idVenta, request, images);
+
+                if (!result)
+                    return NotFound($"No se encontraron detalles de venta para la venta con ID {idVenta}.");
+
+                return Ok($"Se actualizó el estado y se crearon las imágenes para la venta con ID {idVenta}.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocurrió un error al procesar la solicitud: {ex.Message}");
+            }
+        }
+
         #endregion
     }
 }

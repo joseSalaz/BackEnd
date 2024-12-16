@@ -19,6 +19,6 @@ public partial class Kardex
     public decimal? UltPrecioCosto { get; set; }
     [JsonIgnore]
     public virtual Libro IdLibroNavigation { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual Sucursal IdSucursalNavigation { get; set; } = null!;
 }
