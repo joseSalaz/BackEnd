@@ -133,24 +133,28 @@ namespace API.Controllers
 
 
         [HttpGet("Paginator")]
-        public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string estado = null,
+        [FromQuery] bool ordenarPorFechaDesc = true)
         {
             try
             {
-                var (ventaResponse, totalItems) = await _IVentaBussines.GetVentaPaginados(page, pageSize);
+                var (ventaResponse, totalItems) = await _IVentaBussines.GetVentaPaginados(page, pageSize, estado, ordenarPorFechaDesc);
                 var response = new
                 {
                     TotalItems = totalItems,
                     TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    Venta = ventaResponse
+                    Ventas = ventaResponse
                 };
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
 
