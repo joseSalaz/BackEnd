@@ -83,8 +83,6 @@ namespace API.Controllers
         //    int res = _ILibroAutorBussines.Delete(id);
         //    return Ok(res);
         //}
-        #endregion
-
         [HttpGet("GetLibrosByAutorId/{autorId}")]
         public async Task<IActionResult> GetLibrosByAutorId(int autorId)
         {
@@ -102,5 +100,7 @@ namespace API.Controllers
             var autores = await _ILibroAutorBussines.GetAutoresByLibroId(libroId);
             return Ok(autores);
         }
+        #endregion
+
     }
 }

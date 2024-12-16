@@ -181,13 +181,11 @@ namespace Bussines
             });
         }
 
-        public async Task<(List<VentaResponse>, int)> GetVentaPaginados(int page, int pageSize)
+        public async Task<(List<VentaResponse>, int)> GetVentaPaginados(int page, int pageSize, string estado, bool ordenarPorFechaDesc)
         {
-            var (ventas, totalItems) = await _IVentaRepository.GetVentaPaginados(page, pageSize);
-            var ventaResponse = _Mapper.Map<List<VentaResponse>>(ventas);
-            return (ventaResponse, totalItems);
+            var (ventas, totalItems) = await _IVentaRepository.GetVentaPaginados(page, pageSize, estado, ordenarPorFechaDesc);
+            var response = _Mapper.Map<List<VentaResponse>>(ventas);
+            return (response, totalItems);
         }
-
-
     }
 }

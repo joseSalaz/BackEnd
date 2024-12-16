@@ -70,20 +70,35 @@ namespace Repository
             .ToListAsync();
 
         }
-
-
-        public async Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize)
+        public async Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize, string estado = null, bool ordenarPorFechaDesc = true)
         {
-            var query = dbSet.AsQueryable();
+            var query = dbSet
+                .Include(v => v.DetalleVenta)
+                .ThenInclude(dv => dv.EstadoPedidos)
+                .AsQueryable();
+
+            // Filtrar por estado
+            if (!string.IsNullOrEmpty(estado))
+            {
+                query = query.Where(v => v.DetalleVenta.Any(dv => dv.Estado == estado));
+            }
+
+            // Ordenar por fecha
+            query = ordenarPorFechaDesc
+                ? query.OrderByDescending(v => v.FechaVenta)
+                : query.OrderBy(v => v.FechaVenta);
+
+            // Contar total de registros
             int totalItems = await query.CountAsync();
-            var venta = await query.Skip((page-1) * pageSize).Take(pageSize).ToListAsync();
-            return (venta, totalItems);
+
+            // Paginado
+            var ventas = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (ventas, totalItems);
         }
-
-
-       
-
-
 
     }
 }
