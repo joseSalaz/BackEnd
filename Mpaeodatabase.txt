@@ -18,3 +18,7 @@ Data Source=JOSÉSALAZAR\SQLEXPRESS;Initial Catalog=Libreria_Saber;User ID=sa;Tru
 
 
 Scaffold-DbContext "Data Source=JOSÉSALAZAR\SQLEXPRESS;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir DB -Force
+Credenciales
+____________________
+F:\\backend\\Net\\BackEnd\\API\\ecomercesa-3c1ff-firebase-adminsdk-bb4c1-e2f8c348e7.json
+D:\\jose\\ah\\proyecto completo\\BackEnd\\API\\ecomercesa-3c1ff-firebase-adminsdk-bb4c1-e2f8c348e7.json
