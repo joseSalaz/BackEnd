@@ -29,18 +29,28 @@ namespace Service
         {
             // Seleccionamos las características que queremos analizar
             var features = new List<VisualFeatureTypes?>
-            {
-                VisualFeatureTypes.Categories,
-                VisualFeatureTypes.Tags,
-                VisualFeatureTypes.Description,
-                VisualFeatureTypes.Objects,
-                VisualFeatureTypes.Color,
-                VisualFeatureTypes.Adult
-            };
+    {
+        VisualFeatureTypes.Categories,
+        VisualFeatureTypes.Tags,
+        VisualFeatureTypes.Description,
+        VisualFeatureTypes.Objects,
+        VisualFeatureTypes.Color,
+        VisualFeatureTypes.Adult
+    };
 
-            // Realizar el análisis completo de la imagen
-            return await _client.AnalyzeImageInStreamAsync(imageStream, features);
+            try
+            {
+                // Realizar el análisis completo de la imagen
+                return await _client.AnalyzeImageInStreamAsync(imageStream, features);
+            }
+            catch (Exception ex)
+            {
+                // Registrar el error para diagnóstico
+                Console.WriteLine($"Error: {ex.Message} | StackTrace: {ex.StackTrace}");
+                throw; // Relanza la excepción para que pueda ser manejada más arriba en la cadena
+            }
         }
-    }    
+
+    }
 }
 
