@@ -13,7 +13,6 @@ namespace Models.RequestResponse
 
         public int IdEstadoPedido { get; set; }
 
-        public string UrlImagen { get; set; }
         public string? Estado { get; set; }
 
         public DateTime? Fecha { get; set; }
