@@ -97,11 +97,19 @@
               "type": "Microsoft.ApiManagement/service/apis",
               "name": "APILibreriaSaber/API",
               "properties": {
+<<<<<<< HEAD
                 "displayName": "API",
                 "apiRevision": "1",
                 "description": null,
                 "subscriptionRequired": true,
                 "serviceUrl": null,
+=======
+                "displayName": "SISTEMA DE LIBRERIA",
+                "apiRevision": "1",
+                "description": "Documentación de los servicios para el sistema de Libreria Saber",
+                "subscriptionRequired": true,
+                "serviceUrl": "https://api20250116150338.azurewebsites.net",
+>>>>>>> 2fd1117c9db206b6c4feaa06955111f54458d252
                 "path": "",
                 "protocols": [
                   "https"

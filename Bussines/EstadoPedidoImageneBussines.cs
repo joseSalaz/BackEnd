@@ -163,7 +163,9 @@ namespace Bussines
                     var pedidoImagen = new EstadoPedidoImagene
                     {
                         IdEstadoPedido = currentRequest.IdEstadoPedido,
-                        UrlImagen = url
+                        UrlImagen = url,
+                        Estado = currentRequest.Estado,
+                        Fecha = currentRequest.Fecha,
                     };
 
                     // Guardar en la base de datos
