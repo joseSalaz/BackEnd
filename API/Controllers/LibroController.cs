@@ -64,27 +64,27 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request">Registro a insertar</param>
         /// <returns>Retorna el registro insertado</returns>
-        [HttpPost]
-        public async Task<IActionResult> Create([FromForm] LibroRequest request, IFormFile imageFile = null)
-        {
-            try
-            {
-                if (imageFile != null && imageFile.Length > 0)
-                {
-                    var imageUrl = await _ILibroBussines.CreateWithImage(request, imageFile);
-                    return Ok(imageUrl);
-                }
-                else
-                {
-                    var libroResponse = _ILibroBussines.Create(request);
-                    return Ok(libroResponse);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error interno del servidor: " + ex.Message);
-            }
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Create([FromForm] LibroRequest request, IFormFile imageFile = null)
+        //{
+        //    try
+        //    {
+        //        if (imageFile != null && imageFile.Length > 0)
+        //        {
+        //            var imageUrl = await _ILibroBussines.CreateWithImage(request, imageFile);
+        //            return Ok(imageUrl);
+        //        }
+        //        else
+        //        {
+        //            var libroResponse = _ILibroBussines.Create(request);
+        //            return Ok(libroResponse);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, "Error interno del servidor: " + ex.Message);
+        //    }
+        //}
 
 
 

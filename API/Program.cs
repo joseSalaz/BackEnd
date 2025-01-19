@@ -71,7 +71,6 @@ builder.Services.AddAutoMapper(typeof(IStartup).Assembly, typeof(AutoMapperProfi
 
 // Registro de servicios
 builder.Services.AddScoped<ILibroBussines, LibroBussines>();
-builder.Services.AddScoped<IAzureStorage, AzureStorage>();
 builder.Services.AddScoped<IApisPaypalServices, ApisPaypalServices>();
 
 builder.Services.AddScoped<IKardexRepository, KardexRepository>();
