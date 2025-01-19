@@ -157,7 +157,21 @@ namespace API.Controllers
                 return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
+        [HttpGet("GetVentaConDetallesYEstado/{idVenta}")]
+        public async Task<IActionResult> GetVentaConDetallesYEstado(int idVenta)
+        {
+            var result = await _IVentaBussines.GetVentaConDetallesYEstado(idVenta);
 
+            if (result.venta == null)
+                return NotFound("Venta no encontrada.");
+
+            return Ok(new
+            {
+                Venta = result.venta,
+                Detalles = result.detalles,
+                EstadoPedido = result.estado
+            });
+        }
         #endregion
     }
 }
