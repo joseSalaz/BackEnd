@@ -106,5 +106,19 @@ namespace Bussnies
             List<UsuarioResponse> res = _mapper.Map<List<UsuarioResponse>>(cat);
             return res;
         }
+
+        public bool RegisterNotificationToken(int usuarioId, string token)
+        {
+            var usuario = _IUsuarioRepository.GetById(usuarioId); if (usuario == null)
+            {
+                return false;
+            }
+            usuario.NotificationToken = token; _IUsuarioRepository.UpdateUsuario(usuario); // Actualiza el usuario a través del repositorio
+            return true;
+        }
+        public async Task<List<string>> GetNotificationTokensAsync()
+        { 
+            return await _IUsuarioRepository.GetNotificationTokensAsync(); 
+        } 
     }
 }

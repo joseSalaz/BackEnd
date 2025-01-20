@@ -17,6 +17,7 @@ using Bussines;
 using IBussines;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Office2010.CustomUI;
+using IBussnies;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -33,9 +34,13 @@ namespace API.Controllers
         private readonly ICajaRepository _ICajaRepository;
         private readonly IMapper _mapper;
         private readonly IEstadoPedidoBussines _IEstadoPedidoBussines;
+        private readonly IOrderMesageFirebase _IOrderMesageFirebase;
+        private readonly IUsuarioBussnies _IUsuarioBussnies;
+  
         public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, 
             IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines, 
-            ICajaBussines iCajaBussines, ICajaRepository iCajaRepository, IEstadoPedidoBussines estadoPedidoBussines)
+            ICajaBussines iCajaBussines, ICajaRepository iCajaRepository, IEstadoPedidoBussines estadoPedidoBussines,IOrderMesageFirebase orderMesageFirebase,
+            IUsuarioBussnies usuarioBussnies)
         {
             _apisPaypalServices = apisPaypalServices;
             _configuration = configuration;
@@ -47,6 +52,9 @@ namespace API.Controllers
             _ICajaBussines = iCajaBussines;
             _ICajaRepository = iCajaRepository;
             _IEstadoPedidoBussines = estadoPedidoBussines;
+            _IOrderMesageFirebase = orderMesageFirebase;
+            _IUsuarioBussnies = usuarioBussnies;
+           
         }
 
 
@@ -231,13 +239,14 @@ namespace API.Controllers
                     FechaEstado = DateTime.Now,
                     Comentario = "Pedido realizado exitosamente."
                 };
-
-                // Registrar el estado del pedido en la base de datos
-                var estadoPedido = _IEstadoPedidoBussines.Create(estadoPedidoRequest);
-                if (estadoPedido == null)
-                {
-                    return StatusCode(500, "Error al crear el estado del pedido para el detalle de la venta con ID " + detalle.IdDetalleVentas);
+                // Obtener los tokens de notificación de los usuarios
+                var deviceTokens = await _IUsuarioBussnies.GetNotificationTokensAsync(); // Enviar notificación de nuevo pedido a cada token
+                                                                                         
+                foreach (var token in deviceTokens)
+                { 
+                    await _IOrderMesageFirebase.SendFirebaseNotificationAsync(token, "Nuevo Pedido", "¡Tienes un nuevo pedido en la app!");
                 }
+
             }
 
             // Devolver respuesta exitosa

@@ -19,6 +19,7 @@ namespace Models.ResponseResponse
         public bool? Estado { get; set; }
 
         public int IdPersona { get; set; }
+        public string? NotificationToken { get; set; }
         //public virtual ICollection<CajaResponse> CajaIdUsuarioAperturaNavigations { get; set; } = new List<Caja>();
         //public virtual ICollection<CajaCajaResponse> CajaIdUsuarioCierreNavigations { get; set; } = new List<Caja>();
         //public virtual PersonaCajaResponse? IdPersonaNavigation { get; set; }

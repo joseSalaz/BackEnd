@@ -1,5 +1,7 @@
 ﻿using DBModel.DB;
+using DocumentFormat.OpenXml.InkML;
 using IRepository;
+using Microsoft.EntityFrameworkCore;
 using Models.ResponseResponse;
 using Repository.Generic;
 
@@ -17,7 +19,16 @@ namespace Repository
         {
             Usuario user = dbSet.Where(x => x.Username == userName).FirstOrDefault();
             return user;
+        }
 
+        public void UpdateUsuario(Usuario usuario)
+        { 
+            dbSet.Update(usuario);
+        }
+
+        public async Task<List<string>> GetNotificationTokensAsync() 
+        { 
+            return await dbSet.Where(u => !string.IsNullOrEmpty(u.NotificationToken)).Select(u => u.NotificationToken).ToListAsync(); 
         }
     }
 }

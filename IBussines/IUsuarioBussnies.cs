@@ -13,5 +13,7 @@ namespace IBussnies
     public interface IUsuarioBussnies : ICRUDBussnies<UsuarioRequest, UsuarioResponse>
     {
         UsuarioResponse GetByUserName(string userName);
+        bool RegisterNotificationToken(int usuarioId, string token);
+        Task<List<string>> GetNotificationTokensAsync();
     }
 }
