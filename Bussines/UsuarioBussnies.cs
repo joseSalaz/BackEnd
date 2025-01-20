@@ -113,7 +113,7 @@ namespace Bussnies
             {
                 return false;
             }
-            usuario.NotificationToken = token; _IUsuarioRepository.UpdateUsuario(usuario); // Actualiza el usuario a través del repositorio
+            usuario.NotificationToken = token; _IUsuarioRepository.Update(usuario); // Actualiza el usuario a través del repositorio
             return true;
         }
         public async Task<List<string>> GetNotificationTokensAsync()
