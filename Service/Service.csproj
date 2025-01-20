@@ -42,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Firebase\Firebase.csproj" />
     <ProjectReference Include="..\IRepositorio\IRepository.csproj" />
     <ProjectReference Include="..\IService\IService.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />

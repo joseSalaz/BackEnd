@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Firebase;
 
 namespace Service
 {
@@ -18,57 +19,7 @@ namespace Service
 
         public OrderMesageFirebase(IConfiguration configuration)
         {
-            var blobUrl = configuration["FirebaseMessaging:CredentialPath"];
-            var tempCredentialPath = Path.Combine(Path.GetTempPath(), "firebase-messaging-credentials.json");
-
-            try
-            {
-                var localFilePath = DownloadCredentialFileAsync(blobUrl, tempCredentialPath).Result;
-
-                if (FirebaseApp.DefaultInstance == null) // Verifica si hay una instancia por defecto
-                {
-                    _firebaseApp = FirebaseApp.Create(new AppOptions()
-                    {
-                        Credential = GoogleCredential.FromFile(localFilePath)
-                    });
-                    Console.WriteLine("Firebase Messaging App initialized from file.");
-                }
-                else
-                {
-                    _firebaseApp = FirebaseApp.DefaultInstance; // Obtén la instancia por defecto
-                    Console.WriteLine("Firebase Messaging App instance retrieved.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error initializing Firebase Messaging: {ex.Message}");
-                throw; // Re-lanza la excepción
-            }
-        }
-
-        private async Task<string> DownloadCredentialFileAsync(string blobUrl, string localPath)
-        {
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var response = await client.GetAsync(blobUrl);
-                    response.EnsureSuccessStatusCode();
-                    var content = await response.Content.ReadAsByteArrayAsync();
-                    await File.WriteAllBytesAsync(localPath, content);
-                    return localPath;
-                }
-                catch (HttpRequestException ex)
-                {
-                    Console.WriteLine($"Error downloading credential file: {ex.Message}. Status Code: {ex.StatusCode}");
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error downloading credential file: {ex.Message}");
-                    throw;
-                }
-            }
+            _firebaseApp = FirebaseAppManager.GetInstanceAsync().Result;
         }
 
         public async Task<string> SendFirebaseNotificationAsync(string deviceToken, string title, string body, Dictionary<string, string> data = null)
@@ -86,7 +37,7 @@ namespace Service
                     Data = data
                 };
 
-                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message); // No pasa la instancia _firebaseApp aquí
+                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message); 
                 Console.WriteLine($"Successfully sent message: {response}");
                 return response;
             }

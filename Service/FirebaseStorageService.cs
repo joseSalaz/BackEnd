@@ -5,39 +5,24 @@ using IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using FirebaseAdmin.Auth;
+using Firebase;
 
-public class FirebaseStorageService : IFirebaseStorageService
+namespace Service
 {
-    private  FirebaseStorage _firebaseStorage;
-    private readonly string _credentialPath;
-    private readonly IConfiguration _configuration;
-
-    public FirebaseStorageService(IConfiguration configuration)
+    public class FirebaseStorageService : IFirebaseStorageService
     {
-        _configuration = configuration;
-        _credentialPath = Path.Combine(Path.GetTempPath(), "firebase-credentials.json");
+        private FirebaseStorage _firebaseStorage;
 
-        // Inicializar Firebase de forma asíncrona
-        _ = InitializeFirebaseAsync();
-    }
-
-    private async Task InitializeFirebaseAsync()
-    {
-        var blobUrl = _configuration["Firebase:CredentialPath"];
-
-        try
+        public FirebaseStorageService(IConfiguration configuration)
         {
-            var localFilePath = await DownloadCredentialFileAsync(blobUrl, _credentialPath);
+            InitializeFirebaseAsync(configuration).Wait();
+        }
 
-            if (FirebaseApp.DefaultInstance == null)
-            {
-                FirebaseApp.Create(new AppOptions()
-                {
-                    Credential = GoogleCredential.FromFile(localFilePath)
-                });
-            }
+        private async Task InitializeFirebaseAsync(IConfiguration configuration)
+        {
+            var firebaseApp = await FirebaseAppManager.GetInstanceAsync();
+            var bucket = configuration["Firebase:StorageBucket"];
 
-            var bucket = _configuration["Firebase:StorageBucket"];
             _firebaseStorage = new FirebaseStorage(bucket, new FirebaseStorageOptions
             {
                 AuthTokenAsyncFactory = async () =>
@@ -47,39 +32,16 @@ public class FirebaseStorageService : IFirebaseStorageService
                 }
             });
         }
-        catch (Exception ex)
+        public async Task<string> UploadFileAsync(IFormFile file, string folderName)
         {
-            Console.WriteLine($"Error al inicializar Firebase: {ex.Message}");
-        }
-    }
-
-    public async Task<string> DownloadCredentialFileAsync(string blobUrl, string localPath)
-    {
-        using (var client = new HttpClient())
-        {
-            var response = await client.GetAsync(blobUrl);
-            if (response.IsSuccessStatusCode)
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+            using (var stream = file.OpenReadStream())
             {
-                var content = await response.Content.ReadAsByteArrayAsync();
-                await File.WriteAllBytesAsync(localPath, content);
-                return localPath;
-            }
-            else
-            {
-                throw new Exception("Failed to download credential file.");
-            }
-        }
-    }
-
-    public async Task<string> UploadFileAsync(IFormFile file, string folderName)
-    {
-        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-        using (var stream = file.OpenReadStream())
-        {
-            var task = _firebaseStorage
-                .Child(folderName)
-                .Child(fileName)
-                .PutAsync(stream);
+                // Carga el archivo en Firebase Storage
+                var task = _firebaseStorage
+                    .Child(folderName) // Carpeta donde se subirá el archivo
+                    .Child(fileName) // Nombre del archivo
+                    .PutAsync(stream);
 
             var url = await task;
             return url;
