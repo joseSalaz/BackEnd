@@ -21,11 +21,6 @@ namespace Repository
             return user;
         }
 
-        public void UpdateUsuario(Usuario usuario)
-        { 
-            dbSet.Update(usuario);
-        }
-
         public async Task<List<string>> GetNotificationTokensAsync() 
         { 
             return await dbSet.Where(u => !string.IsNullOrEmpty(u.NotificationToken)).Select(u => u.NotificationToken).ToListAsync(); 

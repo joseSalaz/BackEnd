@@ -1,9 +1,11 @@
 using AutoMapper;
 using Bussines;
+using Bussnies;
 using Constantes;
 using DBModel.DB;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using IBussines;
+using IBussnies;
 using IRepository;
 using IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -87,6 +89,8 @@ builder.Services.AddScoped<IPrecioRepository, PrecioRepository>();
 builder.Services.AddScoped<IEstadoPedidoBussines, EstadoPedidoBussines>();
 builder.Services.AddScoped<IEstadoPedidoImageneBussines, EstadoPedidoImageneBussines>();
 builder.Services.AddScoped<IEstadoPedidoRepository, EstadoPedidoRepository>();
+builder.Services.AddScoped<IOrderMesageFirebase, OrderMesageFirebase>();
+builder.Services.AddScoped<IUsuarioBussnies, UsuarioBussnies>();
 builder.Services.AddHttpClient();
 
 

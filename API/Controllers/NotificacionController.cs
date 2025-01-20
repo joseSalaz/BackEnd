@@ -20,7 +20,11 @@ namespace API.Controllers
         [HttpPost("register-token")]
         public IActionResult RegisterToken([FromBody] TokensRequest request)
         {
-            var result = _IUsuarioBussnies.RegisterNotificationToken(request.UsuarioId, request.Token); if (!result) { return NotFound(new { Message = "Usuario no encontrado." }); }
+            var result = _IUsuarioBussnies.RegisterNotificationToken(request.UsuarioId, request.Token); 
+            if (!result) 
+            {
+                return NotFound(new { Message = "Usuario no encontrado." });
+            }
             return Ok(new { Message = "Token registrado correctamente" });
         }
     }
