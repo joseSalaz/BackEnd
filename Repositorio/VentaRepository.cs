@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class VentaRepository: GenericRepository<Venta>,IVentaRepository
+    public class VentaRepository : GenericRepository<Venta>, IVentaRepository
     {
 
         public List<Venta> GetAutoComplete(string query)
@@ -100,5 +100,25 @@ namespace Repository
             return (ventas, totalItems);
         }
 
+        public async Task<(Venta venta, List<DetalleVenta> detalles, EstadoPedido estado)> GetVentaConDetallesYEstado(int idVenta)
+        {
+            var venta = await dbSet
+                .Include(v => v.DetalleVenta)
+                    .ThenInclude(dv => dv.EstadoPedidos) 
+                .FirstOrDefaultAsync(v => v.IdVentas == idVenta);
+
+            if (venta == null)
+            {
+                return (null, new List<DetalleVenta>(), null);
+            }
+
+            var detalles = venta.DetalleVenta.ToList();
+            var estadoPedido = detalles
+                .SelectMany(dv => dv.EstadoPedidos)
+                .OrderByDescending(ep => ep.FechaEstado)
+                .FirstOrDefault();
+
+            return (venta, detalles, estadoPedido);
+        }
     }
 }

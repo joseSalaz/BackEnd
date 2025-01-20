@@ -187,5 +187,22 @@ namespace Bussines
             var response = _Mapper.Map<List<VentaResponse>>(ventas);
             return (response, totalItems);
         }
+        public async Task<(VentaResponse venta, List<DetalleVentaResponse> detalles, EstadoPedidoResponse estado)> GetVentaConDetallesYEstado(int idVenta)
+        {
+            var (venta, detalles, estadoPedido) = await _IVentaRepository.GetVentaConDetallesYEstado(idVenta);
+
+            if (venta == null)
+            {
+                return (null, new List<DetalleVentaResponse>(), null);
+            }
+
+            var ventaResponse = _Mapper.Map<VentaResponse>(venta);
+            var detallesResponse = _Mapper.Map<List<DetalleVentaResponse>>(detalles);
+            var estadoResponse = estadoPedido != null ? _Mapper.Map<EstadoPedidoResponse>(estadoPedido) : null;
+
+            return (ventaResponse, detallesResponse, estadoResponse);
+        }
+
+     
     }
 }
