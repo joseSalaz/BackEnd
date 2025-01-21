@@ -235,10 +235,16 @@ namespace API.Controllers
                 EstadoPedidoRequest estadoPedidoRequest = new EstadoPedidoRequest
                 {
                     IdDetalleVentas = detalle.IdDetalleVentas, // Usar el IdDetalleVentas del detalle
-                    Estado = "Pedido Realizado",  // Estado inicial
+                    Estado = "En Proceso",  // Estado inicial
                     FechaEstado = DateTime.Now,
                     Comentario = "Pedido realizado exitosamente."
                 };
+                // Registrar el estado del pedido en la base de datos
+                var estadoPedido = _IEstadoPedidoBussines.Create(estadoPedidoRequest);
+                if (estadoPedido == null)
+                {
+                    return StatusCode(500, "Error al crear el estado del pedido para el detalle de la venta con ID " + detalle.IdDetalleVentas);
+                }
                 // Obtener los tokens de notificación de los usuarios
                 var deviceTokens = await _IUsuarioBussnies.GetNotificationTokensAsync(); // Enviar notificación de nuevo pedido a cada token
                                                                                          

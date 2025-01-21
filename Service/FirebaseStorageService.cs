@@ -15,7 +15,7 @@ namespace Service
 
         public FirebaseStorageService(IConfiguration configuration)
         {
-            InitializeFirebaseAsync(configuration).Wait();
+            _ = InitializeFirebaseAsync(configuration);
         }
 
         private async Task InitializeFirebaseAsync(IConfiguration configuration)
@@ -27,11 +27,12 @@ namespace Service
             {
                 AuthTokenAsyncFactory = async () =>
                 {
-                    var firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync("your-uid");
+                    var firebaseToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync("generic-uid");
                     return firebaseToken;
                 }
             });
         }
+
         public async Task<string> UploadFileAsync(IFormFile file, string folderName)
         {
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";

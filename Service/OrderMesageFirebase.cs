@@ -15,15 +15,23 @@ namespace Service
 {
     public class OrderMesageFirebase : IOrderMesageFirebase
     {
-        private readonly FirebaseApp _firebaseApp;
+        private readonly Task<FirebaseApp> _firebaseAppTask;
 
         public OrderMesageFirebase(IConfiguration configuration)
         {
-            _firebaseApp = FirebaseAppManager.GetInstanceAsync().Result;
+            _firebaseAppTask = FirebaseAppManager.GetInstanceAsync();
         }
 
         public async Task<string> SendFirebaseNotificationAsync(string deviceToken, string title, string body, Dictionary<string, string> data = null)
         {
+            var firebaseApp = await _firebaseAppTask;
+
+            if (FirebaseMessaging.DefaultInstance == null)
+            {
+                Console.WriteLine("FirebaseMessaging.DefaultInstance is null. Ensure FirebaseApp is initialized.");
+                throw new InvalidOperationException("FirebaseMessaging.DefaultInstance is not initialized.");
+            }
+
             try
             {
                 var message = new Message()
@@ -37,7 +45,7 @@ namespace Service
                     Data = data
                 };
 
-                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message); 
+                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
                 Console.WriteLine($"Successfully sent message: {response}");
                 return response;
             }
@@ -47,5 +55,6 @@ namespace Service
                 return null;
             }
         }
+
     }
 }
