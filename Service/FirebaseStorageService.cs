@@ -43,13 +43,15 @@ namespace Service
                     .Child(fileName) // Nombre del archivo
                     .PutAsync(stream);
 
-            var url = await task;
-            return url;
+                var url = await task;
+                return url;
+            }
+        }
+
+        public async Task<string> UploadPedidosImageAsync(IFormFile image)
+        {
+            return await UploadFileAsync(image, "pedidosimagenes");
         }
     }
 
-    public async Task<string> UploadPedidosImageAsync(IFormFile image)
-    {
-        return await UploadFileAsync(image, "pedidosimagenes");
-    }
 }
