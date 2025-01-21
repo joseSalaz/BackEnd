@@ -11,6 +11,9 @@ using IRepository;
 using MercadoPago.Client.Payment;
 using MercadoPago.Resource.Payment;
 using Bussines;
+using Service;
+using IBussnies;
+using Bussnies;
 
 namespace API.Controllers
 {
@@ -26,10 +29,14 @@ namespace API.Controllers
         private readonly IDetalleVentaBussines _IDetalleVentaBussines;
         private readonly ICajaRepository _ICajaRepository;
         private readonly IEstadoPedidoBussines _IEstadoPedidoBussines;
+        private readonly IOrderMesageFirebase _IOrderMesageFirebase;
+        private readonly IUsuarioBussnies _IUsuarioBussnies;
 
         public MercadoPagoController(IPaymentService apisMercadoPagoService, IConfiguration configuration,
             IKardexRepository kardexRepository, IVentaBussines ventaBussines, ICajaBussines iCajaBussines, 
-            IDetalleVentaBussines detalleVentaBussines, ICajaRepository iCajaRepository, IEstadoPedidoBussines iEstadoPedidoBussines)
+            IDetalleVentaBussines detalleVentaBussines, ICajaRepository iCajaRepository, IEstadoPedidoBussines iEstadoPedidoBussines,
+            IOrderMesageFirebase orderMesageFirebase,
+            IUsuarioBussnies usuarioBussnies)
         {
             _apisMercadoPagoService = apisMercadoPagoService;
             _configuration = configuration;
@@ -39,6 +46,8 @@ namespace API.Controllers
             _IDetalleVentaBussines = detalleVentaBussines;
             _ICajaRepository = iCajaRepository;
             _IEstadoPedidoBussines = iEstadoPedidoBussines;
+            _IOrderMesageFirebase = orderMesageFirebase;
+            _IUsuarioBussnies = usuarioBussnies;
         }
 
         [HttpPost("create-payment")]
@@ -234,6 +243,13 @@ namespace API.Controllers
                 if (estadoPedido == null)
                 {
                     return StatusCode(500, "Error al crear el estado del pedido para el detalle de la venta con ID " + detalle.IdDetalleVentas);
+                }
+
+                var deviceTokens = await _IUsuarioBussnies.GetNotificationTokensAsync(); // Enviar notificación de nuevo pedido a cada token
+
+                foreach (var token in deviceTokens)
+                {
+                    await _IOrderMesageFirebase.SendFirebaseNotificationAsync(token, "Nuevo Pedido", "¡Tienes un nuevo pedido en la app!");
                 }
             }
 
