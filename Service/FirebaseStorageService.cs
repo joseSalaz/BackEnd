@@ -15,7 +15,7 @@ namespace Service
 
         public FirebaseStorageService(IConfiguration configuration)
         {
-            _ = InitializeFirebaseAsync(configuration);
+            InitializeFirebaseAsync(configuration).GetAwaiter().GetResult();
         }
 
         private async Task InitializeFirebaseAsync(IConfiguration configuration)
@@ -35,13 +35,17 @@ namespace Service
 
         public async Task<string> UploadFileAsync(IFormFile file, string folderName)
         {
+            if (_firebaseStorage == null)
+            {
+                throw new InvalidOperationException("Firebase Storage no se ha inicializado correctamente.");
+            }
+
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
             using (var stream = file.OpenReadStream())
             {
-                // Carga el archivo en Firebase Storage
                 var task = _firebaseStorage
-                    .Child(folderName) // Carpeta donde se subirá el archivo
-                    .Child(fileName) // Nombre del archivo
+                    .Child(folderName)
+                    .Child(fileName)
                     .PutAsync(stream);
 
                 var url = await task;
@@ -52,6 +56,11 @@ namespace Service
         public async Task<string> UploadPedidosImageAsync(IFormFile image)
         {
             return await UploadFileAsync(image, "pedidosimagenes");
+        }
+
+        public Task DeleteFileAsync(string fileUrl)
+        {
+            throw new NotImplementedException();
         }
     }
 

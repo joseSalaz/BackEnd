@@ -95,6 +95,9 @@ namespace Bussines
             return res;
         }
 
-
+        public async Task<Autor> GetByNameAsync(string nombre)
+        {
+            return await _IAutorRepository.GetByName(nombre);
+        }
     }
 }

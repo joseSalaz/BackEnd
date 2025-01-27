@@ -7,5 +7,6 @@ namespace IBussines
 {
     public interface IAutorBussines: ICRUDBussnies<AutorRequest, AutorResponse>
     {
+        Task<Autor> GetByNameAsync(string nombre);
     }
 }

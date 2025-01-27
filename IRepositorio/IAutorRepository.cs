@@ -11,5 +11,7 @@ namespace IRepository
     public interface  IAutorRepository: ICRUDRepositorio<Autor>
     {
         Task<Autor> GetByIds(List<int> ids);
+        Task<Autor> GetByName(string nombre);
+        Task<Autor> GetByIdAsync(object id);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines;
+using DBModel.DB;
 using IBussines;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -88,6 +89,24 @@ namespace API.Controllers
         {
             int res = _IAutorBussines.Delete(id);
             return Ok(res);
+        }
+
+        /// <summary>
+        /// busca
+        /// </summary>
+        /// <param name="id">Valor del PK</param>
+        /// <returns>Cantidad de registros afectados</returns>
+        [HttpGet("GetByName")]
+        public async Task<ActionResult<Autor>> GetByName(string nombre)
+        {
+            var autor = await _IAutorBussines.GetByNameAsync(nombre);
+
+            if (autor == null)
+            {
+                return NotFound(new { message = "Autor no encontrado." });
+            }
+
+            return Ok(autor);
         }
         #endregion
     }
