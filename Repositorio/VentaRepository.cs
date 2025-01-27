@@ -70,7 +70,7 @@ namespace Repository
             .ToListAsync();
 
         }
-        public async Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize, string estado = null, bool ordenarPorFechaDesc = true)
+        public async Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize, string estado = null, bool ordenarPorFechaDesc = true, DateTime? fechaInicio = null, DateTime? fechaFin = null)
         {
             var query = dbSet
                 .Include(v => v.DetalleVenta)
@@ -80,15 +80,25 @@ namespace Repository
             // Filtrar por estado
             if (!string.IsNullOrEmpty(estado))
             {
-                query = query.Where(v => v.DetalleVenta.Any(dv => dv.Estado == estado));
+                query = query.Where(v => v.DetalleVenta.Any(dv => dv.EstadoPedidos.Any(ep => ep.Estado == estado)));
             }
 
-            // Ordenar por fecha
+            // Filtrar fechas
+            if (fechaInicio.HasValue && fechaFin.HasValue)
+            {
+                var inicio = fechaInicio.Value.Date; // Normaliza para solo usar la fecha
+                var fin = fechaFin.Value.Date.AddDays(1).AddTicks(-1); // Incluye todo el día final
+
+                query = query.Where(v => v.FechaVenta >= inicio && v.FechaVenta <= fin);
+            }
+
+
+            // Orden fechas
             query = ordenarPorFechaDesc
                 ? query.OrderByDescending(v => v.FechaVenta)
                 : query.OrderBy(v => v.FechaVenta);
 
-            // Contar total de registros
+            // Contar registro
             int totalItems = await query.CountAsync();
 
             // Paginado

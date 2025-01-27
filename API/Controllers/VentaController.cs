@@ -3,6 +3,7 @@ using Bussines;
 using IBussines;
 using IService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Models.RequestResponse;
 
 namespace API.Controllers
@@ -131,17 +132,20 @@ namespace API.Controllers
             return Ok(ventas);
         }
 
-
         [HttpGet("Paginator")]
         public async Task<IActionResult> GetAll(
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10,
-        [FromQuery] string estado = null,
-        [FromQuery] bool ordenarPorFechaDesc = true)
+     [FromQuery] int page = 1,
+     [FromQuery] int pageSize = 10,
+     [FromQuery] string estado = null,
+     [FromQuery] bool ordenarPorFechaDesc = true,
+     [FromQuery] DateTime? fechaInicio = null, 
+     [FromQuery] DateTime? fechaFin = null
+ )
         {
             try
             {
-                var (ventaResponse, totalItems) = await _IVentaBussines.GetVentaPaginados(page, pageSize, estado, ordenarPorFechaDesc);
+                var (ventaResponse, totalItems) = await _IVentaBussines.GetVentaPaginados(page, pageSize, estado, ordenarPorFechaDesc, fechaInicio, fechaFin);
+
                 var response = new
                 {
                     TotalItems = totalItems,
@@ -157,6 +161,8 @@ namespace API.Controllers
                 return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
+
+
         [HttpGet("GetVentaConDetallesYEstado/{idVenta}")]
         public async Task<IActionResult> GetVentaConDetallesYEstado(int idVenta)
         {

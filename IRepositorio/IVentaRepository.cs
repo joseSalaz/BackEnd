@@ -15,7 +15,7 @@ namespace IRepository
         Task<Persona> GetPersonaByVentaId(int idVenta);
         Task<string> ObtenerUltimoNumeroComprobante();
         Task<IEnumerable<Venta>> ObtenerVentasPorFechaAsync(DateTime fechaInicio, DateTime fechaFin);
-        Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize, string estado = null, bool ordenarPorFechaDesc = true);
+        Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize, string estado = null, bool ordenarPorFechaDesc = true, DateTime? fechaInicio = null, DateTime? fechaFin = null);
         Task<(Venta venta, List<DetalleVenta> detalles, EstadoPedido estado)> GetVentaConDetallesYEstado(int idVenta);
     }
 }
