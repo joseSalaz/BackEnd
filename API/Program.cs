@@ -91,6 +91,8 @@ builder.Services.AddScoped<IEstadoPedidoImageneBussines, EstadoPedidoImageneBuss
 builder.Services.AddScoped<IEstadoPedidoRepository, EstadoPedidoRepository>();
 builder.Services.AddScoped<IOrderMesageFirebase, OrderMesageFirebase>();
 builder.Services.AddScoped<IUsuarioBussnies, UsuarioBussnies>();
+builder.Services.AddScoped<ILibroAutorRepository, LibroAutorRepository>();
+builder.Services.AddScoped<IAutorRepository, AutorRepository>();
 builder.Services.AddHttpClient();
 
 

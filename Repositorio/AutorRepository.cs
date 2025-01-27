@@ -21,8 +21,14 @@ namespace Repository
         {
             return await dbSet.Where(autor => ids.Contains(autor.IdAutor)).FirstOrDefaultAsync();
         }
-
-
-
+        public async Task<Autor> GetByName(string nombre)
+        {
+            return await dbSet.FirstOrDefaultAsync(autor => autor.Nombre.ToLower() == nombre.ToLower());
+        }
+        
+        public async Task<Autor> GetByIdAsync(object id)
+        {
+            return await dbSet.FindAsync(id); 
+        }
     }
 }

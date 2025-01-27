@@ -102,10 +102,10 @@ namespace API.Controllers
         /// <param name="entity">registro a actualizar</param>
         /// <returns>retorna el registro actualizado</returns>
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] LibroRequest request, decimal precioVenta, int stock)
+        public async Task<IActionResult> Update([FromForm] LibroconautorRequest request, IFormFile? imageFile, decimal precioVenta, int stock)
         {
             // Esperamos a que la tarea se complete
-            LibroResponse res = await _ILibroBussines.UpdateLib(request, precioVenta, stock);
+            LibroResponse res = await _ILibroBussines.UpdateLib(request, imageFile, precioVenta, stock);
             return Ok(res);
         }
 
@@ -226,7 +226,7 @@ namespace API.Controllers
         /// <param name="imageFile">Archivo de imagen a subir</param>
         /// <returns>Retorna el registro insertado con la URL de la imagen</returns>
         [HttpPost("create-with-image-firebase")]
-        public async Task<IActionResult> CreateWithImageFirebase([FromForm] LibroRequest request, decimal precioVenta, int stock, IFormFile imageFile = null)
+        public async Task<IActionResult> CreateWithImageFirebase([FromForm] LibroconautorRequest request, decimal precioVenta, int stock, IFormFile imageFile = null)
         {
             try
             {
@@ -238,7 +238,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    var libroResponse = _ILibroBussines.Create(request);
+                    var libroResponse = _ILibroBussines.Create(request.Libro);
                     return Ok(libroResponse);
                 }
             }
