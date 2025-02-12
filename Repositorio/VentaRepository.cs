@@ -130,5 +130,19 @@ namespace Repository
 
             return (venta, detalles, estadoPedido);
         }
+        public async Task<int> SaveChangesAsync()
+        {
+            return await db.SaveChangesAsync();
+        }
+        public bool ExisteVentaConDireccion(int idDireccion)
+        {
+            return db.Ventas.Any(v => v.IdDireccion == idDireccion);
+        }
+        public void AsignarDireccionAVenta(Venta venta, int idDireccion)
+        {
+            venta.IdDireccion = idDireccion;
+            dbSet.Update(venta);
+        }
+
     }
 }

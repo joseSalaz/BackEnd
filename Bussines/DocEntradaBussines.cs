@@ -18,9 +18,7 @@ namespace Bussines
         public readonly IDocEntradaRepository _IDocEntradaRepository = null;
         public readonly IMapper _Mapper;
 
-        public DocEntradaBussines()
-        {
-        }
+       
         #endregion
 
         #region constructor 

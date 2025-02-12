@@ -25,5 +25,6 @@ namespace Repository
         { 
             return await dbSet.Where(u => !string.IsNullOrEmpty(u.NotificationToken)).Select(u => u.NotificationToken).ToListAsync(); 
         }
+
     }
 }

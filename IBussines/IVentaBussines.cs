@@ -13,5 +13,8 @@ namespace IBussines
         Task<IEnumerable<VentaRequest>> ObtenerVentasPorFechaAsync(DateTime fechaInicio, DateTime fechaFin);
         Task<(List<VentaResponse>, int)> GetVentaPaginados(int page, int pageSize, string estado, bool ordenarPorFechaDesc, DateTime? fechaInicio, DateTime? fechaFin);
         Task<(VentaResponse venta, List<DetalleVentaResponse> detalles, EstadoPedidoResponse estado)> GetVentaConDetallesYEstado(int idVenta);
+        Task<bool> AsignarDireccionAVenta(int idVenta, int idDireccion);
+        bool ExisteVentaConDireccion(int idDireccion);
+
     }
 }

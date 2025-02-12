@@ -43,7 +43,7 @@ public partial class Libro
     public virtual Subcategoria IdSubcategoriaNavigation { get; set; } = null!;
     [JsonIgnore]
     public virtual TipoPapel IdTipoPapelNavigation { get; set; } = null!;
-    [JsonIgnore]
+    
     public virtual Kardex? Kardex { get; set; }
     [JsonIgnore]
     public virtual ICollection<LibroAutor> LibroAutors { get; set; } = new List<LibroAutor>();

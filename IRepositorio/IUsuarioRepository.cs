@@ -9,5 +9,6 @@ namespace IRepository
     {
         Usuario GetByUserName(string userName);
         Task<List<string>> GetNotificationTokensAsync();
+
     }
 }

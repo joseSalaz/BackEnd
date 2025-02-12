@@ -136,7 +136,8 @@ namespace API.Controllers
                 NroComprobante = numeroComprobante,
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona, // Persona del carrito
                 TotalPrecio = paymentRequest.Carrito.TotalAmount, // Asegúrate de que existe TotalAmount en ExecuteMercadopagoRequest
-                IdCaja = cajaDelDia.IdCaja
+                IdCaja = cajaDelDia.IdCaja,
+                IdDireccion = paymentRequest.Carrito.IdDireccion
             };
 
             // Crear la venta
@@ -173,6 +174,7 @@ namespace API.Controllers
                     Cantidad = item.Cantidad,
                     Importe = item.PrecioVenta * item.Cantidad,
                     Estado = "Reservado"
+                    
                 };
                 listaDetalle.Add(detalleVentaRequest);
             }

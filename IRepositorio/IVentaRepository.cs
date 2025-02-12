@@ -17,5 +17,8 @@ namespace IRepository
         Task<IEnumerable<Venta>> ObtenerVentasPorFechaAsync(DateTime fechaInicio, DateTime fechaFin);
         Task<(List<Venta>, int)> GetVentaPaginados(int page, int pageSize, string estado = null, bool ordenarPorFechaDesc = true, DateTime? fechaInicio = null, DateTime? fechaFin = null);
         Task<(Venta venta, List<DetalleVenta> detalles, EstadoPedido estado)> GetVentaConDetallesYEstado(int idVenta);
+        Task<int> SaveChangesAsync();
+        bool ExisteVentaConDireccion(int idDireccion);
+        void AsignarDireccionAVenta(Venta venta, int idDireccion);
     }
 }

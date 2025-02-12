@@ -93,6 +93,8 @@ builder.Services.AddScoped<IOrderMesageFirebase, OrderMesageFirebase>();
 builder.Services.AddScoped<IUsuarioBussnies, UsuarioBussnies>();
 builder.Services.AddScoped<ILibroAutorRepository, LibroAutorRepository>();
 builder.Services.AddScoped<IAutorRepository, AutorRepository>();
+builder.Services.AddScoped<IDireccionRepository, DireccionRepository>();
+builder.Services.AddScoped<IDireccionBussines, DireccionBussines>();
 builder.Services.AddHttpClient();
 
 
