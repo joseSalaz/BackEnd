@@ -67,11 +67,11 @@ namespace API.Controllers
                 // Suponiendo que `DatalleCarrito` se construye correctamente desde el `paymentRequest`
                 DatalleCarrito detalleCarrito = new DatalleCarrito
                 {
-                    // Construir el detalle del carrito aquí
+                  
                 };
-                string returnUrl = $"{_configuration[" https://ecomercesa-3c1ff.firebaseapp.com/detalle-venta "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
-                string cancelUrl = $"{_configuration[" https://ecomercesa-3c1ff.firebaseapp.com/detalle-venta "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
-                var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, paymentRequest.Amount, returnUrl, cancelUrl);
+                string returnUrl = $"{_configuration[" http://localhost:4200/detalle-venta "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
+                string cancelUrl = $"{_configuration[" http://localhost:4200/detalle-venta "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
+                var payment = await _apisPaypalServices.CreateOrdersasync(paymentRequest.Carrito, paymentRequest.Amount, returnUrl, cancelUrl);
                 var approvalUrl = payment.links.FirstOrDefault(lnk => lnk.rel.Equals("approval_url", StringComparison.OrdinalIgnoreCase))?.href;
                 if (string.IsNullOrWhiteSpace(approvalUrl))
                 {
@@ -88,34 +88,39 @@ namespace API.Controllers
 
 
         [HttpPost("execute-payment")]
-        public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRequest paymentRequest)
-        {
-            var apiContext = new APIContext(new OAuthTokenCredential(
+      // Ejecutando el pago con la información del carrito
+public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRequest paymentRequest)
+{
+    // Asegúrate de que el idDireccion esté presente en el carrito del paymentRequest
+     var apiContext = new APIContext(new OAuthTokenCredential(
                 _configuration["PayPalSettings:ClientId"],
                 _configuration["PayPalSettings:Secret"]
             ).GetAccessToken());
-            var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
-            var payment = new Payment { id = paymentRequest.PaymentId };
-            try
-            {
-                var executedPayment = payment.Execute(apiContext, paymentExecution);
-                if (executedPayment.state.ToLower() == "approved")
-                {
-                    await RegistrarVentaYDetalle(paymentRequest);
-                    // No necesitas llamar a SaveChanges si tu método Update ya lo hace internamente
-                    return Ok(new { PaymentId = executedPayment.id });
-                }
-                else
-                {
-                    return BadRequest("El pago no fue aprobado.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Registro de errores y respuesta adecuada
-                return StatusCode(500, "Error al ejecutar el pago: " + ex.Message);
-            }
+    
+    var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
+    var payment = new Payment { id = paymentRequest.PaymentId };
+
+    try
+    {
+        var executedPayment = payment.Execute(apiContext, paymentExecution);
+
+        if (executedPayment.state.ToLower() == "approved")
+        {
+            // Registrar la venta y detalle con el idDireccion correctamente
+            await RegistrarVentaYDetalle(paymentRequest);  // Aquí pasamos el idDireccion
+            return Ok(new { PaymentId = executedPayment.id });
         }
+        else
+        {
+            return BadRequest("El pago no fue aprobado.");
+        }
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, "Error al ejecutar el pago: " + ex.Message);
+    }
+}
+
 
 
         //private async Task<IActionResult> ProcesarPagoEnEfectivo(ExecutePaymentModelRequest paymentRequest)
@@ -143,7 +148,8 @@ namespace API.Controllers
                 NroComprobante = numeroComprobante,
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona,
                 TotalPrecio = paymentRequest.Carrito.TotalAmount,
-                IdCaja = cajaDelDia.IdCaja
+                IdCaja = cajaDelDia.IdCaja,
+                IdDireccion=paymentRequest.Carrito.IdDireccion
             };
 
             var venta = _IVentaBussines.Create(ventaRequest);

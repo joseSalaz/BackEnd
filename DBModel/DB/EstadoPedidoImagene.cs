@@ -10,7 +10,7 @@ public partial class EstadoPedidoImagene
 
     public int IdEstadoPedido { get; set; }
 
-    public string? UrlImagen { get; set; } = null!;
+    public string UrlImagen { get; set; } = null!;
 
     public string? Estado { get; set; }
 

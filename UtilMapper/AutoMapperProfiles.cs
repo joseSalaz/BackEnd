@@ -96,7 +96,11 @@ namespace UtilMapper
             CreateMap<EstadoPedidoImageneRequest, EstadoPedidoImagene>();
             CreateMap <EstadoPedidoImagene, EstadoPedidoImageneRequest>();
             CreateMap <EstadoPedidoImagene,EstadoPedidoImageneResponse>();
-           
+
+
+            CreateMap<DireccionRequest, Direccion>();
+            CreateMap<Direccion, DireccionRequest>();
+            CreateMap<Direccion, DireccionResponse>();
 
         }
 

@@ -29,6 +29,8 @@ public partial class LibreriaSaberContext : DbContext
 
     public virtual DbSet<DetalleVenta> DetalleVentas { get; set; }
 
+    public virtual DbSet<Direccion> Direccions { get; set; }
+
     public virtual DbSet<DocEntrada> DocEntradas { get; set; }
 
     public virtual DbSet<DocSalida> DocSalidas { get; set; }
@@ -69,7 +71,7 @@ public partial class LibreriaSaberContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=JOSÉSALAZAR\\SQLEXPRESS;Initial Catalog=Libreria_Saber;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("workstation id=Libreria_Saber.mssql.somee.com;packet size=4096;user id=Cesae_SQLLogin_1;pwd=5c8m9y4gg4;data source=Libreria_Saber.mssql.somee.com;persist security info=False;initial catalog=Libreria_Saber;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -213,6 +215,31 @@ public partial class LibreriaSaberContext : DbContext
                 .HasConstraintName("FK_detalle_ventas_ventas");
         });
 
+        modelBuilder.Entity<Direccion>(entity =>
+        {
+            entity.HasKey(e => e.IdDireccion).HasName("PK__Direccio__535FD61153D73008");
+
+            entity.ToTable("Direccion");
+
+            entity.Property(e => e.IdDireccion).HasColumnName("Id_Direccion");
+            entity.Property(e => e.CodigoPostal).HasMaxLength(20);
+            entity.Property(e => e.Departamento).HasMaxLength(100);
+            entity.Property(e => e.Direccion1)
+                .HasMaxLength(255)
+                .HasColumnName("Direccion");
+            entity.Property(e => e.Distrito).HasMaxLength(100);
+            entity.Property(e => e.FechaCreacion)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
+            entity.Property(e => e.Provincia).HasMaxLength(100);
+            entity.Property(e => e.Referencia).HasMaxLength(255);
+
+            entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Direccions)
+                .HasForeignKey(d => d.IdPersona)
+                .HasConstraintName("FK__Direccion__Id_Pe__160F4887");
+        });
+
         modelBuilder.Entity<DocEntrada>(entity =>
         {
             entity.HasKey(e => e.IdDocEntrada).HasName("PK__Doc_Entr__A667F4C73330EB16");
@@ -297,6 +324,7 @@ public partial class LibreriaSaberContext : DbContext
             entity.Property(e => e.Fecha).HasColumnType("datetime");
             entity.Property(e => e.IdEstadoPedido).HasColumnName("id_estado_pedido");
             entity.Property(e => e.UrlImagen)
+                .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("URL_Imagen");
 
@@ -589,6 +617,7 @@ public partial class LibreriaSaberContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Venta");
             entity.Property(e => e.IdCaja).HasColumnName("Id_Caja");
+            entity.Property(e => e.IdDireccion).HasColumnName("Id_Direccion");
             entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
             entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
             entity.Property(e => e.NroComprobante)
@@ -606,6 +635,10 @@ public partial class LibreriaSaberContext : DbContext
                 .HasForeignKey(d => d.IdCaja)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Ventas_Caja");
+
+            entity.HasOne(d => d.IdDireccionNavigation).WithMany(p => p.Venta)
+                .HasForeignKey(d => d.IdDireccion)
+                .HasConstraintName("FK__Ventas__Id_Direc__17036CC0");
 
             entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Venta)
                 .HasForeignKey(d => d.IdPersona)

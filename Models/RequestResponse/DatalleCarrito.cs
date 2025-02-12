@@ -12,5 +12,6 @@ namespace Models.RequestResponse
         public  List<Carrito> Items {get;set;}
         public decimal TotalAmount { get;set;}
         public PersonaRequest Persona{ get; set; }
+        public int IdDireccion { get; set; }
     }
 }

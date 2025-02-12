@@ -4,7 +4,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "Service",
+      "defaultValue": "API20250205164724ResourceGroup",
       "metadata": {
         "_parameterType": "resourceGroup",
         "description": "Nombre del grupo de recursos del recurso. Se recomienda poner los recursos en el mismo grupo de recursos para mejorar el seguimiento."
@@ -49,17 +49,17 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "name": "APILibreriaSaber",
+              "name": "APILibreriaSaver",
               "type": "Microsoft.ApiManagement/service",
               "location": "[parameters('resourceLocation')]",
               "properties": {
-                "publisherEmail": "persona32150@hotmail.com",
-                "publisherName": "persona32150@hotmail.com",
+                "publisherEmail": "josxDa@hotmail.com",
+                "publisherName": "josxDa@hotmail.com",
                 "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
                 "hostnameConfigurations": [
                   {
                     "type": "Proxy",
-                    "hostName": "apilibreriasaber.azure-api.net",
+                    "hostName": "apilibreriasaver.azure-api.net",
                     "encodedCertificate": null,
                     "keyVaultId": null,
                     "certificatePassword": null,
@@ -95,21 +95,13 @@
             },
             {
               "type": "Microsoft.ApiManagement/service/apis",
-              "name": "APILibreriaSaber/API",
+              "name": "APILibreriaSaver/API",
               "properties": {
-<<<<<<< HEAD
                 "displayName": "API",
                 "apiRevision": "1",
                 "description": null,
                 "subscriptionRequired": true,
                 "serviceUrl": null,
-=======
-                "displayName": "SISTEMA DE LIBRERIA",
-                "apiRevision": "1",
-                "description": "Documentación de los servicios para el sistema de Libreria Saber",
-                "subscriptionRequired": true,
-                "serviceUrl": "https://api20250116150338.azurewebsites.net",
->>>>>>> 2fd1117c9db206b6c4feaa06955111f54458d252
                 "path": "",
                 "protocols": [
                   "https"
@@ -126,7 +118,7 @@
               },
               "apiVersion": "2019-12-01",
               "dependsOn": [
-                "APILibreriaSaber"
+                "APILibreriaSaver"
               ]
             }
           ]

@@ -20,6 +20,7 @@ namespace Bussines
         public readonly IVentaRepository _IVentaRepository = null;
         public readonly IMapper _Mapper;
         public readonly IEmailService _emailService;
+        public readonly IDireccionRepository _IDireccionRepository = null;
 
         #endregion
 
@@ -204,6 +205,25 @@ namespace Bussines
             return (ventaResponse, detallesResponse, estadoResponse);
         }
 
-     
+        public async Task<bool> AsignarDireccionAVenta(int idVenta, int idDireccion)
+        {
+            var venta = _IVentaRepository.GetById(idVenta);
+            if (venta == null)
+                throw new Exception("No se encontró la venta.");
+
+            var direccion = _IDireccionRepository.GetById(idDireccion);
+            if (direccion == null || direccion.IdPersona != venta.IdPersona)
+                throw new Exception("La dirección no es válida para esta venta.");
+
+            venta.IdDireccion = idDireccion;
+            _IVentaRepository.Update(venta);
+
+            // El SaveChanges debe ser manejado correctamente
+            return await Task.FromResult(true);
+        }
+        public bool ExisteVentaConDireccion(int idDireccion)
+        {
+            return _IVentaRepository.ExisteVentaConDireccion(idDireccion);
+        }
     }
 }
