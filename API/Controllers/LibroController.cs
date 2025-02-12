@@ -270,6 +270,29 @@ namespace API.Controllers
             // Retornar los detalles obtenidos
             return Ok(analysisResult);
         }
+
+        [HttpPut("cambiar-estado/{id}")]
+        public async Task<IActionResult> CambiarEstado(int id)
+        {
+            var resultado = await _ILibroBussines.CambiarEstadoLibro(id);
+            if (!resultado)
+            {
+                return NotFound(new { mensaje = "Libro no encontrado" });
+            }
+
+            return Ok(new { mensaje = "Estado actualizado correctamente" });
+        }
+
+        [HttpGet("filtrar")]
+        public async Task<IActionResult> FiltrarLibros([FromQuery] bool? estado, [FromQuery] string? titulo = null, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        {
+            var (libros, totalItems) = await _ILibroBussines.FiltrarLibrosAsync(estado, titulo, page, pageSize);
+
+            return Ok(new { libros, totalItems });
+        }
+
+
+
         #endregion
 
     }

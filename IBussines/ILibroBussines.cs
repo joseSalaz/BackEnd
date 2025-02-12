@@ -25,5 +25,7 @@ namespace IBussines
         Task<(List<LibroResponse>, int)> GetLibrosPaginados(int page, int pageSize);
         Task<List<LibroResponse>> filtroComplete(string query);
         Task<LibroResponse> UpdateLib(LibroconautorRequest entity, IFormFile? imageFile, decimal precioVenta, int stock);
+        Task<bool> CambiarEstadoLibro(int libroId);
+        Task<(List<Libro>, int)> FiltrarLibrosAsync(bool? estado, string titulo, int page, int pageSize);
     }
 }

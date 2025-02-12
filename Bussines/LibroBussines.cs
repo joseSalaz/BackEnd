@@ -127,7 +127,16 @@ namespace Bussines
             LibroResponse res = _Mapper.Map<LibroResponse>(au);
             return res;
         }
+        public async Task<(List<Libro>, int)> FiltrarLibrosAsync(bool? estado, string titulo, int page, int pageSize)
+        {
+            return await _ILibroRepository.FiltrarLibrosAsync(estado, titulo, page, pageSize);
+        }
 
+
+        public async Task<bool> CambiarEstadoLibro(int libroId)
+        {
+            return await _ILibroRepository.CambiarEstadoLibro(libroId);
+        }
         public List<LibroResponse> UpdateMultiple(List<LibroRequest> request)
         {
             List<Libro> au = _Mapper.Map<List<Libro>>(request);
