@@ -179,8 +179,33 @@ namespace API.Controllers
                 EstadoPedido = result.estado
             });
         }
+        [HttpGet("persona/{idPersona}")]
+        public async Task<ActionResult<List<Venta>>> ObtenerVentasPorIdPersona(int idPersona)
+        {
+            var ventas = await _IVentaBussines.ObtenerVentasPorIdPersona(idPersona);
+            if (ventas == null || ventas.Count == 0) return NotFound("No se encontraron ventas.");
+            return Ok(ventas);
+        }
 
+        // Obtener detalles de venta por ID de venta
         [HttpGet("detalle/{idVenta}")]
+        public async Task<ActionResult<List<DetalleVenta>>> ObtenerDetallesPorIdVenta(int idVenta)
+        {
+            var detalles = await _IVentaBussines.ObtenerDetallesPorIdVenta(idVenta);
+            if (detalles == null || detalles.Count == 0) return NotFound("No se encontraron detalles de venta.");
+            return Ok(detalles);
+        }
+
+        // Obtener el estado del pedido por ID de detalle de venta (solo uno)
+        [HttpGet("estado/{idDetalleVenta}")]
+        public async Task<ActionResult<EstadoPedido>> ObtenerEstadoPedidoUnicoPorVenta(int idDetalleVenta)
+        {
+            var estadoPedido = await _IVentaBussines.ObtenerEstadoPedidoUnicoPorVenta(idDetalleVenta);
+            if (estadoPedido == null) return NotFound("No se encontró estado del pedido.");
+            return Ok(estadoPedido);
+        }
+
+        [HttpGet("detallePersona/{idVenta}")]
         public async Task<IActionResult> GetVentaConPersonaYDireccion(int idVenta)
         {
             var venta = await _IVentaBussines.GetVentaConPersonaYDireccion(idVenta);

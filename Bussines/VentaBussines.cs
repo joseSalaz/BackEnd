@@ -225,7 +225,20 @@ namespace Bussines
         {
             return _IVentaRepository.ExisteVentaConDireccion(idDireccion);
         }
+        public async Task<List<Venta>> ObtenerVentasPorIdPersona(int idPersona)
+        {
+            return await _IVentaRepository.ObtenerVentasPorIdPersona(idPersona);
+        }
 
+        public async Task<List<DetalleVenta>> ObtenerDetallesPorIdVenta(int idVenta)
+        {
+            return await _IVentaRepository.ObtenerDetallesPorIdVenta(idVenta);
+        }
+
+        public async Task<EstadoPedido> ObtenerEstadoPedidoUnicoPorVenta(int idDetalleVenta)
+        {
+            return await _IVentaRepository.ObtenerEstadoPedidoUnicoPorVenta(idDetalleVenta);
+        }
         public async Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta)
         {
             return await _IVentaRepository.GetVentaConPersonaYDireccion(idVenta);

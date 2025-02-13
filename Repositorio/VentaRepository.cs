@@ -146,6 +146,33 @@ namespace Repository
             venta.IdDireccion = idDireccion;
             dbSet.Update(venta);
         }
+
+
+        public async Task<List<Venta>> ObtenerVentasPorIdPersona(int idPersona)
+        {
+            return await db.Ventas
+                .Where(v => v.IdPersona == idPersona)
+                .Include(v => v.DetalleVenta) // Relacionar detalles de venta
+                .ToListAsync();
+        }
+
+        // Obtener los detalles de venta por ID de venta
+        public async Task<List<DetalleVenta>> ObtenerDetallesPorIdVenta(int idVenta)
+        {
+            return await db.DetalleVentas
+                .Where(dv => dv.IdVentas == idVenta)
+                .ToListAsync();
+        }
+
+        // Obtener el estado del pedido por ID de detalle de venta (solo uno)
+        public async Task<EstadoPedido> ObtenerEstadoPedidoUnicoPorVenta(int idDetalleVenta)
+        {
+            return await db.EstadoPedidos
+                .Where(ep => ep.IdDetalleVentas == idDetalleVenta)
+                .Include(ep => ep.EstadoPedidoImagenes)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta)
         {
             const string query = @"
