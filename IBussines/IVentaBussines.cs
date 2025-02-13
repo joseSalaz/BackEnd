@@ -16,6 +16,5 @@ namespace IBussines
         Task<bool> AsignarDireccionAVenta(int idVenta, int idDireccion);
         bool ExisteVentaConDireccion(int idDireccion);
         Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta);
-
     }
 }

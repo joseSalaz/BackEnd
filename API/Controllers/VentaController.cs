@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines;
+using DBModel.DB;
 using IBussines;
 using IService;
 using Microsoft.AspNetCore.Mvc;

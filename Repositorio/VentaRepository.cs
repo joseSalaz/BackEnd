@@ -146,8 +146,6 @@ namespace Repository
             venta.IdDireccion = idDireccion;
             dbSet.Update(venta);
         }
-
-
         public async Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta)
         {
             const string query = @"
@@ -173,6 +171,7 @@ WHERE dv.id_Ventas = @idVenta";
 
             using var reader = await command.ExecuteReaderAsync();
             if (!await reader.ReadAsync()) return null;
+
             return new VentaDetalledireccionResponse
             {
                 Id_Ventas = reader.GetInt32(0),
@@ -182,11 +181,11 @@ WHERE dv.id_Ventas = @idVenta";
                 NroComprobante = reader.IsDBNull(4) ? "" : reader.GetString(4),  // Manejo de NULL
 
                 Id_Persona = reader.GetInt32(5),
-                Nombre = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                Nombre = reader.IsDBNull(6) ? "" : reader.GetString(6),  // Manejo de NULL
                 ApellidoPaterno = reader.IsDBNull(7) ? "" : reader.GetString(7),
                 ApellidoMaterno = reader.IsDBNull(8) ? "" : reader.GetString(8),
                 Correo = reader.IsDBNull(9) ? "" : reader.GetString(9),
-                Telefono = reader.IsDBNull(10) ? "" : reader.GetString(10),  // Índice corregido
+                Telefono = reader.IsDBNull(10) ? "" : reader.GetString(10),
                 Numero_Documento = reader.IsDBNull(11) ? "" : reader.GetString(11),
                 Tipo_Documento = reader.IsDBNull(12) ? "" : reader.GetString(12),
 
