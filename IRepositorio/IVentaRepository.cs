@@ -20,5 +20,8 @@ namespace IRepository
         Task<int> SaveChangesAsync();
         bool ExisteVentaConDireccion(int idDireccion);
         void AsignarDireccionAVenta(Venta venta, int idDireccion);
+        Task<List<DetalleVenta>> ObtenerDetallesPorIdVenta(int idVenta);
+        Task<EstadoPedido> ObtenerEstadoPedidoUnicoPorVenta(int idVenta);
+        Task<List<Venta>> ObtenerVentasPorIdPersona(int idPersona);
     }
 }

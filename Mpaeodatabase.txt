@@ -1,4 +1,6 @@
 
+cesae: DB Conexion
+Data Source=DESKTOP-AAD7CCB;Initial Catalog=Libreria_Saber;Integrated Security=True;Encrypt=True;Trust Server Certificate=True
 
 Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;Integrated Security=True
 

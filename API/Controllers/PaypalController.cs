@@ -69,15 +69,11 @@ namespace API.Controllers
                 {
                   
                 };
-<<<<<<< HEAD
-                string returnUrl = $"{_configuration[" http://localhost:4200/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
-                string cancelUrl = $"{_configuration[" http://localhost:4200/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
-                var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, paymentRequest.Amount, returnUrl, cancelUrl);
-=======
+
                 string returnUrl = $"{_configuration[" http://localhost:4200/detalle-venta "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
                 string cancelUrl = $"{_configuration[" http://localhost:4200/detalle-venta "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
                 var payment = await _apisPaypalServices.CreateOrdersasync(paymentRequest.Carrito, paymentRequest.Amount, returnUrl, cancelUrl);
->>>>>>> 3fe6ea8a2e43aa3c3dc40064fbea688a3bcf593f
+
                 var approvalUrl = payment.links.FirstOrDefault(lnk => lnk.rel.Equals("approval_url", StringComparison.OrdinalIgnoreCase))?.href;
                 if (string.IsNullOrWhiteSpace(approvalUrl))
                 {
