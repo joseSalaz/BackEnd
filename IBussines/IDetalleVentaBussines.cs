@@ -17,6 +17,6 @@ namespace IBussines
         Task<bool> UpdateEstadoPedidosAndCreateImagenes(int idVenta, EstadoPedidoRequest request, List<IFormFile> images);
         Task<EstadoPedido> GetEstadoPedidoByDetalleVentaIdAsync(int idDetalleVenta);
 
-
+        Task<List<ProductosMasVendidosResponse>> ObtenerProductosMasVendidosDelMesAsync(int mes, int anio);
     }
 }

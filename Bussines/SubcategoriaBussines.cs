@@ -101,5 +101,11 @@ namespace Bussines
             List<SubcategoriaResponse> res = _Mapper.Map<List<SubcategoriaResponse>>(au);
             return res;
         }
+        public async Task<(List<Subcategoria>, int)> FiltrarSubcategoriasAsync(int? categoriaId, int page, int pageSize)
+        {
+            return await _ISubcategoriaRepository.FiltrarSubcategoriasAsync(categoriaId, page, pageSize);
+        }
+
+
     }
 }

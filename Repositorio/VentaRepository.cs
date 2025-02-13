@@ -1,7 +1,10 @@
 ﻿using DBModel.DB;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Wordprocessing;
 using IRepository;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Models.RequestResponse;
 using Repository.Generic;
 using System;
 using System.Collections.Generic;
@@ -142,6 +145,59 @@ namespace Repository
         {
             venta.IdDireccion = idDireccion;
             dbSet.Update(venta);
+        }
+
+
+        public async Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta)
+        {
+            const string query = @"
+SELECT 
+    v.Id_Ventas, v.Total_Precio, v.Tipo_Comprobante, v.Fecha_Venta, v.NroComprobante,
+    p.Id_Persona, p.Nombre, p.ApellidoPaterno, p.ApellidoMaterno, p.Correo,p.Telefono,p.Numero_Documento,p.Tipo_Documento,
+    d.Id_Direccion, d.Direccion, d.Referencia, d.Departamento, d.Provincia, d.Distrito, d.CodigoPostal
+FROM Detalle_Ventas dv
+JOIN ventas v ON dv.id_Ventas = v.Id_Ventas
+JOIN persona p ON v.Id_Persona = p.Id_Persona
+LEFT JOIN direccion d ON v.Id_Direccion = d.Id_Direccion
+WHERE dv.id_Ventas = @idVenta";
+
+            using var connection = db.Database.GetDbConnection();
+            await connection.OpenAsync();
+            using var command = connection.CreateCommand();
+            command.CommandText = query;
+
+            var paramIdVenta = command.CreateParameter();
+            paramIdVenta.ParameterName = "@idVenta";
+            paramIdVenta.Value = idVenta;
+            command.Parameters.Add(paramIdVenta);
+
+            using var reader = await command.ExecuteReaderAsync();
+            if (!await reader.ReadAsync()) return null;
+            return new VentaDetalledireccionResponse
+            {
+                Id_Ventas = reader.GetInt32(0),
+                Total_Precio = reader.GetDecimal(1),
+                Tipo_Comprobante = reader.GetString(2),
+                Fecha_Venta = reader.GetDateTime(3),
+                NroComprobante = reader.IsDBNull(4) ? "" : reader.GetString(4),  // Manejo de NULL
+
+                Id_Persona = reader.GetInt32(5),
+                Nombre = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                ApellidoPaterno = reader.IsDBNull(7) ? "" : reader.GetString(7),
+                ApellidoMaterno = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                Correo = reader.IsDBNull(9) ? "" : reader.GetString(9),
+                Telefono = reader.IsDBNull(10) ? "" : reader.GetString(10),  // Índice corregido
+                Numero_Documento = reader.IsDBNull(11) ? "" : reader.GetString(11),
+                Tipo_Documento = reader.IsDBNull(12) ? "" : reader.GetString(12),
+
+                Id_Direccion = reader.IsDBNull(13) ? (int?)null : reader.GetInt32(13),
+                Direccion = reader.IsDBNull(14) ? "" : reader.GetString(14),
+                Referencia = reader.IsDBNull(15) ? "" : reader.GetString(15),
+                Departamento = reader.IsDBNull(16) ? "" : reader.GetString(16),
+                Provincia = reader.IsDBNull(17) ? "" : reader.GetString(17),
+                Distrito = reader.IsDBNull(18) ? "" : reader.GetString(18),
+                CodigoPostal = reader.IsDBNull(19) ? "" : reader.GetString(19)
+            };
         }
 
     }

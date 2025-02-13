@@ -1,4 +1,5 @@
 ﻿using DBModel.DB;
+using Models.RequestResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,6 @@ namespace IRepository
         Task<int> SaveChangesAsync();
         bool ExisteVentaConDireccion(int idDireccion);
         void AsignarDireccionAVenta(Venta venta, int idDireccion);
+        Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta);
     }
 }

@@ -272,6 +272,17 @@ namespace API.Controllers
             return Ok(estadoPedido);
         }
 
+        [HttpGet("productos-mas-vendidos")]
+        public async Task<IActionResult> GetProductosMasVendidos([FromQuery] int mes, [FromQuery] int anio)
+        {
+            if (mes < 1 || mes > 12 || anio < 2000) // Validación básica
+            {
+                return BadRequest("Mes o año inválido");
+            }
+
+            var productos = await _detalleVentaBussines.ObtenerProductosMasVendidosDelMesAsync(mes, anio);
+            return Ok(productos);
+        }
         #endregion
     }
 }

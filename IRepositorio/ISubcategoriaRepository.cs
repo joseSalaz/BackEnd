@@ -11,5 +11,6 @@ namespace IRepository
     public interface ISubcategoriaRepository : ICRUDRepositorio<Subcategoria>
     {
         Task<List<int>> GetLibroIdsBySubcategoria(int subcategoriaId);
+        Task<(List<Subcategoria>, int)> FiltrarSubcategoriasAsync(int? categoriaId, int page, int pageSize);
     }
 }

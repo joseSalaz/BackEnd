@@ -98,6 +98,26 @@ namespace API.Controllers
             return Ok(libros);
         }
 
+        [HttpGet("filtrar")]
+        public async Task<IActionResult> FiltrarSubcategorias(
+            [FromQuery] int? categoriaId,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            var (subcategorias, totalItems) = await _ISubcategoriaBussines.FiltrarSubcategoriasAsync(categoriaId, page, pageSize);
+
+            var response = new
+            {
+                subcategorias,
+                totalItems,
+                totalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                currentPage = page
+            };
+
+            return Ok(response);
+        }
+
+
         #endregion
     }
 }

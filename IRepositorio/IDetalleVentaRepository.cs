@@ -14,5 +14,6 @@ namespace IRepository
         public Task<IEnumerable<DetalleVenta>> GetDetalleVentasByPersonaId(int idPersona);
         Task<IEnumerable<DetalleVenta>> GetDetalleVentasByVentaId(int idVenta);
         Task<bool> UpdateEstadoPedidosByVentaId(int idVenta, EstadoPedidoRequest request);
+        Task<List<ProductosMasVendidosResponse>> ObtenerProductosMasVendidosAsync(int mes, int anio);
     }
 }

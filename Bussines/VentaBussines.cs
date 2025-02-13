@@ -225,5 +225,10 @@ namespace Bussines
         {
             return _IVentaRepository.ExisteVentaConDireccion(idDireccion);
         }
+
+        public async Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta)
+        {
+            return await _IVentaRepository.GetVentaConPersonaYDireccion(idVenta);
+        }
     }
 }

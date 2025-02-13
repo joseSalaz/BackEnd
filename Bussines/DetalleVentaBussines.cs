@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DBModel.DB;
 using IBussines;
+using IRepositorio;
 using IRepository;
 using Microsoft.AspNetCore.Http;
 using Models.RequestResponse;
@@ -143,6 +144,11 @@ namespace Bussines
         {
             // Llama al repositorio para obtener el EstadoPedido por IdDetalleVenta
             return await _estadoPedidoRepository.GetEstadoPedidoByDetalleVentaIdAsync(idDetalleVenta);
+        }
+
+        public async Task<List<ProductosMasVendidosResponse>> ObtenerProductosMasVendidosDelMesAsync(int mes, int anio)
+        {
+            return await _IDetalleVentaRepository.ObtenerProductosMasVendidosAsync(mes, anio);
         }
 
     }

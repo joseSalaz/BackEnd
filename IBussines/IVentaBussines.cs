@@ -15,6 +15,7 @@ namespace IBussines
         Task<(VentaResponse venta, List<DetalleVentaResponse> detalles, EstadoPedidoResponse estado)> GetVentaConDetallesYEstado(int idVenta);
         Task<bool> AsignarDireccionAVenta(int idVenta, int idDireccion);
         bool ExisteVentaConDireccion(int idDireccion);
+        Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta);
 
     }
 }

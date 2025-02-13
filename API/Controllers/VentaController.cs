@@ -178,6 +178,17 @@ namespace API.Controllers
                 EstadoPedido = result.estado
             });
         }
+
+        [HttpGet("detalle/{idVenta}")]
+        public async Task<IActionResult> GetVentaConPersonaYDireccion(int idVenta)
+        {
+            var venta = await _IVentaBussines.GetVentaConPersonaYDireccion(idVenta);
+
+            if (venta == null)
+                return NotFound(new { message = "Venta no encontrada." });
+
+            return Ok(venta);
+        }
         #endregion
     }
 }
