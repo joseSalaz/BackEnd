@@ -243,5 +243,46 @@ namespace Bussines
         {
             return await _IVentaRepository.GetVentaConPersonaYDireccion(idVenta);
         }
+        public async Task<List<IngresoMensualResponse>> ObtenerIngresosMensuales(DateTime fechaInicio, DateTime fechaFin)
+        {
+            return await _IVentaRepository.ObtenerIngresosMensuales(fechaInicio, fechaFin);
+        }
+
+
+
+        public async Task<List<(Venta venta, List<DetalleVenta> detalles, EstadoPedido estado)>> ObtenerVentasPorMes(int anio, int mes)
+        {
+            return await _IVentaRepository.GetVentasConDetallesYEstadoPorMes(anio, mes);
+        }
+
+        public async Task<byte[]> GenerarReporteVentasExcel(int anio, int mes)
+        {
+            var ventas = await ObtenerVentasPorMes(anio, mes);
+
+            if (!ventas.Any())
+            {
+                throw new Exception("No hay ventas registradas en el mes seleccionado.");
+            }
+
+            // Transformar los datos para el Excel
+            var datosExcel = ventas.SelectMany(v => v.detalles.Select(d => new
+            {
+                IdVenta = v.venta.IdVentas,
+                FechaVenta = v.venta.FechaVenta?.ToString("yyyy-MM-dd HH:mm:ss"),
+                TipoComprobante = v.venta.TipoComprobante,
+                NroComprobante = v.venta.NroComprobante,
+                Cliente = v.venta.IdPersona,
+                Usuario = v.venta.IdUsuario,
+                Producto = d.NombreProducto,
+                PrecioUnitario = d.PrecioUnit,
+                Cantidad = d.Cantidad,
+                Total = d.Importe,
+                FechaEstado = v.estado?.FechaEstado.ToString("yyyy-MM-dd HH:mm:ss") ?? "Sin fecha",
+                ComentarioEstado = v.estado?.Comentario ?? "Sin comentario"
+            })).ToList();
+
+            return UtilExel.GenerarExcel.CrearExcel(datosExcel, $"Ventas_{anio}_{mes}");
+        }
+
     }
 }

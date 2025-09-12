@@ -46,6 +46,7 @@
     <ProjectReference Include="..\IRepositorio\IRepository.csproj" />
     <ProjectReference Include="..\IService\IService.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\UtilSecurity\UtilSecurity.csproj" />
   </ItemGroup>
 
 </Project>

@@ -226,5 +226,75 @@ WHERE dv.id_Ventas = @idVenta";
             };
         }
 
+        public async Task<List<IngresoMensualResponse>> ObtenerIngresosMensuales(DateTime fechaInicio, DateTime fechaFin)
+        {
+            const string query = @"
+        SELECT 
+            FORMAT(v.Fecha_Venta, 'yyyy-MM') AS MesAño,
+            SUM(d.Importe) AS TotalIngresos
+        FROM Ventas v
+        JOIN Detalle_Ventas d ON v.Id_Ventas = d.id_Ventas
+        WHERE v.Fecha_Venta BETWEEN @fechaInicio AND @fechaFin
+        GROUP BY FORMAT(v.Fecha_Venta, 'yyyy-MM')
+        ORDER BY MesAño";
+
+            using var connection = db.Database.GetDbConnection();
+            await connection.OpenAsync();
+            using var command = connection.CreateCommand();
+            command.CommandText = query;
+
+            var paramFechaInicio = command.CreateParameter();
+            paramFechaInicio.ParameterName = "@fechaInicio";
+            paramFechaInicio.Value = fechaInicio;
+            command.Parameters.Add(paramFechaInicio);
+
+            var paramFechaFin = command.CreateParameter();
+            paramFechaFin.ParameterName = "@fechaFin";
+            paramFechaFin.Value = fechaFin;
+            command.Parameters.Add(paramFechaFin);
+
+            using var reader = await command.ExecuteReaderAsync();
+            var ingresosMensuales = new List<IngresoMensualResponse>();
+
+            while (await reader.ReadAsync())
+            {
+                ingresosMensuales.Add(new IngresoMensualResponse
+                {
+                    MesAño = reader.GetString(0),
+                    TotalIngresos = reader.GetDecimal(1)
+                });
+            }
+
+            return ingresosMensuales;
+        }
+
+        public async Task<List<(Venta venta, List<DetalleVenta> detalles, EstadoPedido estado)>> GetVentasConDetallesYEstadoPorMes(int anio, int mes)
+        {
+            var ventas = await dbSet
+                .Include(v => v.DetalleVenta)
+                    .ThenInclude(dv => dv.EstadoPedidos)
+                .Where(v => v.FechaVenta.HasValue && v.FechaVenta.Value.Year == anio && v.FechaVenta.Value.Month == mes)
+                .ToListAsync();
+
+            return ventas.Select(v =>
+            {
+                var detalles = v.DetalleVenta.ToList();
+                var estadoPedido = detalles
+                    .SelectMany(dv => dv.EstadoPedidos)
+                    .OrderByDescending(ep => ep.FechaEstado)
+                    .FirstOrDefault();
+
+                return (v, detalles, estadoPedido);
+            }).ToList();
+        }
+
+        public async Task<string?> GetEmailByVentaId(int idVenta)
+        {
+            return await db.Ventas
+                .Where(v => v.IdVentas == idVenta)
+                .Select(v => v.IdPersonaNavigation.Correo)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }

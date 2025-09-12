@@ -117,6 +117,19 @@ namespace Repository
             return (libros, totalItems);
         }
 
+        public async Task<IEnumerable<Libro>> GetLibrosByVentaIdAsync(int idVenta)
+        {
+            var libros = await db.Libros
+                                 .Join(db.DetalleVentas,
+                                       l => l.IdLibro,
+                                       dv => dv.IdLibro,
+                                       (l, dv) => new { Libro = l, DetalleVenta = dv })
+                                 .Where(joined => joined.DetalleVenta.IdVentas == idVenta)
+                                 .Select(joined => joined.Libro)
+                                 .ToListAsync();
+
+            return libros;
+        }
 
     }
 }  

@@ -6,6 +6,7 @@ using DBModel.DB;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using IBussines;
 using IBussnies;
+using IRepositorio;
 using IRepository;
 using IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -95,6 +96,9 @@ builder.Services.AddScoped<ILibroAutorRepository, LibroAutorRepository>();
 builder.Services.AddScoped<IAutorRepository, AutorRepository>();
 builder.Services.AddScoped<IDireccionRepository, DireccionRepository>();
 builder.Services.AddScoped<IDireccionBussines, DireccionBussines>();
+builder.Services.AddScoped<ICriptoService, CriptoService>();
+builder.Services.AddScoped<IVentaRepository, VentaRepository>();
+builder.Services.AddScoped<ILibroRepository, LibroRepository>();
 builder.Services.AddHttpClient();
 
 

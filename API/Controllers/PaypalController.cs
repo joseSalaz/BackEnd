@@ -70,8 +70,8 @@ namespace API.Controllers
                   
                 };
 
-                string returnUrl = $"{_configuration[" https://libreriasaber.store/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
-                string cancelUrl = $"{_configuration[" https://libreriasaber.store/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
+                string returnUrl = $"{_configuration[" http://localhost:4200/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
+                string cancelUrl = $"{_configuration["http://localhost:4200/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
                 var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, paymentRequest.Amount, returnUrl, cancelUrl);
 
                 var approvalUrl = payment.links.FirstOrDefault(lnk => lnk.rel.Equals("approval_url", StringComparison.OrdinalIgnoreCase))?.href;
@@ -119,7 +119,7 @@ public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRe
     }
     catch (Exception ex)
     {
-        return StatusCode(500, "Error al ejecutar el pago: " + ex.Message);
+        return StatusCode(500, new { success = false, message = "Error al ejecutar el pago." });
     }
 }
 

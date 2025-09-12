@@ -25,5 +25,8 @@ namespace IRepository
         Task<EstadoPedido> ObtenerEstadoPedidoUnicoPorVenta(int idVenta);
         Task<List<Venta>> ObtenerVentasPorIdPersona(int idPersona);
         Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta);
+        Task<List<IngresoMensualResponse>> ObtenerIngresosMensuales(DateTime fechaInicio, DateTime fechaFin);
+        Task<List<(Venta venta, List<DetalleVenta> detalles, EstadoPedido estado)>> GetVentasConDetallesYEstadoPorMes(int anio, int mes);
+        Task<string?> GetEmailByVentaId(int idVenta);
     }
 }

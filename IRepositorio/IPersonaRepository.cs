@@ -15,7 +15,7 @@ namespace IRepository
         Persona GetByIdSub(string sub);
         Persona GetByDni(string documento);
         Task<(List<Persona>, int)> GetPersonaPaginados(int page, int pageSize);
-
+        Task<List<Persona>> BuscarPersonasPorNombreAsync(string nombre);
 
     }
     

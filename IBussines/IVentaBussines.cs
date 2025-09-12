@@ -19,5 +19,8 @@ namespace IBussines
         Task<List<Venta>> ObtenerVentasPorIdPersona(int idPersona);
         Task<EstadoPedido> ObtenerEstadoPedidoUnicoPorVenta(int idDetalleVenta);
         Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta);
+        Task<List<IngresoMensualResponse>> ObtenerIngresosMensuales(DateTime fechaInicio, DateTime fechaFin);
+        Task<List<(Venta venta, List<DetalleVenta> detalles, EstadoPedido estado)>> ObtenerVentasPorMes(int anio, int mes);
+        Task<byte[]> GenerarReporteVentasExcel(int anio, int mes);
     }
 }

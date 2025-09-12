@@ -39,6 +39,7 @@
     <ProjectReference Include="..\DBModel\DBModel.csproj" />
     <ProjectReference Include="..\IRepositorio\IRepository.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\UtilSecurity\UtilSecurity.csproj" />
   </ItemGroup>
 
 </Project>

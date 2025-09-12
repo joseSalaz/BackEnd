@@ -3,7 +3,9 @@ using DBModel.DB;
 using IBussines;
 using IRepositorio;
 using IRepository;
+using IService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Models.RequestResponse;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
@@ -24,17 +26,22 @@ namespace Bussines
         public readonly IMapper _Mapper;
         public readonly IEstadoPedidoImageneBussines _IEstadoPedidoImageneBussines;
         public readonly IEstadoPedidoRepository _estadoPedidoRepository;
-
+        public readonly ILibroRepository _libroRepository;
+        public readonly IEmailService _emailService;
+        public readonly IVentaRepository _ventaRepository;
         #endregion
 
         #region constructor 
-        public DetalleVentaBussines(IMapper mapper, IEstadoPedidoImageneBussines iEstadoPedidoImageneBussines,IEstadoPedidoRepository estadoPedidoRepository)
+        public DetalleVentaBussines(IMapper mapper, IEstadoPedidoImageneBussines iEstadoPedidoImageneBussines,IEstadoPedidoRepository estadoPedidoRepository,
+            IVentaRepository ventaRepository,ILibroRepository libroRepository,IEmailService emailService )
         {
             _Mapper = mapper;
             _IDetalleVentaRepository = new DetalleVentaRepository();
             _IEstadoPedidoImageneBussines = iEstadoPedidoImageneBussines;
             _estadoPedidoRepository = estadoPedidoRepository;
-            
+            _ventaRepository = ventaRepository;
+            _emailService = emailService;
+            _libroRepository = libroRepository;
         }
         #endregion
 
@@ -118,27 +125,44 @@ namespace Bussines
 
         public async Task<bool> UpdateEstadoPedidosAndCreateImagenes(int idVenta, EstadoPedidoRequest request, List<IFormFile> images)
         {
-            // Actualizar los estados de los pedidos en la tabla EstadoPedido
-            var result = await _IDetalleVentaRepository.UpdateEstadoPedidosByVentaId(idVenta, request);
-            if (!result)
+            // Actualizamos los estados de los pedidos y obtenemos los IdEstadoPedido actualizados
+            var estadoPedidoIds = await _IDetalleVentaRepository.UpdateEstadoPedidosByVentaId(idVenta, request);
+            if (!estadoPedidoIds.Any())
                 return false;
 
-            // Ahora crear los registros correspondientes en EstadoPedidoImagene
-            var estadoPedidoImageneRequest = new EstadoPedidoImageneRequest
-            {
-                IdEstadoPedido = request.IdEstadoPedido,  // Este es el IdEstadoPedido que se está actualizando
-                Estado = request.Estado,
-                Fecha = request.FechaEstado  // Usar la fecha que se está recibiendo
-            };
+            // Obtener libros y productos relacionados con la venta
+            var libros = (await _libroRepository.GetLibrosByVentaIdAsync(idVenta)).ToList();
+            var productos = (await _IDetalleVentaRepository.GetDetalleVentasByVentaId(idVenta)).ToList();
 
-            // Llamamos al servicio para crear las imágenes
-            foreach (var image in images)
+            // Extraer imágenes de los productos
+            var imagenesProductos = libros.Select(l => l.Imagen).Where(img => !string.IsNullOrEmpty(img)).ToList();
+
+            // Crear registros en EstadoPedidoImagene y subir imágenes
+            foreach (var estadoPedidoId in estadoPedidoIds)
             {
+                var estadoPedidoImageneRequest = new EstadoPedidoImageneRequest
+                {
+                    IdEstadoPedido = estadoPedidoId, // IdEstadoPedido actualizado
+                    Estado = request.Estado,
+                    Fecha = request.FechaEstado // Fecha recibida
+                };
+
+                // Crear el registro con todas las imágenes asociadas
                 await _IEstadoPedidoImageneBussines.CreateWithImagesAsync(estadoPedidoImageneRequest, images);
+            }
+
+            // Enviar notificación por email al cliente
+            var clienteEmail = await _ventaRepository.GetEmailByVentaId(idVenta);
+            if (!string.IsNullOrEmpty(clienteEmail))
+            {
+                await _emailService.SendOrderStatusUpdateEmailAsync(clienteEmail, idVenta, request.Estado, productos, imagenesProductos);
             }
 
             return true;
         }
+
+
+
 
         public async Task<EstadoPedido> GetEstadoPedidoByDetalleVentaIdAsync(int idDetalleVenta)
         {

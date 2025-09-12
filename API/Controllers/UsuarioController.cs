@@ -87,6 +87,42 @@ namespace API.Controllers
             int res = _IUsuarioBussines.Delete(id);
             return Ok(res);
         }
+
+        [HttpPost("crear")]
+        public async Task<IActionResult> CrearUsuario([FromBody] UsuarioRequest request)
+        {
+            if (request == null)
+                return BadRequest("El request no puede ser nulo.");
+
+            bool resultado = await _IUsuarioBussines.CrearUsuarioAsync(request);
+
+            if (!resultado)
+                return BadRequest("No se pudo crear el usuario. Verifica que la persona exista.");
+
+            return Ok(new { mensaje = "Usuario creado correctamente." });
+        }
+
+        [HttpPut("actualizar")]
+        public async Task<IActionResult> ActualizarUsuario([FromBody] UsuarioRequest request)
+        {
+            bool actualizado = await _IUsuarioBussines.ActualizarUsuarioAsync(request);
+            if (!actualizado)
+                return NotFound(new { message = "Usuario no encontrado" });
+
+            return Ok(request);
+        }
+        [HttpPut("cambiar-estado/{id}")]
+        public async Task<IActionResult> CambiarEstado(int id, [FromBody] bool estadoActual)
+        {
+            var resultado = await _IUsuarioBussines.CambiarEstadoUsuario(id, estadoActual);
+            if (!resultado)
+            {
+                return NotFound("Usuario no encontrado.");
+            }
+
+            return Ok(new { message = "Estado actualizado correctamente." });
+        }
+
         #endregion
     }
 }

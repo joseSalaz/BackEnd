@@ -227,30 +227,33 @@ namespace API.Controllers
             return Ok(detalles);
         }
 
-
         [HttpPut("UpdateEstadoPedidos/{idVenta}")]
         public async Task<IActionResult> UpdateEstadoPedidos(int idVenta, [FromForm] EstadoPedidoRequest request)
         {
-            
             try
             {
+                // Obtener las imágenes desde la solicitud
                 var images = Request.Form.Files.GetFiles("images").ToList();
-                Console.WriteLine($"Images count: {images?.Count}");
                 Console.WriteLine($"Número de imágenes recibidas: {images.Count}");
+
                 foreach (var image in images)
                 {
                     Console.WriteLine($"Imagen recibida: {image.FileName}, tamaño: {image.Length} bytes");
                 }
 
+                // Verificar si no se recibieron imágenes
                 if (images == null || !images.Any())
                 {
                     return BadRequest("No se recibieron imágenes en la solicitud.");
                 }
-                // Llamar al servicio de negocio que actualiza el estado y crea las imágenes
-                var result = await _detalleVentaBussines.UpdateEstadoPedidosAndCreateImagenes(idVenta, request, images.ToList());
+
+                // Llamar al servicio de negocio para actualizar los estados y crear las imágenes
+                var result = await _detalleVentaBussines.UpdateEstadoPedidosAndCreateImagenes(idVenta, request, images);
 
                 if (!result)
+                {
                     return NotFound($"No se encontraron detalles de venta para la venta con ID {idVenta}.");
+                }
 
                 return Ok($"Se actualizó el estado y se crearon las imágenes para la venta con ID {idVenta}.");
             }
@@ -259,6 +262,7 @@ namespace API.Controllers
                 return StatusCode(500, $"Ocurrió un error al procesar la solicitud: {ex.Message}");
             }
         }
+
 
 
         [HttpGet("GetEstadoPedido/{idDetalleVenta}")]

@@ -215,6 +215,53 @@ namespace API.Controllers
 
             return Ok(venta);
         }
+
+
+        [HttpGet("ingresos-mensuales")]
+        public async Task<ActionResult<List<IngresoMensualResponse>>> ObtenerIngresosMensuales(
+            [FromQuery] DateTime fechaInicio,
+            [FromQuery] DateTime fechaFin)
+        {
+            if (fechaInicio > fechaFin)
+            {
+                return BadRequest("La fecha de inicio no puede ser mayor que la fecha de fin.");
+            }
+
+            var ingresos = await _IVentaBussines.ObtenerIngresosMensuales(fechaInicio, fechaFin);
+            return Ok(ingresos);
+        }
+
+
+        [HttpGet("ventas-por-mes")]
+        public async Task<IActionResult> ObtenerVentasPorMes([FromQuery] int anio, [FromQuery] int mes)
+        {
+            var ventas = await _IVentaBussines.ObtenerVentasPorMes(anio, mes);
+            return Ok(ventas);
+        }
+
+        [HttpGet("reporte-excel")]
+        public async Task<IActionResult> GenerarReporteVentasExcel([FromQuery] int anio, [FromQuery] int mes)
+        {
+            try
+            {
+                int anioActual = DateTime.Now.Year;
+                int mesActual = DateTime.Now.Month;
+
+                // Validación para evitar generar reportes de meses futuros
+                if (anio > DateTime.Now.Year || mes < 1 || mes > 12)
+                {
+                    return BadRequest(new { mensaje = "No se pueden generar reportes de meses futuros." });
+                }
+                var archivoExcel = await _IVentaBussines.GenerarReporteVentasExcel(anio, mes);
+                return File(archivoExcel, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Reporte_Ventas_{anio}_{mes}.xlsx");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
+        }
+
+
         #endregion
     }
 }

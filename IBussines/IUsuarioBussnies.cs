@@ -15,5 +15,8 @@ namespace IBussnies
         UsuarioResponse GetByUserName(string userName);
         bool RegisterNotificationToken(int usuarioId, string token);
         Task<List<string>> GetNotificationTokensAsync();
+        Task<bool> CrearUsuarioAsync(UsuarioRequest request);
+        Task<bool> ActualizarUsuarioAsync(UsuarioRequest request);
+        Task<bool> CambiarEstadoUsuario(int usuarioId, bool estadoActual);
     }
 }

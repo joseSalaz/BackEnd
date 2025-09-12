@@ -41,7 +41,7 @@ namespace Repository
         }
 
 
-        public async Task<bool> UpdateEstadoPedidosByVentaId(int idVenta, EstadoPedidoRequest request)
+        public async Task<List<int>> UpdateEstadoPedidosByVentaId(int idVenta, EstadoPedidoRequest request)
         {
             // Obtener los ids de detalle venta asociados al idVenta
             var detalleVentas = await db.DetalleVentas
@@ -51,7 +51,7 @@ namespace Repository
 
             // Si no hay detalles de venta, no hacemos nada
             if (!detalleVentas.Any())
-                return false;
+                return new List<int>();
 
             // Filtrar los registros de EstadoPedido relacionados con los detalles de venta
             var estadosPedidos = await db.EstadoPedidos
@@ -68,7 +68,9 @@ namespace Repository
 
             // Guardar los cambios
             await db.SaveChangesAsync();
-            return true;
+
+            // Retornar los Ids de los EstadoPedido actualizados
+            return estadosPedidos.Select(ep => ep.IdEstadoPedido).ToList();
         }
 
         public async Task<List<ProductosMasVendidosResponse>> ObtenerProductosMasVendidosAsync(int mes, int anio)

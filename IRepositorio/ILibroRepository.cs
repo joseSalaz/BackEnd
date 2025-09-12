@@ -14,6 +14,7 @@ namespace IRepositorio
         Task<List<Libro>> filtroComplete(string query);
         Task<bool> CambiarEstadoLibro(int libroId);
         Task<(List<Libro>, int)> FiltrarLibrosAsync(bool? estado, string titulo, int page, int pageSize);
+        Task<IEnumerable<Libro>> GetLibrosByVentaIdAsync(int idVenta);
 
     }
 }

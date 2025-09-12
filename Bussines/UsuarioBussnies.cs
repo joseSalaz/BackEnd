@@ -119,6 +119,22 @@ namespace Bussnies
         public async Task<List<string>> GetNotificationTokensAsync()
         { 
             return await _IUsuarioRepository.GetNotificationTokensAsync(); 
-        } 
+        }
+
+        public async Task<bool> CrearUsuarioAsync(UsuarioRequest request)
+        {
+            return await _IUsuarioRepository.CrearUsuarioAsync(request);
+        }
+
+        public async Task<bool> ActualizarUsuarioAsync(UsuarioRequest request)
+        {
+            return await _IUsuarioRepository.ActualizarUsuarioAsync(request);
+        }
+
+        public async Task<bool> CambiarEstadoUsuario(int usuarioId, bool estadoActual)
+        {
+            return await _IUsuarioRepository.CambiarEstadoUsuario(usuarioId, estadoActual);
+        }
+
     }
 }
