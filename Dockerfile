@@ -2,33 +2,35 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar archivos de proyecto
+# Copiar solución
 COPY *.sln ./
-COPY API.csproj ./API/
-COPY Bussines.csproj ./Bussines/
-COPY Constantes.csproj ./Constantes/
-COPY DBModel.csproj ./DBModel/
-COPY FileStorage.csproj ./FileStorage/
-COPY Firebase.csproj ./Firebase/
-COPY IBusiness.csproj ./IBusiness/
-COPY IRepository.csproj ./IRepository/
-COPY IService.csproj ./IService/
-COPY Models.csproj ./Models/
-COPY Repositorio.csproj ./Repositorio/
-COPY Service.csproj ./Service/
-COPY UtilExel.csproj ./UtilExel/
-COPY UtilInterface.csproj ./UtilInterface/
-COPY UtilMapper.csproj ./UtilMapper/
-COPY UtilPDF.csproj ./UtilPDF/
-COPY UtilSecurity.csproj ./UtilSecurity/
+
+# Copiar proyectos (cada uno desde su carpeta real)
+COPY API/API.csproj ./API/
+COPY Bussines/Bussines.csproj ./Bussines/
+COPY Constantes/Constantes.csproj ./Constantes/
+COPY DBModel/DBModel.csproj ./DBModel/
+COPY FileStorage/FileStorage.csproj ./FileStorage/
+COPY Firebase/Firebase.csproj ./Firebase/
+COPY IBusiness/IBusiness.csproj ./IBusiness/
+COPY IRepository/IRepository.csproj ./IRepository/
+COPY IService/IService.csproj ./IService/
+COPY Models/Models.csproj ./Models/
+COPY Repositorio/Repositorio.csproj ./Repositorio/
+COPY Service/Service.csproj ./Service/
+COPY UtilExel/UtilExel.csproj ./UtilExel/
+COPY UtilInterface/UtilInterface.csproj ./UtilInterface/
+COPY UtilMapper/UtilMapper.csproj ./UtilMapper/
+COPY UtilPDF/UtilPDF.csproj ./UtilPDF/
+COPY UtilSecurity/UtilSecurity.csproj ./UtilSecurity/
 
 # Restaurar dependencias
 RUN dotnet restore
 
-# Copiar todo el código fuente
+# Copiar todo el código
 COPY . .
 
-# Compilar y publicar en carpeta /app
+# Compilar y publicar
 WORKDIR /src/API
 RUN dotnet publish -c Release -o /app
 
@@ -37,7 +39,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app ./
 
-# Railway/Render expone dinámicamente el puerto con la variable $PORT
+# Puerto dinámico (Railway/Render)
 ENV ASPNETCORE_URLS=http://+:${PORT}
 
 # Ejecutar la API
