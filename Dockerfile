@@ -8,8 +8,8 @@ COPY . .
 # Restaurar dependencias
 RUN dotnet restore "LibreriaSaber.sln"
 
-# Compilar y publicar específicamente el proyecto API
-RUN dotnet publish "01 APIs/API/API.csproj" -c Release -o /app/publish
+# Compilar y publicar el proyecto API (ruta correcta sin espacios ni números)
+RUN dotnet publish "API/API.csproj" -c Release -o /app/publish
 
 # Imagen ligera para ejecutar con .NET 8
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
