@@ -1,28 +1,28 @@
-# Etapa 1: Build con SDK de .NET 8
+# Imagen base para compilar con .NET 8
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar solución
-COPY *.sln ./
+# Copiar archivo de solución
+COPY LibreriaSaber.sln .
 
-# Copiar proyectos (cada uno desde su carpeta real)
-COPY API/API.csproj ./API/
-COPY Bussines/Bussines.csproj ./Bussines/
-COPY Constantes/Constantes.csproj ./Constantes/
-COPY DBModel/DBModel.csproj ./DBModel/
-COPY FileStorage/FileStorage.csproj ./FileStorage/
-COPY Firebase/Firebase.csproj ./Firebase/
-COPY IBusiness/IBusiness.csproj ./IBusiness/
-COPY IRepository/IRepository.csproj ./IRepository/
-COPY IService/IService.csproj ./IService/
-COPY Models/Models.csproj ./Models/
-COPY Repositorio/Repositorio.csproj ./Repositorio/
-COPY Service/Service.csproj ./Service/
-COPY UtilExel/UtilExel.csproj ./UtilExel/
-COPY UtilInterface/UtilInterface.csproj ./UtilInterface/
-COPY UtilMapper/UtilMapper.csproj ./UtilMapper/
-COPY UtilPDF/UtilPDF.csproj ./UtilPDF/
-COPY UtilSecurity/UtilSecurity.csproj ./UtilSecurity/
+# Copiar todos los proyectos con sus rutas correctas
+COPY "01 APIS/API/API.csproj" "01 APIS/API/"
+COPY "02 Bussines/Bussines/Bussines.csproj" "02 Bussines/Bussines/"
+COPY "02 Bussines/IBussines/IBussines.csproj" "02 Bussines/IBussines/"
+COPY "03 Servicios/IService/IService.csproj" "03 Servicios/IService/"
+COPY "03 Servicios/Service/Service.csproj" "03 Servicios/Service/"
+COPY "04 Repositorio/IRepository/IRepository.csproj" "04 Repositorio/IRepository/"
+COPY "04 Repositorio/Repository/Repository.csproj" "04 Repositorio/Repository/"
+COPY "05 Model/DBModel/DBModel.csproj" "05 Model/DBModel/"
+COPY "05 Model/Models/Models.csproj" "05 Model/Models/"
+COPY "06 Util/Constantes/Constantes.csproj" "06 Util/Constantes/"
+COPY "06 Util/Firebase/Firebase.csproj" "06 Util/Firebase/"
+COPY "06 Util/UtilExel/UtilExel.csproj" "06 Util/UtilExel/"
+COPY "06 Util/UtilInterface/UtilInterface.csproj" "06 Util/UtilInterface/"
+COPY "06 Util/UtilMapper/UtilMapper.csproj" "06 Util/UtilMapper/"
+COPY "06 Util/UtilPDF/UtilPDF.csproj" "06 Util/UtilPDF/"
+COPY "06 Util/UtilSecurity/UtilSecurity.csproj" "06 Util/UtilSecurity/"
+COPY "10 Anotaciones/Anotaciones.csproj" "10 Anotaciones/"
 
 # Restaurar dependencias
 RUN dotnet restore
@@ -30,17 +30,16 @@ RUN dotnet restore
 # Copiar todo el código
 COPY . .
 
-# Compilar y publicar
-WORKDIR /src/API
+# Compilar y publicar API
+WORKDIR "/src/01 APIS/API"
 RUN dotnet publish -c Release -o /app
 
-# Etapa 2: Runtime con imagen más ligera
+# Imagen ligera para ejecutar con .NET 8
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=build /app ./
+COPY --from=build /app .
 
-# Puerto dinámico (Railway/Render)
+# Puerto dinámico (lo asigna Railway/Render/etc)
 ENV ASPNETCORE_URLS=http://+:${PORT}
 
-# Ejecutar la API
 ENTRYPOINT ["dotnet", "API.dll"]
