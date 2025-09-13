@@ -102,7 +102,11 @@ namespace API.Controllers
             int res = _detalleVentaBussines.Delete(id);
             return Ok(res);
         }
-
+        /// <summary>
+        /// Obtiene los detalles de venta asociados a una persona.
+        /// </summary>
+        /// <param name="idPersona">Identificador de la persona.</param>
+        /// <returns>Lista de detalles de venta de la persona.</returns>
         [HttpGet("traer/{idPersona}")]
         public async Task<IActionResult> GetDetalleVentasByPersonaId(int idPersona)
         {
@@ -113,7 +117,11 @@ namespace API.Controllers
 
 
 
-
+        /// <summary>
+        /// Registra una venta y sus detalles, creando la persona si no existe y actualizando stock y caja.
+        /// </summary>
+        /// <param name="detalleCarrito">Carrito con los ítems de la venta.</param>
+        /// <returns>Mensaje de confirmación.</returns>
         [HttpPost("registrar-venta-detalle")]
         public async Task<IActionResult> RegistrarVentaYDetalle([FromBody] DatalleCarrito detalleCarrito)
         {
@@ -214,6 +222,11 @@ namespace API.Controllers
             return Ok(new { Message = "Venta y detalles registrados con éxito" });
         }
 
+        /// <summary>
+        /// Obtiene los detalles de venta de una venta específica.
+        /// </summary>
+        /// <param name="idVenta">Identificador de la venta.</param>
+        /// <returns>Lista de detalles de la venta.</returns>
         [HttpGet("GetByVenta/{idVenta}")]
         public async Task<IActionResult> GetDetallesByVenta(int idVenta)
         {
@@ -227,6 +240,12 @@ namespace API.Controllers
             return Ok(detalles);
         }
 
+        /// <summary>
+        /// Actualiza el estado de los pedidos asociados a una venta y guarda imágenes.
+        /// </summary>
+        /// <param name="idVenta">Identificador de la venta.</param>
+        /// <param name="request">Datos del estado del pedido.</param>
+        /// <returns>Resultado de la actualización.</returns>
         [HttpPut("UpdateEstadoPedidos/{idVenta}")]
         public async Task<IActionResult> UpdateEstadoPedidos(int idVenta, [FromForm] EstadoPedidoRequest request)
         {
@@ -264,7 +283,11 @@ namespace API.Controllers
         }
 
 
-
+        /// <summary>
+        /// Obtiene el estado de un pedido a partir del detalle de venta.
+        /// </summary>
+        /// <param name="idDetalleVenta">Identificador del detalle de venta.</param>
+        /// <returns>Estado del pedido.</returns>
         [HttpGet("GetEstadoPedido/{idDetalleVenta}")]
         public async Task<IActionResult> GetEstadoPedidoByDetalleVentaId(int idDetalleVenta)
         {
@@ -275,7 +298,12 @@ namespace API.Controllers
 
             return Ok(estadoPedido);
         }
-
+        /// <summary>
+        /// Obtiene los productos más vendidos en un mes y año determinados.
+        /// </summary>
+        /// <param name="mes">Mes (1-12).</param>
+        /// <param name="anio">Año (>=2000).</param>
+        /// <returns>Lista de productos más vendidos.</returns>
         [HttpGet("productos-mas-vendidos")]
         public async Task<IActionResult> GetProductosMasVendidos([FromQuery] int mes, [FromQuery] int anio)
         {
