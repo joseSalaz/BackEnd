@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Constantes;
 using DBModel.DB;
-
+using DBModel.Response;
 using IBussines;
 using IRepositorio;
 using IRepository;
@@ -324,7 +324,11 @@ namespace Bussines
             return _Mapper.Map<List<LibroResponse>>(libros);
         }
 
-
+        public async Task<List<LibroDataResponse>> getLibroAutor()
+        {
+            var libros = await _ILibroRepository.getLibroAutor();
+            return libros;
+        }
         public async Task<LibroResponse> UpdateLib(LibroconautorRequest entity,IFormFile? imageFile, decimal precioVenta, int stock)
         {
             // Obtener el libro desde el repositorio

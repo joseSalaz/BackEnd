@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using DBModel.Response;
 
 namespace DBModel.DB;
 
@@ -69,12 +70,16 @@ public partial class LibreriaSaberContext : DbContext
 
     public virtual DbSet<Venta> Ventas { get; set; }
 
+    public virtual DbSet<LibroDataResponse> LibroDataResponse { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=SQL1001.site4now.net;Initial Catalog=db_abe332_libreriasaber;User Id=db_abe332_libreriasaber_admin;Password=jose789@_");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-90KDBDD\\SQLEXPRESS;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<LibroDataResponse>()
+        .HasNoKey();
         modelBuilder.Entity<Autor>(entity =>
         {
             entity.HasKey(e => e.IdAutor).HasName("PK__Autor__0DC8163E6E12E91F");

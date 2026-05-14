@@ -46,7 +46,6 @@ namespace API.Controllers
 
 
 
-
         /// <summary>
         /// retorna el registro por Primary key
         /// </summary>
@@ -291,6 +290,13 @@ namespace API.Controllers
             return Ok(new { libros, totalItems });
         }
 
+
+        [HttpGet("libroautores")]
+        public async Task<IActionResult> getLibrosAutores()
+        {
+            var result = await _ILibroBussines.getLibroAutor();
+            return Ok(result);
+        }
 
 
         #endregion

@@ -176,15 +176,15 @@ namespace Repository
         public async Task<VentaDetalledireccionResponse> GetVentaConPersonaYDireccion(int idVenta)
         {
             const string query = @"
-SELECT 
-    v.Id_Ventas, v.Total_Precio, v.Tipo_Comprobante, v.Fecha_Venta, v.NroComprobante,
-    p.Id_Persona, p.Nombre, p.ApellidoPaterno, p.ApellidoMaterno, p.Correo,p.Telefono,p.Numero_Documento,p.Tipo_Documento,
-    d.Id_Direccion, d.Direccion, d.Referencia, d.Departamento, d.Provincia, d.Distrito, d.CodigoPostal
-FROM Detalle_Ventas dv
-JOIN ventas v ON dv.id_Ventas = v.Id_Ventas
-JOIN persona p ON v.Id_Persona = p.Id_Persona
-LEFT JOIN direccion d ON v.Id_Direccion = d.Id_Direccion
-WHERE dv.id_Ventas = @idVenta";
+                SELECT 
+                    v.Id_Ventas, v.Total_Precio, v.Tipo_Comprobante, v.Fecha_Venta, v.NroComprobante,
+                    p.Id_Persona, p.Nombre, p.ApellidoPaterno, p.ApellidoMaterno, p.Correo,p.Telefono,p.Numero_Documento,p.Tipo_Documento,
+                    d.Id_Direccion, d.Direccion, d.Referencia, d.Departamento, d.Provincia, d.Distrito, d.CodigoPostal
+                FROM Detalle_Ventas dv
+                JOIN ventas v ON dv.id_Ventas = v.Id_Ventas
+                JOIN persona p ON v.Id_Persona = p.Id_Persona
+                LEFT JOIN direccion d ON v.Id_Direccion = d.Id_Direccion
+                WHERE dv.id_Ventas = @idVenta";
 
             using var connection = db.Database.GetDbConnection();
             await connection.OpenAsync();
@@ -229,14 +229,14 @@ WHERE dv.id_Ventas = @idVenta";
         public async Task<List<IngresoMensualResponse>> ObtenerIngresosMensuales(DateTime fechaInicio, DateTime fechaFin)
         {
             const string query = @"
-        SELECT 
-            FORMAT(v.Fecha_Venta, 'yyyy-MM') AS MesAño,
-            SUM(d.Importe) AS TotalIngresos
-        FROM Ventas v
-        JOIN Detalle_Ventas d ON v.Id_Ventas = d.id_Ventas
-        WHERE v.Fecha_Venta BETWEEN @fechaInicio AND @fechaFin
-        GROUP BY FORMAT(v.Fecha_Venta, 'yyyy-MM')
-        ORDER BY MesAño";
+                SELECT 
+                    FORMAT(v.Fecha_Venta, 'yyyy-MM') AS MesAño,
+                    SUM(d.Importe) AS TotalIngresos
+                FROM Ventas v
+                JOIN Detalle_Ventas d ON v.Id_Ventas = d.id_Ventas
+                WHERE v.Fecha_Venta BETWEEN @fechaInicio AND @fechaFin
+                GROUP BY FORMAT(v.Fecha_Venta, 'yyyy-MM')
+                ORDER BY MesAño";
 
             using var connection = db.Database.GetDbConnection();
             await connection.OpenAsync();

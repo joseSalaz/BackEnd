@@ -65,7 +65,7 @@ builder.Services.AddSwaggerGen(c =>
         {
             Name = "José Salazar",
             Email = "i2221915@continental.edu.pe",
-            Url = new Uri("https://www.linkedin.com/in/franklinleonciofuamanaraujo/"),
+            Url = new Uri("https://www.linkedin.com/in/jose-alberto-salazar-chirinos-3b1bb6297/"),
         },
     });
     var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";

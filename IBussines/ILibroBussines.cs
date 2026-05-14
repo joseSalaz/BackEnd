@@ -1,4 +1,5 @@
 ﻿using DBModel.DB;
+using DBModel.Response;
 using IService;
 using Microsoft.AspNetCore.Http;
 using Models.RequestResponse;
@@ -27,5 +28,6 @@ namespace IBussines
         Task<LibroResponse> UpdateLib(LibroconautorRequest entity, IFormFile? imageFile, decimal precioVenta, int stock);
         Task<bool> CambiarEstadoLibro(int libroId);
         Task<(List<Libro>, int)> FiltrarLibrosAsync(bool? estado, string titulo, int page, int pageSize);
+        Task<List<LibroDataResponse>> getLibroAutor();
     }
 }

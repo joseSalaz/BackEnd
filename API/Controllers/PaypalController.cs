@@ -36,10 +36,10 @@ namespace API.Controllers
         private readonly IEstadoPedidoBussines _IEstadoPedidoBussines;
         private readonly IOrderMesageFirebase _IOrderMesageFirebase;
         private readonly IUsuarioBussnies _IUsuarioBussnies;
-  
-        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository, 
-            IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines, 
-            ICajaBussines iCajaBussines, ICajaRepository iCajaRepository, IEstadoPedidoBussines estadoPedidoBussines,IOrderMesageFirebase orderMesageFirebase,
+
+        public PaypalController(IApisPaypalServices apisPaypalServices, IConfiguration configuration, IKardexRepository kardexRepository,
+            IKardexBussines kardexBussines, IMapper mapper, IDetalleVentaBussines detalleVentaBussines, IVentaBussines ventaBussines,
+            ICajaBussines iCajaBussines, ICajaRepository iCajaRepository, IEstadoPedidoBussines estadoPedidoBussines, IOrderMesageFirebase orderMesageFirebase,
             IUsuarioBussnies usuarioBussnies)
         {
             _apisPaypalServices = apisPaypalServices;
@@ -54,7 +54,7 @@ namespace API.Controllers
             _IEstadoPedidoBussines = estadoPedidoBussines;
             _IOrderMesageFirebase = orderMesageFirebase;
             _IUsuarioBussnies = usuarioBussnies;
-           
+
         }
 
 
@@ -67,11 +67,11 @@ namespace API.Controllers
                 // Suponiendo que `DatalleCarrito` se construye correctamente desde el `paymentRequest`
                 DatalleCarrito detalleCarrito = new DatalleCarrito
                 {
-                  
+
                 };
 
-                string returnUrl = $"{_configuration[" https://libreriasaber.store/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
-                string cancelUrl = $"{_configuration["https://libreriasaber.store/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
+                string returnUrl = $"{_configuration[" http://localhost:4200/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige después del pago exitoso
+                string cancelUrl = $"{_configuration[" http://localhost:4200/inicio "]}/respuesta"; // Esta debe ser la URL de tu frontend a donde PayPal redirige si el usuario cancela el pago
                 var payment = await _apisPaypalServices.CreateOrdersasync(detalleCarrito, paymentRequest.Amount, returnUrl, cancelUrl);
 
                 var approvalUrl = payment.links.FirstOrDefault(lnk => lnk.rel.Equals("approval_url", StringComparison.OrdinalIgnoreCase))?.href;
@@ -90,38 +90,43 @@ namespace API.Controllers
 
 
         [HttpPost("execute-payment")]
-      // Ejecutando el pago con la información del carrito
-public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRequest paymentRequest)
-{
-    // Asegúrate de que el idDireccion esté presente en el carrito del paymentRequest
-     var apiContext = new APIContext(new OAuthTokenCredential(
-                _configuration["PayPalSettings:ClientId"],
-                _configuration["PayPalSettings:Secret"]
-            ).GetAccessToken());
-    
-    var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
-    var payment = new Payment { id = paymentRequest.PaymentId };
-
-    try
-    {
-        var executedPayment = payment.Execute(apiContext, paymentExecution);
-
-        if (executedPayment.state.ToLower() == "approved")
+        // Ejecutando el pago con la información del carrito
+        public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRequest paymentRequest)
         {
-            // Registrar la venta y detalle con el idDireccion correctamente
-            await RegistrarVentaYDetalle(paymentRequest);  // Aquí pasamos el idDireccion
-            return Ok(new { PaymentId = executedPayment.id });
+            // Asegúrate de que el idDireccion esté presente en el carrito del paymentRequest
+            var apiContext = new APIContext(new OAuthTokenCredential(
+                       _configuration["PayPalSettings:ClientId"],
+                       _configuration["PayPalSettings:Secret"]
+                   ).GetAccessToken());
+
+            var paymentExecution = new PaymentExecution { payer_id = paymentRequest.PayerID };
+            var payment = new Payment { id = paymentRequest.PaymentId };
+            Console.WriteLine("PaymentId: " + paymentRequest.PaymentId);
+            Console.WriteLine("PayerID: " + paymentRequest.PayerID);
+            try
+            {
+                var executedPayment = payment.Execute(apiContext, paymentExecution);
+
+                if (executedPayment.state.ToLower() == "approved")
+                {
+                    // Registrar la venta y detalle con el idDireccion correctamente
+                    var resultadoVenta = await RegistrarVentaYDetalle(paymentRequest); // Aquí pasamos el idDireccion
+                    if (resultadoVenta is not OkObjectResult)
+                        return resultadoVenta;
+                    Console.WriteLine(resultadoVenta);
+                    return Ok(new { PaymentId = executedPayment.id });
+
+                }
+                else
+                {
+                    return BadRequest("El pago no fue aprobado.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "Error al ejecutar el pago." });
+            }
         }
-        else
-        {
-            return BadRequest("El pago no fue aprobado.");
-        }
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, new { success = false, message = "Error al ejecutar el pago." });
-    }
-}
 
 
 
@@ -151,7 +156,7 @@ public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRe
                 IdPersona = paymentRequest.Carrito.Persona.IdPersona,
                 TotalPrecio = paymentRequest.Carrito.TotalAmount,
                 IdCaja = cajaDelDia.IdCaja,
-                IdDireccion=paymentRequest.Carrito.IdDireccion
+                IdDireccion = paymentRequest.Carrito.IdDireccion
             };
 
             var venta = _IVentaBussines.Create(ventaRequest);
@@ -208,8 +213,8 @@ public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRe
 
             try
             {
-                string emailCliente = paymentRequest.Carrito.Persona.Correo;
-                await _IVentaBussines.GenerarYEnviarPdfDeVenta(venta.IdVentas, emailCliente);
+                //string emailCliente = paymentRequest.Carrito.Persona.Correo;
+                //await _IVentaBussines.GenerarYEnviarPdfDeVenta(venta.IdVentas, emailCliente);
                 return Ok(new { Message = "Venta, detalles y estado registrados con éxito, correo enviado." });
             }
             catch (Exception ex)
@@ -255,9 +260,9 @@ public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRe
                 }
                 // Obtener los tokens de notificación de los usuarios
                 var deviceTokens = await _IUsuarioBussnies.GetNotificationTokensAsync(); // Enviar notificación de nuevo pedido a cada token
-                                                                                         
+
                 foreach (var token in deviceTokens)
-                { 
+                {
                     await _IOrderMesageFirebase.SendFirebaseNotificationAsync(token, "Nuevo Pedido", "¡Tienes un nuevo pedido en la app!");
                 }
 
@@ -266,10 +271,5 @@ public async Task<IActionResult> ExecutePayment([FromBody] ExecutePaymentModelRe
             // Devolver respuesta exitosa
             return Ok(new { Message = "Estado del pedido registrado correctamente para todos los detalles de la venta." });
         }
-
-
-
-
-
     }
 }

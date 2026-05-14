@@ -1,9 +1,11 @@
 ﻿using Constantes;
 using DBModel.DB;
+using DBModel.Response;
 using DocumentFormat.OpenXml.InkML;
 using IRepositorio;
 using Microsoft.EntityFrameworkCore;
 using Models.Comon;
+using Models.RequestResponse;
 using Repository.Generic;
 using System.Net;
 
@@ -128,6 +130,15 @@ namespace Repository
                                  .Select(joined => joined.Libro)
                                  .ToListAsync();
 
+            return libros;
+        }
+
+        public async Task<List<LibroDataResponse>> getLibroAutor()
+        {
+            const string query= @"EXEC sp_ObtenerLibrosConAutores";
+            var libros = await db.LibroDataResponse
+                .FromSqlRaw(query)
+                .ToListAsync();
             return libros;
         }
 
