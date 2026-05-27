@@ -1,0 +1,157 @@
+.product-detail-wrapper {
+  min-height: calc(100vh - 80px);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  .main-card {
+    border: none !important;
+    transition: transform 0.3s ease;
+  }
+}
+
+.img-card-container {
+  background-color: #ffffff;
+  border: 1px solid #eef2f5;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+
+  .product-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+}
+
+.product-title {
+  letter-spacing: -0.5px;
+  color: #1e293b;
+}
+
+.description-box {
+  background-color: #f8fafc !important;
+  color: #475569 !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  min-height: 180px;
+  max-height: 260px;
+  overflow-y: auto;
+  border-left: 4px solid #0d6efd;
+}
+
+.quantity-selector {
+  width: 130px;
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .btn {
+    background-color: #ffffff;
+    &:hover {
+      background-color: #f1f5f9;
+    }
+  }
+}
+
+
+.toggle-fav-btn {
+  background-color: #ffffff;
+  color: #94a3b8;
+  border: 1px solid #e2e8f0 !important;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px; // Opcional: para que haga juego con los bordes de tu botón de carrito
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  i {
+    font-size: 1.4rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background-color: #fff1f2;
+    color: #f43f5e;
+    border-color: #fecdd3 !important;
+    transform: translateY(-2px);
+    
+    i {
+      transform: scale(1.2);
+    }
+  }
+&.is-fav {
+    background-color: #ffe4e6;
+    color: #e11d48;
+    border-color: #fda4af !important;
+    
+    i {
+      transform: scale(1.1); // Mantiene el corazón ligeramente grande mientras es favorito
+    }
+
+    &:hover {
+      background-color: #e11d48;
+      color: #ffffff;
+      border-color: #e11d48 !important;
+    }
+  }
+}
+
+
+.action-cart-btn {
+  padding: 0.75rem 2rem;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.35) !important;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+
+.fs-7 {
+  font-size: 0.825rem;
+}
+.fw-black {
+  font-weight: 850;
+}
+
+@media (max-width: 576px) {
+  .img-card-container {
+    height: 320px;
+  }
+  
+  .actions-panel {
+    background-color: #ffffff;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .quantity-selector {
+    width: 100%;
+  }
+
+  .toggle-fav-btn {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+}

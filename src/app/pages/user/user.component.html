@@ -1,0 +1,82 @@
+<div class="bg-base">
+  <app-head></app-head>
+  
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+
+        <div class="welcome-section">
+          <div class="welcome-card">
+            <div class="welcome-content">
+              <img [src]="photoURL" alt="Usuario" class="user-image">
+              <div class="welcome-text">
+                <h2 class="welcome-title">¡Bienvenido de nuevo, {{ displayname }}!</h2>
+                <p class="welcome-subtitle">Aquí puedes gestionar tu cuenta, direcciones y pedidos.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="sidebar-card">
+              <div class="nav flex-column">
+                <button class="nav-btn" (click)="mostrarSeccion('profile')" [class.active]="currentSection === 'profile'">
+                  <i class="fas fa-user me-2"></i> Perfil
+                </button>
+                <button class="nav-btn" (click)="mostrarSeccion('addirec')" [class.active]="currentSection === 'addirec'">
+                  <i class="fas fa-map-marker-alt me-2"></i> Direcciones
+                </button>
+                <button class="nav-btn" (click)="mostrarSeccion('pedidos')" [class.active]="currentSection === 'pedidos'">
+                  <i class="fas fa-shopping-bag me-2"></i> Mis Pedidos
+                </button>
+                <button class="nav-btn" (click)="mostrarSeccion('misfav')" [class.active]="currentSection === 'misfav'">
+                  <i class="fas fa-heart me-2"></i> Mis Favoritos
+                </button>
+                <button class="nav-btn mt-4 text-danger" (click)="prevpage()">
+                  <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-9">
+            <app-user-profile 
+              *ngIf="currentSection === 'profile'" 
+              [usuarioId]="usuarioId">
+            </app-user-profile>
+
+            <app-user-address 
+              *ngIf="currentSection === 'addirec'" 
+              [usuarioId]="usuarioId">
+            </app-user-address>
+
+            <app-user-orders 
+              *ngIf="currentSection === 'pedidos'" 
+              [usuarioId]="usuarioId" 
+              (onVerDetalles)="abrirModalVentaGlobal($event)">
+            </app-user-orders>
+
+            <div *ngIf="currentSection === 'misfav'">
+              <app-user-fav [idPersonaLogueada]="usuarioId"></app-user-fav>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+  <app-detalle-venta-modal 
+    [detallesVenta]="detallesVenta" 
+    (verEstado)="irAEstadoPedido($event)">
+  </app-detalle-venta-modal>
+  
+  <app-detalle-pedido 
+    *ngIf="detalleVentaSeleccionado" 
+    [idDetalleVenta]="detalleVentaSeleccionado" 
+    (cerrar)="onCerrarEstadoPedido()">
+  </app-detalle-pedido>
+  
+  <app-footer></app-footer>
+</div>

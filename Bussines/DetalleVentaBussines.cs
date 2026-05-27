@@ -152,11 +152,11 @@ namespace Bussines
             }
 
             // Enviar notificación por email al cliente
-            // var clienteEmail = await _ventaRepository.GetEmailByVentaId(idVenta);
-            // if (!string.IsNullOrEmpty(clienteEmail))
-            // {
-            //     await _emailService.SendOrderStatusUpdateEmailAsync(clienteEmail, idVenta, request.Estado, productos, imagenesProductos);
-            // }
+            var clienteEmail = await _ventaRepository.GetEmailByVentaId(idVenta);
+            if (!string.IsNullOrEmpty(clienteEmail))
+            {
+                await _emailService.SendOrderStatusUpdateEmailAsync(clienteEmail, idVenta, request.Estado, productos, imagenesProductos);
+            }
 
             return true;
         }

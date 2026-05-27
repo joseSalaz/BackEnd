@@ -102,6 +102,15 @@ namespace UtilMapper
             CreateMap<Direccion, DireccionRequest>();
             CreateMap<Direccion, DireccionResponse>();
 
+<<<<<<< HEAD
+            CreateMap<FavoritoRequest, Favorito>().ReverseMap();
+
+            CreateMap<Favorito, FavoritoResponse>()
+                .ForMember(dest => dest.TituloLibro, opt => opt.MapFrom(src => src.IdLibroNavigation.Titulo))
+                .ForMember(dest => dest.ImagenLibro, opt => opt.MapFrom(src => src.IdLibroNavigation.Imagen));
+
+=======
+>>>>>>> 62be587d6409086625d37c0110374bc6b627a483
         }
 
     }

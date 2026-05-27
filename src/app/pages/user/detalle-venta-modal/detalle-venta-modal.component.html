@@ -1,0 +1,41 @@
+<div *ngIf="mostrarModal" class="modal-overlay" (click)="cerrarModalAlFondo($event)">
+  <div class="modal-box modal-lg">
+    <div class="modal-box-header">
+      <h5>Detalles de la Venta</h5>
+      <button class="btn-cerrar" (click)="cerrarModal()">&times;</button>
+    </div>
+    <div class="modal-box-body">
+      <div class="table-responsive" *ngIf="detallesVenta.length > 0; else noDetalles">
+        <table class="table table-bordered text-center">
+          <thead class="thead-light">
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detalle of detallesVenta">
+              <td>{{ detalle.nombreProducto }}</td>
+              <td>S/ {{ detalle.precioUnit }}</td>
+              <td>{{ detalle.cantidad }}</td>
+              <td>S/ {{ detalle.importe }}</td>
+              <td>
+                <button class="btn btn-outline-info btn-sm" (click)="irAEstadoPedido(detalle.idDetalleVentas)">
+                  Ver Estado
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noDetalles>
+        <div class="alert alert-warning text-center">
+          No hay detalles para esta venta.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

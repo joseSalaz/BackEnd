@@ -1,0 +1,104 @@
+<title>Detalle de Producto</title>   
+<app-head></app-head>
+
+<div class="product-detail-wrapper bg-light py-4 py-md-5">
+  <div class="container bg-white rounded-4 shadow-sm p-4 p-md-5 main-card">
+    
+    <div *ngIf="!libro; else loaded" class="d-flex justify-content-center align-items-center py-5">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <ng-template #loaded>
+      <div class="row g-4 lg-g-5">
+        
+        <div class="col-12 col-md-5 col-lg-4">
+          <div class="img-card-container rounded-3 p-3 mb-4 d-flex justify-content-center align-items-center bg-white shadow-xs">
+            <img [src]="libro?.imagen || defaultImageUrl" (error)="onImageError($event)" alt="Libro" class="img-fluid rounded-2 product-img" />
+          </div>            
+          
+          <div class="specs-table-container border rounded-3 overflow-hidden">
+            <table class="table table-hover mb-0">
+              <tbody>
+                <tr>
+                  <th scope="row" class="bg-light text-secondary">Autor:</th>
+                  <td>
+                    <div class="d-flex flex-wrap gap-1">
+                      <span *ngFor="let autor of autores" class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill px-2 py-1 fs-7">
+                        {{ autor.nombre }}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="bg-light text-secondary">Impresión:</th>
+                  <td class="fw-medium">{{ libro?.impresion || 'No especificada' }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="bg-light text-secondary">Tipo Tapa:</th>
+                  <td class="fw-medium">{{ libro?.tipoTapa || 'No especificada' }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="bg-light text-secondary">Medidas:</th>
+                  <td class="fw-medium text-muted">
+                    <i class="fa-solid fa-arrows-left-right me-1"></i>{{ ancho }} cm x 
+                    <i class="fa-solid fa-arrows-up-down ms-1 me-1"></i>{{ altura }} cm
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-7 col-lg-8 d-flex flex-column justify-content-between">
+          <div>
+            <h1 class="display-6 fw-bold text-dark mb-2 product-title">{{ libro?.titulo }}</h1>
+            <hr class="my-3 opacity-25">
+            
+            <h4 class="h5 fw-semibold text-secondary mb-2">Reseña del Libro:</h4>
+            <div class="description-box p-3 bg-light rounded-3 text-muted mb-4">
+              {{ libro?.descripcion || 'Este libro no cuenta con una reseña disponible todavía.' }}
+            </div>
+          </div>
+
+          <div class="actions-panel p-3 border rounded-3 bg-light-subtle">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-secondary fw-semibold">Precio Unitario:</span>
+              <span class="fs-2 fw-black text-primary pricing-tag">S/{{ precioVenta | number: '1.2-2' }}</span>
+            </div>
+
+            <div class="row g-3 align-items-center">
+              <div class="col-12 col-sm-auto">
+                <div class="d-flex align-items-center gap-2">
+                  <label for="cantidad" class="form-label mb-0 text-secondary fw-medium">Cant:</label>
+                  <div class="input-group quantity-selector shadow-sm">
+                    <button class="btn btn-white border" type="button" (click)="decrementarCantidad()" [disabled]="cantidad <= 1">-</button>
+                    <input type="number" class="form-control text-center fw-bold bg-white" [(ngModel)]="cantidad" (ngModelChange)="verificarStock()" [disabled]="bloquearInput" min="1">
+                    <button class="btn btn-white border" type="button" (click)="incrementarCantidad()" [disabled]="cantidad >= stockDisponible">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm d-flex gap-3 align-items-center justify-content-sm-end">
+                <button type="button" 
+                  class="btn toggle-fav-btn shadow-sm rounded-circle"
+                  [class.is-fav]="esFavorito"
+                  (click)="toggleFavorito()"
+                  title="{{ esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos' }}">
+                  <i class="fa-heart" [class.fas]="esFavorito" [class.far]="!esFavorito"></i>
+                </button>
+
+                <button class="btn btn-primary btn-lg flex-grow-1 flex-sm-grow-0 px-4 fw-semibold action-cart-btn shadow" (click)="agregarAlCarrito()">
+                  <i class="fa-solid fa-cart-plus me-2"></i>Agregar al Carrito
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </ng-template>
+  </div>
+</div>

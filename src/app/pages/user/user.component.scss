@@ -1,0 +1,104 @@
+.bg-base {
+  background: #f4f6f8;
+  min-height: 100vh;
+}
+
+.welcome-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.welcome-card {
+  background: linear-gradient(135deg, #e3e4eb, #2c21c5);
+  color: white;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 10px 30px rgba(25, 40, 175, 0.3);
+  max-width: 620px;
+  width: 100%;
+  text-align: center;
+}
+
+.welcome-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.user-image {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 255, 255, 0.35);
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.welcome-title {
+  font-size: 1.95rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
+}
+
+.welcome-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin: 0;
+}
+
+@media (max-width: 576px) {
+  .welcome-card {
+    padding: 1.6rem 1.8rem;
+    margin: 0 10px;
+  }
+  .welcome-content { gap: 1.2rem; }
+  .user-image { width: 80px; height: 80px; }
+  .welcome-title { font-size: 1.65rem; }
+}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.nav-btn {
+  width: 100%;
+  text-align: left;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  border: none;
+  background: transparent;
+  border-radius: 12px;
+  font-weight: 500;
+  color: #495369;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background: #f8f9fa;
+    transform: translateX(6px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  &.active {
+    background: #1928af;
+    color: white;
+    box-shadow: 0 4px 12px rgba(25, 40, 175, 0.3);
+  }
+}

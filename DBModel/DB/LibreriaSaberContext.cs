@@ -71,6 +71,39 @@ public partial class LibreriaSaberContext : DbContext
     public virtual DbSet<Venta> Ventas { get; set; }
 
     public virtual DbSet<LibroDataResponse> LibroDataResponse { get; set; }
+<<<<<<< HEAD
+    public virtual DbSet<Favorito> Favoritos { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-AAD7CCB\\SQLEXPRESS01;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Favorito>(entity =>
+        {
+            entity.HasKey(e => e.IdFavorito).HasName("PK_Favorito");
+            entity.ToTable("Favorito", "dbo");
+
+            entity.Property(e => e.IdFavorito).HasColumnName("Id_Favorito");
+            entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
+            entity.Property(e => e.IdLibro).HasColumnName("IdLibro");
+            entity.Property(e => e.FechaAgregado)
+                .HasColumnName("FechaAgregado")
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.IdLibroNavigation)
+                .WithMany() 
+                .HasForeignKey(d => d.IdLibro)
+                .HasConstraintName("FK_Favorito_Libro");
+
+            entity.HasOne(d => d.IdPersonaNavigation)
+                .WithMany() 
+                .HasForeignKey(d => d.IdPersona)
+                .HasConstraintName("FK_Favorito_Persona");
+        });
+=======
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -78,6 +111,7 @@ public partial class LibreriaSaberContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+>>>>>>> 62be587d6409086625d37c0110374bc6b627a483
         modelBuilder.Entity<LibroDataResponse>()
         .HasNoKey();
         modelBuilder.Entity<Autor>(entity =>

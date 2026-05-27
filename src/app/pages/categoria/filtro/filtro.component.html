@@ -1,0 +1,39 @@
+<div class="mobile-filter-bar">
+  <button type="button" class="btn-trigger-filter" (click)="toggleMenuMovil()">
+    <span class="filter-icon">⏳</span> FILTRAR
+  </button>
+</div>
+
+<aside class="filters-sidebar" [class.open]="menuMovilAbierto">
+  
+  <div class="mobile-close-header">
+    <h5>FILTROS</h5>
+    <button class="btn-close" (click)="toggleMenuMovil()">✕</button>
+  </div>
+
+  <div class="filters-sticky-wrapper">
+    <h3 class="filters-title d-none-mobile">FILTROS</h3>
+    
+    <div class="filter-group">
+      <h4>EDITORIAL</h4>
+      
+      <div class="filter-list">
+        <div *ngFor="let ed of (mostrarContenido ? filtros : filtros.slice(0, 5))" class="filter-item">
+          <input type="checkbox" [id]="ed">
+          <label [for]="ed">{{ ed }}</label>
+        </div>
+      </div>
+    
+      <button *ngIf="filtros.length > 5" type="button" class="btn-show-more" (click)="mostrarContenido = !mostrarContenido">
+         {{ mostrarContenido ? 'MOSTRAR MENOS ▲' : 'MOSTRAR ' + (filtros.length - 5) + ' MÁS ▼' }}
+      </button>
+    </div>
+
+    <div class="mobile-actions">
+      <button class="btn-clear" (click)="toggleMenuMovil()">LIMPIAR</button>
+      <button class="btn-apply" (click)="toggleMenuMovil()">APLICAR</button>
+    </div>
+  </div>
+</aside>
+
+<div class="filter-overlay" *ngIf="menuMovilAbierto" (click)="toggleMenuMovil()"></div>

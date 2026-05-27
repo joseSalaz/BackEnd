@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+h1,h2,h3,h4 {
+    color:#495369;
+}
+
+h2 {
+    font-family: 'Sour Gummy', sans-serif;
+    font-weight: 500;
+}
+
+/* Establecemos que todo el contenido ocupe el 100% del alto de la pantalla */
+html, body {
+    height: 100%; /* 100% de la altura de la ventana */
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Apilamos los elementos verticalmente */
+    background-color: #f8f9fa; /* Color de fondo para la página */
+}
+
+/* Aseguramos que el body ocupe al menos el 100% de la altura de la ventana */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Hace que el body siempre ocupe al menos toda la pantalla */
+    flex: 1;
+}
+
+/* El contenedor principal toma todo el espacio disponible entre el header y el footer */
+.container {
+    flex: 1; /* Esto hace que el contenido ocupe todo el espacio disponible */
+    padding-bottom: 50px; /* Evita que el contenido se superponga con el footer */
+}
+
+/* El footer se mantiene al fondo */
+app-footer {
+    margin-top: auto; /* Esto asegura que el footer siempre quede al final */
+}
+
+/* Estilo adicional para el footer */
+footer {
+    background-color: #007bff; /* Color de fondo */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+/* ===== GOOGLE AUTOCOMPLETE - FIX POSICIÓN ===== */
+.pac-container {
+  z-index: 99999 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e0e0e0 !important;
+  margin-top: 2px !important;
+  font-family: inherit !important;
+  
+  // Evitar que se corte dentro del modal
+  max-height: 220px !important;
+  overflow-y: auto !important;
+}
+
+.pac-item {
+  padding: 10px 14px !important;
+  cursor: pointer !important;
+  font-size: 0.9rem !important;
+  
+  &:hover {
+    background-color: #f0f4ff !important;
+  }
+}
+
+.pac-item-selected {
+  background-color: #e8eeff !important;
+}
+
+.pac-icon {
+  margin-top: 4px !important;
+}
+.swal2-container.swal2-top-end,
+.swal2-container.swal2-top-right {
+  z-index: 99999 !important;
+  top: 70px !important;   
+  right: 16px !important;
+}

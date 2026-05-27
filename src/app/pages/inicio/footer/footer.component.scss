@@ -1,0 +1,60 @@
+.footer {
+  background: #003087;           // Azul más elegante (puedes cambiarlo)
+  color: white;
+  padding: 3rem 0 1.5rem 0;
+  margin-top: auto;              // Para que siempre quede abajo
+
+  .footer-logo {
+    height: 85px;
+    width: auto;
+    filter: brightness(0) invert(1); // Hace que el logo se vea bien en fondo oscuro
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .footer-heading {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .social-icons {
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 50%;
+      margin: 0 6px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #007bff;
+        transform: translateY(-4px);
+      }
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  // Responsive
+  @media (max-width: 576px) {
+    padding: 2.5rem 0 1.5rem 0;
+
+    .footer-logo {
+      height: 70px;
+    }
+  }
+}
