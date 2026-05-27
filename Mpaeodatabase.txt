@@ -2,9 +2,15 @@
 cesae: DB Conexion
 Data Source=DESKTOP-AAD7CCB;Initial Catalog=Libreria_Saber;Integrated Security=True;Encrypt=True;Trust Server Certificate=True
 
+<<<<<<< HEAD
 Data Source=DESKTOP-AAD7CCB\\SQLEXPRESS01;Initial Catalog=Libreria_Saber;Integrated Security=True
 
 "Data Source=DESKTOP-AAD7CCB\\SQLEXPRESS01;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True"
+=======
+Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;Integrated Security=True
+
+
+>>>>>>> 62be587d6409086625d37c0110374bc6b627a483
 
 Scaffold-DbContext "Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;Integrated Security=True;Trusted_Connection=true;Trust Server Certificate=true" Microsoft.EntityFrameworkCore.SqlServer  -OutputDir TramiteDocumentario -DataAnnotations -Context -Force
 
