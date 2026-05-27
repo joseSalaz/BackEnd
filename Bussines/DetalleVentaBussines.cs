@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using DBModel.DB;
 using IBussines;
 using IRepositorio;
@@ -152,19 +152,15 @@ namespace Bussines
             }
 
             // Enviar notificación por email al cliente
-<<<<<<< HEAD
+
             // var clienteEmail = await _ventaRepository.GetEmailByVentaId(idVenta);
             // if (!string.IsNullOrEmpty(clienteEmail))
             // {
             //     await _emailService.SendOrderStatusUpdateEmailAsync(clienteEmail, idVenta, request.Estado, productos, imagenesProductos);
             // }
-=======
-            var clienteEmail = await _ventaRepository.GetEmailByVentaId(idVenta);
-            if (!string.IsNullOrEmpty(clienteEmail))
-            {
-                await _emailService.SendOrderStatusUpdateEmailAsync(clienteEmail, idVenta, request.Estado, productos, imagenesProductos);
-            }
->>>>>>> 62be587d6409086625d37c0110374bc6b627a483
+
+         
+
 
             return true;
         }
