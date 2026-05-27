@@ -153,6 +153,7 @@ namespace Bussines
 
             // Enviar notificación por email al cliente
 
+
             // var clienteEmail = await _ventaRepository.GetEmailByVentaId(idVenta);
             // if (!string.IsNullOrEmpty(clienteEmail))
             // {
@@ -161,6 +162,7 @@ namespace Bussines
 
          
 
+       
 
             return true;
         }

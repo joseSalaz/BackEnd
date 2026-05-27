@@ -101,15 +101,21 @@ namespace UtilMapper
             CreateMap<DireccionRequest, Direccion>();
             CreateMap<Direccion, DireccionRequest>();
             CreateMap<Direccion, DireccionResponse>();
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 555b18274d1a020c34eaa698445367aef26d29ef
             CreateMap<FavoritoRequest, Favorito>().ReverseMap();
 
             CreateMap<Favorito, FavoritoResponse>()
                 .ForMember(dest => dest.TituloLibro, opt => opt.MapFrom(src => src.IdLibroNavigation.Titulo))
                 .ForMember(dest => dest.ImagenLibro, opt => opt.MapFrom(src => src.IdLibroNavigation.Imagen));
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 555b18274d1a020c34eaa698445367aef26d29ef
         }
 
     }

@@ -111,6 +111,8 @@ namespace API.Controllers
 
             return Ok(request);
         }
+
+
         [HttpPut("cambiar-estado/{id}")]
         public async Task<IActionResult> CambiarEstado(int id, [FromBody] bool estadoActual)
         {
