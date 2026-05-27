@@ -1,0 +1,29 @@
+
+cesae: DB Conexion
+Data Source=DESKTOP-AAD7CCB;Initial Catalog=Libreria_Saber;Integrated Security=True;Encrypt=True;Trust Server Certificate=True
+
+Data Source=DESKTOP-AAD7CCB\\SQLEXPRESS01;Initial Catalog=Libreria_Saber;Integrated Security=True
+
+"Data Source=DESKTOP-AAD7CCB\\SQLEXPRESS01;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True"
+
+Scaffold-DbContext "Data Source=DESKTOP-CVPFOKO;Initial Catalog=Libreria_Saber;Integrated Security=True;Trusted_Connection=true;Trust Server Certificate=true" Microsoft.EntityFrameworkCore.SqlServer  -OutputDir TramiteDocumentario -DataAnnotations -Context -Force
+
+
+
+Scaffold-DbContext "Data Source=DESKTOP-AAD7CCB;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir DB -Force
+
+Data Source=JOSÉSALAZAR\SQLEXPRESS;Initial Catalog=Libreria_Saber;Integrated Security=True;Encrypt=True;Trust Server Certificate=True
+
+workstation id=Libreria_Saber.mssql.somee.com;packet size=4096;user id=Cesae_SQLLogin_1;pwd=5c8m9y4gg4;data source=Libreria_Saber.mssql.somee.com;persist security info=False;initial catalog=Libreria_Saber;TrustServerCertificate=True
+
+
+
+Scaffold-DbContext "Data Source=JOSÉSALAZAR\SQLEXPRESS;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir DB -Force
+Credenciales
+____________________
+F:\\backend\\Net\\BackEnd\\API\\ecomercesa-3c1ff-firebase-adminsdk-bb4c1-e2f8c348e7.json
+D:\\jose\\ah\\proyecto completo\\BackEnd\\API\\ecomercesa-3c1ff-firebase-adminsdk-bb4c1-e2f8c348e7.json
+
+
+mapeodatabase
+Data Source=SQL1002.site4now.net;Initial Catalog=db_ab2e60_libreria;User Id=db_ab2e60_libreria_admin;Password=jose123456789

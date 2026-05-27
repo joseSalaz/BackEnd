@@ -1,0 +1,82 @@
+.section-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* ==================== MODAL PROFESIONAL ==================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 40px;
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 580px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.modal-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 1.75rem;
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+
+  h5 {
+    margin: 0;
+    color: #1928af;
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+}
+
+.btn-cerrar {
+  background: none;
+  border: none;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  border-radius: 8px;
+  &:hover {
+    background: #fee;
+    color: #dc3545;
+  }
+}
+
+.modal-box-body { padding: 1.75rem; }
+.form-label { color: #495369; margin-bottom: 0.35rem; }
+
+/* Inyección de z-index para autocompletado de Google Maps */
+:host ::ng-deep .pac-container {
+  z-index: 99999 !important;
+  pointer-events: auto !important;
+}

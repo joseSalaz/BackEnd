@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": "dist/ecomercesa/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/index.html",
+        "destination": "/index.csr.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.csr.html"
+      }
+    ],
+    "trailingSlash": false
+  }
+}

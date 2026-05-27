@@ -1,0 +1,101 @@
+<!-- Navbar Principal -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+
+        <!-- Logo -->
+        <div class="nav-logo">
+            <a class="navbar-brand" routerLink="/inicio">
+                <span class="logo-text">Libreria Saber</span>
+            </a>
+        </div>
+
+        <!-- Barra de busqueda - DESKTOP -->
+        <div class="nav-search search-desktop">
+            <app-res-busquedad></app-res-busquedad>
+        </div>
+
+        <!-- Boton hamburguesa (solo movil/tablet) -->
+        <button class="navbar-toggler" type="button" (click)="toggleMobileMenu()" aria-label="Menu de navegacion">
+            <span class="toggler-icon" [ngClass]="{ 'open': isMobileMenuOpen }">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </button>
+
+        <!-- Grupo derecho: iconos -->
+        <div class="nav-right-group">
+            <div class="navbar-collapse" [ngClass]="{ 'show': isMobileMenuOpen }">
+
+                <!-- Barra de busqueda - SOLO MOVIL -->
+                <div class="nav-search search-mobile">
+                    <app-res-busquedad></app-res-busquedad>
+                </div>
+
+                <!-- Iconos / Acciones -->
+                <div class="icons-container">
+
+                    <div class="nav-item-wrapper">
+                        <button class="btn btn-link text-decoration-none text-dark">
+                            <i class="fas fa-heart text-danger"></i>
+                            <span class="btn-label">Favoritos</span>
+                        </button>
+                    </div>
+
+                    <div class="nav-item-wrapper">
+                        <div class="user-dropdown" *ngIf="!vernombre; else templateRegister">
+                            <a class="btn btn-link text-decoration-none text-dark" routerLink="/auth/log-in">
+                                <i class="fas fa-user-circle text-primary"></i>
+                                <span class="btn-label">Registrese</span>
+                            </a>
+                        </div>
+                        <ng-template #templateRegister>
+                            <div class="user-dropdown">
+                                <button class="btn text-dark dropdown-toggle" (click)="toggleMenu($event)">
+                                    <i class="fas fa-user text-primary"></i>
+                                    <span class="btn-label">{{ displayname }}</span>
+                                </button>
+                                <ul class="dropdown-menu" [ngClass]="{ 'show': isMenuVisible }">
+                                    <li>
+                                        <button class="dropdown-item" (click)="onSelectOption('miperfil')">
+                                            Mi perfil
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item" (click)="onSelectOption('cerrarSesion')">
+                                            Cerrar sesion
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-template>
+                    </div>
+
+                    <div class="nav-item-wrapper">
+                        <div *ngIf="mostrarCarrito">
+                            <app-carro></app-carro>
+                        </div>
+                        <button type="button" class="btn btn-link text-decoration-none text-dark position-relative"
+                            (click)="toggleCarrito($event)">
+                            <i class="fas fa-shopping-cart text-primary"></i>
+                            <span class="btn-label">Carrito</span>
+                            <span *ngIf="totalItems > 0" class="contador-items">
+                                {{ totalItems > 99 ? '99+' : totalItems }}
+                            </span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+<!-- Espaciador: empuja el contenido debajo del navbar fijo -->
+<div class="navbar-spacer"></div>
+
+<!-- Contenedor para app-filtrador (ya NO es fixed, fluye normal) -->
+<div class="filtrador-container">
+    <app-filtrador></app-filtrador>
+</div>

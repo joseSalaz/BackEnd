@@ -1,0 +1,28 @@
+.fav-wide-item {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  cursor: pointer;
+  border-color: #e9ecef !important;
+
+  &:hover {
+    transform: translateX(8px); // Desplazamiento sutil hacia la derecha al pasar el mouse
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08) !important;
+    border-color: #0d6efd !important; // Ilumina el borde con el color primario
+
+    .btn-action {
+      background-color: #0b5ed7;
+      border-color: #0a58ca;
+    }
+  }
+}
+
+.img-list-container {
+  width: 75px;
+  height: 105px;
+  overflow: hidden;
+}
+
+.style-fav-img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}

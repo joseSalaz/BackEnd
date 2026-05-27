@@ -1,0 +1,66 @@
+<!-- Fondo semi-transparente -->
+<div *ngIf="mostrarCarro" class="fondo-semi-transparente" (click)="cerrarCarro()"></div>
+
+<!-- Carrito -->
+<div *ngIf="mostrarCarro" class="carro-overlay">
+  <div class="carro-container">
+
+    <!-- Header -->
+    <div class="carro-header">
+      <button class="cerrar-btn" (click)="cerrarCarro()" title="Cerrar carrito">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2>
+        <i class="fas fa-shopping-cart me-2"></i>
+        Carrito de Compras
+      </h2>
+    </div>
+
+    <!-- Items -->
+    <div class="carro-items">
+      <div *ngFor="let item of itemsCarrito; let indice = index" class="tarjeta-item">
+        <div class="imagen-container">
+          <img [src]="item.libro.imagen" (error)="onImageError($event)" alt="{{ item.libro.titulo }}">
+        </div>
+
+        <div class="info-container">
+          <h3 class="titulo">{{ item.libro.titulo }}</h3>
+          <p class="precio">S/ {{ item.precioVenta | number:'1.2-2' }}</p>
+
+          <div class="acciones">
+            <div class="cantidad-group">
+              <label>Cantidad:</label>
+              <select class="cantidad-selector" [(ngModel)]="item.cantidad">
+                <option *ngFor="let cant of [1,2,3,4,5,6,7,8,9,10]" [value]="cant">{{ cant }}</option>
+              </select>
+            </div>
+
+            <button class="eliminar-item" (click)="delete(indice)" title="Eliminar producto">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="itemsCarrito.length === 0" class="carrito-vacio">
+        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+        <p>Tu carrito está vacío</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="carro-footer">
+      <div class="total-container">
+        <span>Total a pagar</span>
+        <strong>S/ {{ calcularTotal() | number:'1.2-2' }}</strong>
+      </div>
+
+      <button type="button" class="btn finalizar-compra" [disabled]="itemsCarrito.length === 0"
+        (click)="finalizarCompra()">
+        <i class="fas fa-lock me-2"></i>
+        Finalizar Compra
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<h4 class="section-title mb-4">
+  <i class="fas fa-list-alt me-2"></i> Mis Pedidos
+</h4>
+
+<div *ngIf="ventas.length > 0; else noVentas">
+  <div class="table-responsive">
+    <table class="table custom-table align-middle">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th class="text-end">Total</th>
+          <th class="text-center">Estado</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venta of ventas.slice().reverse()">
+          <td>{{ venta.fechaVenta | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="text-end fw-bold">S/ {{ venta.totalPrecio | number:'1.2-2' }}</td>
+          <td class="text-center">
+            <span class="status-badge status-completed">Completado</span>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-primary btn-sm" (click)="abrirModalVenta(venta.idVentas)">
+              Ver Detalles
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #noVentas>
+  <div class="no-data-card">
+    <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
+    <h5>Aún no tienes pedidos</h5>
+    <p class="text-muted">Cuando realices tu primera compra, aparecerán aquí.</p>
+    <a routerLink="/home" class="btn btn-primary">Ir a comprar</a>
+  </div>
+</ng-template>

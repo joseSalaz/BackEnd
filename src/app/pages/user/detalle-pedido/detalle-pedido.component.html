@@ -1,0 +1,76 @@
+<div *ngIf="mostrarModal" class="modal-overlay" (click)="cerrarModalAlFondo($event)">
+  <div class="modal-box modal-xl">
+
+    <div class="modal-box-header bg-primary">
+      <h5 style="color: white;">📦 Estado del Pedido</h5>
+      <button class="btn-cerrar" style="color: white;" (click)="cerrarModal()">&times;</button>
+    </div>
+
+    <div class="modal-box-body">
+
+      <!-- Skeleton / Spinner mientras carga -->
+      <div *ngIf="cargando" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando estado del pedido...</p>
+      </div>
+
+      <!-- Contenido cuando ya cargó -->
+      <div *ngIf="!cargando">
+        <div *ngIf="estadoPedido; else noEstado">
+
+          <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+              <thead class="thead-light">
+                <tr>
+                  <th>Estado</th>
+                  <th>Fecha de Estado</th>
+                  <th>Comentario</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-primary">{{ estadoPedido.estado }}</td>
+                  <td>{{ estadoPedido.fechaEstado | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ estadoPedido.comentario || 'Sin comentario' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="imagenesEstado.length > 0" class="mt-4">
+            <h5 class="text-center text-secondary mb-3">📸 Imágenes del Estado</h5>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 justify-content-center">
+              <div *ngFor="let img of imagenesEstado" class="col">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body p-2">
+                    <div *ngFor="let url of img.urlImagen?.split(',')" class="mb-2">
+                      <img *ngIf="url" [src]="url.trim()" class="img-fluid rounded"
+                        style="width: 100%; height: 200px; object-fit: cover;" alt="Imagen Estado">
+                    </div>
+                    <div class="text-center mt-2">
+                      <small class="text-muted">
+                        {{ img.estado || 'Sin estado' }} - {{ img.fecha | date: 'dd/MM/yyyy' }}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <ng-template #noEstado>
+          <div class="alert alert-warning text-center">
+            ❌ No se encontró el estado del pedido.
+          </div>
+        </ng-template>
+      </div>
+
+    </div>
+
+    <div class="modal-box-footer">
+      <button class="btn btn-secondary" (click)="cerrarModal()">🔙 Cerrar</button>
+    </div>
+
+  </div>
+</div>

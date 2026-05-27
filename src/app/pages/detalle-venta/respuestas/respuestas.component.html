@@ -1,0 +1,24 @@
+<!-- Backdrop con blur -->
+<div *ngIf="showModal" class="custom-alert-backdrop" (click)="close()"></div>
+
+<!-- Modal de alerta -->
+<div *ngIf="showModal" class="custom-alert" [ngClass]="{ 'alert-success': isSuccess, 'alert-danger': !isSuccess }">
+  <div class="alert-header">
+    <h5>
+      <span class="alert-icon-circle" *ngIf="isSuccess">&#10003;</span>
+      <span class="alert-icon-circle" *ngIf="!isSuccess">&#10007;</span>
+      {{ isSuccess ? 'Pago Exitoso' : 'Error en el Pago' }}
+    </h5>
+    <button type="button" class="btn-close" (click)="close()" aria-label="Cerrar">&times;</button>
+  </div>
+
+  <div class="alert-body">
+    <h1>{{ isSuccess ? 'Gracias por tu compra!' : 'No se pudo completar el pago' }}</h1>
+    <p>{{ isSuccess ? 'Tu pedido ha sido registrado con exito.' : 'Por favor, intenta de nuevo mas tarde.' }}</p>
+  </div>
+
+  <div class="alert-footer">
+    <button routerLink="/inicio" class="btn btn-primary">Volver al inicio</button>
+    <button *ngIf="isSuccess" (click)="redirigirAPedidos()" class="btn btn-secondary">Ir a mis pedidos</button>
+  </div>
+</div>
