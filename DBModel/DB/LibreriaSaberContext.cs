@@ -78,22 +78,10 @@ public partial class LibreriaSaberContext : DbContext
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-AAD7CCB\\SQLEXPRESS01;Initial Catalog=Libreria_Saber;Integrated Security=True;Trust Server Certificate=True");
 
-<<<<<<< HEAD
- 
-
-
-   
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
     modelBuilder.Entity<Favorito>(entity =>
     {
-=======
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    modelBuilder.Entity<Favorito>(entity =>
-    {
->>>>>>> 555b18274d1a020c34eaa698445367aef26d29ef
       entity.HasKey(e => e.IdFavorito).HasName("PK_Favorito");
       entity.ToTable("Favorito", "dbo");
 
@@ -101,23 +89,6 @@ public partial class LibreriaSaberContext : DbContext
       entity.Property(e => e.IdPersona).HasColumnName("Id_Persona");
       entity.Property(e => e.IdLibro).HasColumnName("IdLibro");
       entity.Property(e => e.FechaAgregado)
-<<<<<<< HEAD
-          .HasColumnName("FechaAgregado")
-          .HasDefaultValueSql("(getdate())")
-          .HasColumnType("datetime");
-
-      entity.HasOne(d => d.IdLibroNavigation)
-          .WithMany()
-          .HasForeignKey(d => d.IdLibro)
-          .HasConstraintName("FK_Favorito_Libro");
-
-      entity.HasOne(d => d.IdPersonaNavigation)
-          .WithMany()
-          .HasForeignKey(d => d.IdPersona)
-          .HasConstraintName("FK_Favorito_Persona");
-    });
-
-=======
               .HasColumnName("FechaAgregado")
               .HasDefaultValueSql("(getdate())")
               .HasColumnType("datetime");
@@ -132,7 +103,7 @@ public partial class LibreriaSaberContext : DbContext
               .HasForeignKey(d => d.IdPersona)
               .HasConstraintName("FK_Favorito_Persona");
     });
->>>>>>> 555b18274d1a020c34eaa698445367aef26d29ef
+
     modelBuilder.Entity<LibroDataResponse>()
         .HasNoKey();
         modelBuilder.Entity<Autor>(entity =>

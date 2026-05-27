@@ -20,8 +20,4 @@ namespace Models.RequestResponse
 
         public decimal? IngresosACaja { get; set; }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 555b18274d1a020c34eaa698445367aef26d29ef
 }

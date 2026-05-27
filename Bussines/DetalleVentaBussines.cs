@@ -150,20 +150,12 @@ namespace Bussines
                 // Crear el registro con todas las imágenes asociadas
                 await _IEstadoPedidoImageneBussines.CreateWithImagesAsync(estadoPedidoImageneRequest, images);
             }
-
             // Enviar notificación por email al cliente
-
-
             // var clienteEmail = await _ventaRepository.GetEmailByVentaId(idVenta);
             // if (!string.IsNullOrEmpty(clienteEmail))
             // {
             //     await _emailService.SendOrderStatusUpdateEmailAsync(clienteEmail, idVenta, request.Estado, productos, imagenesProductos);
             // }
-
-         
-
-       
-
             return true;
         }
 
