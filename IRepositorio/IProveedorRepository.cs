@@ -1,4 +1,4 @@
-﻿using DBModel.DB;
+using DBModel.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +10,6 @@ namespace IRepository
 {
     public interface IProveedorRepository : ICRUDRepositorio<Proveedor>
     {
+    Task<List<Proveedor>> getProveedorCategoria(int idCategoria, int? idSubcategoria);
     }
 }

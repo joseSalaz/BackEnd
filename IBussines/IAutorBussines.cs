@@ -1,12 +1,13 @@
-﻿using Azure.Core;
+using Azure.Core;
 using DBModel.DB;
 using Models.RequestResponse;
 using UtilInterface;
 
 namespace IBussines
 {
-    public interface IAutorBussines: ICRUDBussnies<AutorRequest, AutorResponse>
-    {
-        Task<Autor> GetByNameAsync(string nombre);
-    }
+  public interface IAutorBussines : ICRUDBussnies<AutorRequest, AutorResponse>
+  {
+    Task<Autor> GetByNameAsync(string nombre);
+    Task<List<AutorCategoria>> GetAutorCategoria(int idCategoria, int? idSubcategoria);
+  }
 }
