@@ -1,4 +1,4 @@
-﻿using DBModel.DB;
+using DBModel.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,9 @@ using UtilInterface;
 
 namespace IRepository
 {
-    public interface ICajaRepository : ICRUDRepositorio<Caja>  
-    {
-        Caja FindCajaByDate(DateTime date);
-    }
+  public interface ICajaRepository : ICRUDRepositorio<Caja>
+  {
+    Caja FindCajaByDate(DateTime date);
+    Caja GetCajaEcommerce();
+  }
 }

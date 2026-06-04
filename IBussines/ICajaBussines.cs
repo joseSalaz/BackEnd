@@ -1,4 +1,4 @@
-﻿using DBModel.DB;
+using DBModel.DB;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
 using System;
@@ -10,8 +10,9 @@ using UtilInterface;
 
 namespace IBussines
 {
-    public interface ICajaBussines : ICRUDBussnies <CajaRequest, CajaResponse>
-    {
-        Caja RegistrarVentaEnCajaDelDia();
-    }
+  public interface ICajaBussines : ICRUDBussnies<CajaRequest, CajaResponse>
+  {
+    Caja RegistrarVentaEnCajaDelDia();
+    Caja RegistrarventasEcomerce();
+  }
 }

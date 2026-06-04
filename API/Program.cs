@@ -47,12 +47,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // Agregar otros servicios al contenedor.
-// Si tu clase est· en Models.Comon:
+// Si tu clase est√° en Models.Comon:
 builder.Services.Configure<Models.Comon.AzureCognitiveServicesSettings>(
     builder.Configuration.GetSection("AzureCognitiveServices"));
 builder.Services.AddTransient<IAzureComputerVisionService, AzureComputerVisionService>();
 builder.Services.AddControllers();
-// ConfiguraciÛn de Swagger/OpenAPI.
+// Configuraci√≥n de Swagger/OpenAPI.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -60,10 +60,10 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "SISTEMA DE LIBRERIA",
         Version = "v1",
-        Description = "DocumentaciÛn de los servicios para el sistema de Libreria Saber",
+        Description = "Documentaci√≥n de los servicios para el sistema de Libreria Saber",
         Contact = new OpenApiContact
         {
-            Name = "JosÈ Salazar",
+            Name = "Jos√© Salazar",
             Email = "i2221915@continental.edu.pe",
             Url = new Uri("https://www.linkedin.com/in/jose-alberto-salazar-chirinos-3b1bb6297/"),
         },
@@ -71,7 +71,9 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
-
+builder.Services.AddDbContext<LibreriaSaberContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(typeof(IStartup).Assembly, typeof(AutoMapperProfiles).Assembly);
 
 // Registro de servicios
