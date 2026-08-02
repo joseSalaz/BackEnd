@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 using DBModel.DB;
+=======
+﻿using DBModel.DB;
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using IRepository;
 using Repository.Generic;
 using System;
@@ -13,8 +17,11 @@ namespace Repository
 {
     public class PersonaRepository : GenericRepository<Persona>, IPersonaRepository
     {
+<<<<<<< HEAD
         public PersonaRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         public Persona buscarporDNI(string DNI)
         {
             Persona person = db.Personas.Where(x => x.NumeroDocumento == DNI).FirstOrDefault();

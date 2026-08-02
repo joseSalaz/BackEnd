@@ -1,0 +1,31 @@
+<app-head></app-head>
+
+<div class="store-container">
+  
+  <app-filtro [filtros]="filtros"> </app-filtro>
+
+  <main class="products-content">
+    <div class="card-container">
+      <div *ngFor="let libro of datas" class="card">
+        <div class="img-wrapper">
+          <img [src]="libro.imagen" alt="Libro">
+        </div> 
+        <div class="card-body">
+          <h5 class="card-title">{{ libro.titulo }}</h5>
+          <h1 class="price" *ngIf="libro.precioVenta; else loading">
+            S/{{ libro.precioVenta | number:'1.2-2' }}
+          </h1>
+          <ng-template #loading>
+            <span>Cargando precio...</span>
+          </ng-template>
+          <button type="button" class="btn btn-primary fs-5" (click)="redireccionarAlDetalleProducto(libro.idLibro)">Comprar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<app-footer></app-footer>
+
+

@@ -14,6 +14,9 @@ namespace IBussines
   {
     Caja RegistrarVentaEnCajaDelDia();
     Caja RegistrarventasEcomerce();
+<<<<<<< HEAD
     Caja ObtenerCajaPorId(int id);
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
   }
 }

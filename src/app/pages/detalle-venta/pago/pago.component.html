@@ -1,0 +1,23 @@
+<div class="payment-container">
+
+  <div class="text-center">
+    <h1>Finaliza tu compra</h1>
+  </div>
+
+
+
+  <!-- BOTONES DE PAGO -->
+  <div class="payment-buttons">
+    <button (click)="procesarPago('paypal')" class="btn btn-paypal" >
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Paypal_2014_logo.png" alt="PayPal Logo" class="payment-logo" />
+      Pagar con PayPal
+    </button>
+    <button (click)="procesarPago('mercadoPago')" class="btn btn-mercado-pago" >
+      <img src="https://niixer.com/wp-content/uploads/2023/07/mercado-pago-logo-vector-1-1280x600.png" alt="Mercado Pago Logo" class="payment-logo" />
+      Pagar con Mercado Pago
+    </button>
+  </div>
+
+
+
+</div>

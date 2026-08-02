@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 using AutoMapper;
+=======
+﻿using AutoMapper;
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using DBModel.DB;
 using IBussines;
 using IRepository;
@@ -9,7 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using UnitOfWork;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace Bussines
 {
@@ -22,6 +29,7 @@ namespace Bussines
 
         #endregion
 
+<<<<<<< HEAD
         private readonly IUnitOfWork _unitOfWork;
 
     #region constructor 
@@ -30,6 +38,13 @@ namespace Bussines
       _unitOfWork = unitOfWork;
             _Mapper = mapper;
             _IDireccionRepository = _unitOfWork.Direcciones;
+=======
+        #region constructor 
+        public DireccionBussines(IMapper mapper)
+        {
+            _Mapper = mapper;
+            _IDireccionRepository = new DireccionRepository();
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         }
         #endregion
 

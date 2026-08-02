@@ -12,7 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models.RequestResponse;
+<<<<<<< HEAD
 using Models.RequestResponse.libro;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using Repository;
 using Service;
 using System;
@@ -20,7 +23,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using UnitOfWork;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using static Models.RequestResponse.FiltroLibro;
 
 namespace Bussines
@@ -41,6 +47,7 @@ namespace Bussines
 
     #endregion
 
+<<<<<<< HEAD
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAzureComputerVisionService _visionService;
 
@@ -53,12 +60,27 @@ namespace Bussines
       _unitOfWork = unitOfWork;
       _Mapper = mapper;
       _ILibroRepository = _unitOfWork.Libros;
+=======
+    #region constructor 
+    public LibroBussines(IMapper mapper, IFirebaseStorageService firebaseStorageService, IPrecioRepository iPrecioRepository, IKardexRepository kardexRepository
+        , IAutorRepository autorRepository,
+        ILibroAutorRepository libroAutorRepository)
+    {
+      _Mapper = mapper;
+      _ILibroRepository = new LibroRepository();
+
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
       _firebaseStorageService = firebaseStorageService;
       _PrecioRepository = iPrecioRepository;
       _KardexRepository = kardexRepository;
       _autorRepository = autorRepository;
       _libroAutorRepository = libroAutorRepository;
+<<<<<<< HEAD
       _visionService = visionService;
+=======
+
+
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     }
     #endregion
 
@@ -277,7 +299,10 @@ namespace Bussines
       return await _ILibroRepository.GetByIds(ids);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     public async Task<Libro> ObtenerLibroConPreciosYPublicoObjetivo(int libroId)
     {
       return await _ILibroRepository.GetLibroConPreciosYPublicoObjetivo(libroId);
@@ -311,15 +336,20 @@ namespace Bussines
       return precios;
     }
 
+<<<<<<< HEAD
     public async Task<List<Libro>> GetLibrosConPreciosByIds(List<int> ids)
     {
       return await _ILibroRepository.GetLibrosConPreciosByIds(ids);
     }
+=======
+
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     public async Task<Kardex> GetKardexByLibroId(int libroId)
     {
       return await _ILibroRepository.GetKardexByLibroId(libroId);
     }
 
+<<<<<<< HEAD
     public async Task<List<LibroCatalogo>> GetLibrosCatalogoByIds(List<int> ids)
     {
 
@@ -341,6 +371,8 @@ namespace Bussines
 
     }
 
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     public async Task<(List<LibroResponse>, int)> GetLibrosPaginados(int page, int pageSize)
     {
       var (libros, totalItems) = await _ILibroRepository.GetLibrosPaginados(page, pageSize);
@@ -364,6 +396,10 @@ namespace Bussines
     {
       // Obtener el libro desde el repositorio
       var libro = await _ILibroRepository.GetByIdAsync(entity.Libro.IdLibro);
+<<<<<<< HEAD
+=======
+      Console.WriteLine($"Recibiendo ID: {entity.Libro.IdLibro}");
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
       if (libro == null)
       {
         throw new Exception("Libro no encontrado");
@@ -439,6 +475,7 @@ namespace Bussines
     {
       return await _ILibroRepository.FiltrarLibros(request);
     }
+<<<<<<< HEAD
 
     public async Task<Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models.ImageAnalysis> AnalizarImagenAsync(IFormFile archivo)
     {
@@ -454,6 +491,8 @@ namespace Bussines
     {
       return await _unitOfWork.Libros.ObtenerCatalogoOptimizadoAsync();
     }
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
   }
 
 }

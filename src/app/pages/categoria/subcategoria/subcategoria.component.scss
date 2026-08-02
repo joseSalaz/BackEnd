@@ -1,0 +1,153 @@
+.store-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: flex-start; 
+}
+
+.btn-show-more {
+    background: #f1f3f5;
+    border: none;
+    color: #495057;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.btn-show-more:hover {
+    background: #e9ecef;
+}
+
+.products-content {
+    flex: 1; 
+}
+
+/* --- Responsive para Móviles --- */
+@media screen and (max-width: 768px) {
+    .store-container {
+        flex-direction: column; 
+    }
+    
+    .filters-sidebar {
+        flex: 1 1 auto;
+        width: 100%; 
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .filters-sticky-wrapper {
+        position: relative; 
+        top: 0;
+        max-height: none;
+        overflow-y: visible;
+    }
+}
+
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+    gap: 20px; 
+}
+
+.img-wrapper {
+    min-width: 180px; 
+    height: 200px; 
+    overflow: hidden; 
+    margin: 0 auto; 
+    background-color: #f8f9fa; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.card {
+    width: calc(20% - 20px); 
+    min-width: 200px; 
+    max-height: 420px;
+    border: none;
+    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, .18);
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+    .card { width: calc(33.33% - 20px); }
+}
+@media screen and (max-width: 992px) {
+    .card { width: calc(50% - 20px); }
+}
+@media screen and (max-width: 480px) {
+    .card { width: 100%; }
+}
+
+.card-body {
+    padding: 1rem; 
+    text-align: center; 
+    position: relative;
+}
+
+.btn {
+    width: 90%; 
+    height: 48px; 
+    position: absolute;
+    top: 60%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 1; 
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .btn {
+    opacity: 1;
+}
+
+.card-title {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    font-size: 1rem; 
+    position: relative; 
+    z-index: 2; 
+}
+
+
+@media screen and (min-width:576px) {
+    .carousel-inner {
+        display: flex;
+        overflow-x: auto;
+        overflow-x: hidden;
+    }
+    .carousel-item {
+        display: block;
+        margin-right: 0;
+        flex: 0 0 calc(100% / 5);
+    }
+    .img-wrapper {
+        height: 23vw;
+    }
+    .carousel-item:last-child {
+        margin-right: 0; 
+    }
+}
+.carousel-inner {
+    padding: 1em;
+}

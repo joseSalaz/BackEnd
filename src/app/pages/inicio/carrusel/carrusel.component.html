@@ -1,0 +1,39 @@
+<div *ngIf="loadingStateService.loading$() === 'waiting'" class="loading-state">
+  <div class="skeleton-container">
+    <div *ngFor="let skeleton of [1, 2, 3, 4, 5]" class="skeleton-card">
+      <div class="skeleton-image"></div>
+      <div class="skeleton-text title"></div>
+      <div class="skeleton-text price"></div>
+      <div class="skeleton-button"></div>
+    </div>
+  </div>
+</div>
+
+<swiper-container *ngIf="loadingStateService.loading$() === 'successful'" class="mySwiper"
+  [slidesPerView]="getSlidesPerView()" navigation autoplay [spaceBetween]="80">
+  <ng-container *ngFor="let element of datas; let i = index">
+    <swiper-slide>
+      <div class="card">
+        <div class="img-wrapper">
+          <img [src]="element.imagen || defaultImageUrl" (error)="onImageError($event)" alt="Libro" />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ element.titulo }}</h5>
+          <h1 class="price" *ngIf="element.precioVenta; else loading">
+            S/{{ element.precioVenta | number:'1.2-2' }}
+          </h1>
+          <ng-template #loading>
+            <span>Cargando precio...</span>
+          </ng-template>
+          <button type="button" class="btn btn-primary fs-5" [routerLink]="['/detalle-producto', element.idLibro]">
+            <i class="fas fa-cart-plus"></i> Comprar
+          </button>
+        </div>
+      </div>
+    </swiper-slide>
+  </ng-container>
+</swiper-container>
+
+<div *ngIf="loadingStateService.loading$() === 'error'" class="error-state">
+  <p class="text-center text-danger">Hubo un error al cargar los datos. Por favor, inténtalo de nuevo más tarde.</p>
+</div>

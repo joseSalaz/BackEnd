@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Sign Up
+          </div>
+          <div class="card-body">
+            <form [formGroup]="formCrea" (ngSubmit)="signUp()">
+              <div class="mb-3">
+                <label for="Nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="Nombre" formControlName="Nombre">
+              </div>
+              <div class="mb-3">
+                <label for="ApellidoPaterno" class="form-label">Apellido Paterno</label>
+                <input type="text" class="form-control" id="ApellidoPaterno" formControlName="ApellidoPaterno">
+              </div>
+              <div class="mb-3">
+                <label for="ApellidoMaterno" class="form-label">Apellido Materno</label>
+                <input type="text" class="form-control" id="ApellidoMaterno" formControlName="ApellidoMaterno">
+              </div>
+              <div class="mb-3">
+                <label for="Correo" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="Correo" formControlName="Correo">
+              </div>
+              <div class="mb-3 position-relative">
+                <label for="password" class="form-label">Contraseña:</label>
+                <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control" formControlName="password" id="password">
+                <button type="button" class="btn btn-light position-absolute end-0 top-50 translate-middle-y" (click)="toggleShowPassword()">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+              </div>
+              
+              <button type="submit" class="btn btn-primary mt-3">Registrarse</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-center mt-3">
+      ¿Ya tienes una cuenta? <a routerLink="/auth/log-in">Inicia sesión</a>
+    </p>
+  </div>
+  
+  
+  

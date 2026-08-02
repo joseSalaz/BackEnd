@@ -1,0 +1,96 @@
+<div class="main-container">
+    <app-head></app-head>
+
+    <div class="checkout-container">
+        <div class="container py-5">
+            <div class="row g-5">
+
+                <!-- Columna Izquierda - Productos -->
+                <div class="col-lg-7">
+                    <h4 class="mb-4">
+                        <i class="fas fa-shopping-bag text-primary me-2"></i>
+                        Resumen de tu compra
+                    </h4>
+
+                    <div class="products-container">
+                        <div *ngFor="let item of itemsCarrito" class="product-card">
+                            <img [src]="item.libro.imagen" [alt]="item.libro.titulo" class="product-image">
+
+                            <div class="product-info">
+                                <h6 class="product-title">{{ item.libro.titulo }}</h6>
+                                <p class="text-muted mb-1">Cantidad: <strong>{{ item.cantidad }}</strong></p>
+                                <p class="price-unit">S/{{ item.precioVenta | number:'1.2-2' }} c/u</p>
+                            </div>
+
+                            <div class="product-total">
+                                <strong>S/{{ (item.cantidad * item.precioVenta) | number:'1.2-2' }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha - Resumen -->
+                <div class="col-lg-5">
+                    <div class="order-summary sticky-top" style="top: 90px;">
+                        <h5 class="summary-title">Resumen del pedido</h5>
+
+                        <div class="summary-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+                                <span>S/{{ calcularTotalCarrito() | number:'1.2-2' }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span>Envío</span>
+                                <span class="text-success">Por calcular</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between total-row">
+                                <strong>Total</strong>
+                                <strong class="total-amount">S/{{ calcularTotalCarrito() | number:'1.2-2' }}</strong>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="form-label fw-bold">Enviar a:</label>
+                            <select class="form-select form-select-lg" [(ngModel)]="direccionSeleccionada">
+                                <option *ngFor="let direccion of direcciones" [ngValue]="direccion">
+                                    {{ direccion.direccion1 }}, {{ direccion.distrito }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div *ngIf="direcciones.length === 0" class="no-address mt-3">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>No tienes direcciones registradas</p>
+                            <a href="/user" class="btn btn-outline-primary w-100">Agregar dirección</a>
+                        </div>
+
+                        <button type="button" 
+                                (click)="abrirModalPago()"
+                                [disabled]="isLoading || itemsCarrito.length === 0 || direcciones.length === 0"
+                                class="btn btn-primary btn-lg w-100 mt-4 py-3 fw-semibold">
+                            <i class="fas fa-lock me-2"></i>
+                            Proceder al pago seguro
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <app-respuestas [showModal]="showModalRespuestas" [isSuccess]="isSuccess"></app-respuestas>
+    <app-footer></app-footer>
+</div>
+
+<!-- MODAL SIMPLE - Solo para que se muestre -->
+<div *ngIf="showModalPago" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-button" (click)="cerrarModalPago()">×</span>
+        <app-pago></app-pago>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 using AutoMapper;
 using DBModel.DB;
 using IBussines;
@@ -5,13 +6,23 @@ using IRepositorio;
 using IRepository;
 using Models.RequestResponse;
 using Models.RequestResponse.libro;
+=======
+﻿using AutoMapper;
+using DBModel.DB;
+using IBussines;
+using IRepository;
+using Models.RequestResponse;
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using UnitOfWork;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace Bussines
 {
@@ -23,6 +34,7 @@ namespace Bussines
 
         #endregion
 
+<<<<<<< HEAD
         private readonly IUnitOfWork _unitOfWork;
 
     #region constructor 
@@ -31,6 +43,13 @@ namespace Bussines
              _unitOfWork = unitOfWork;
             _Mapper = mapper;
             _ISubcategoriaRepository = _unitOfWork.Subcategorias;
+=======
+        #region constructor 
+        public SubcategoriaBussines(IMapper mapper)
+        {
+            _Mapper = mapper;
+            _ISubcategoriaRepository = new SubcategoriaRepository();
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         }
         #endregion
 
@@ -90,6 +109,7 @@ namespace Bussines
         {
             return await _ISubcategoriaRepository.GetLibroIdsBySubcategoria(subcategoriaId);
         }
+<<<<<<< HEAD
     public async Task<List<LibroCatalogo>> GetLibrosCatalogoBySubcategoria(int idSubcategoria)
     {
       var ids = await _ISubcategoriaRepository
@@ -110,6 +130,11 @@ namespace Bussines
     }
 
     public SubcategoriaResponse Update(SubcategoriaRequest entity)
+=======
+
+
+        public SubcategoriaResponse Update(SubcategoriaRequest entity)
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         {
             Subcategoria au = _Mapper.Map<Subcategoria>(entity);
             au = _ISubcategoriaRepository.Update(au);

@@ -1,0 +1,75 @@
+.checkout-container {
+  background: #f8f9fa;
+  min-height: calc(100vh - 120px);
+}
+
+/* Estilos de productos y resumen (mantengo lo básico) */
+.product-card {
+  display: flex;
+  gap: 16px;
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.product-image {
+  width: 110px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.order-summary {
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+}
+
+.total-row {
+  font-size: 1.4rem;
+  color: #007bff;
+}
+
+/* MODAL - Estilo mínimo para que se vea */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 480px;
+  max-width: 95%;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  cursor: pointer;
+
+}
+
+.order-summary {
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 1;
+}

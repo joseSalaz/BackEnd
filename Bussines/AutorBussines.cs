@@ -8,7 +8,10 @@ using IRepositorio;
 using IRepository;
 using Models.RequestResponse;
 using Repository;
+<<<<<<< HEAD
 using UnitOfWork;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace Bussines
 {
@@ -21,6 +24,7 @@ namespace Bussines
 
     #endregion
 
+<<<<<<< HEAD
     private readonly IUnitOfWork _unitOfWork;
 
     #region constructor 
@@ -29,6 +33,13 @@ namespace Bussines
       _unitOfWork = unitOfWork;
       _Mapper = mapper;
       _IAutorRepository = _unitOfWork.Autores;
+=======
+    #region constructor 
+    public AutorBussines(IMapper mapper)
+    {
+      _Mapper = mapper;
+      _IAutorRepository = new AutorRepository();
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     }
     #endregion
 

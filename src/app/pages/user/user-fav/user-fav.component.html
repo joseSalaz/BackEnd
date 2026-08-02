@@ -1,0 +1,48 @@
+<div class="container my-4">
+  <h3 class="mb-4 text-uppercase font-weight-bold text-secondary-emphasis">Mis Libros Favoritos</h3>
+
+  <div *ngIf="cargando" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando favoritos...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!cargando && listaFavoritos.length === 0" class="alert alert-info text-center py-4 border-0 shadow-sm">
+    <i class="far fa-heart fa-2x mb-2 d-block text-primary"></i>
+    Aún no has guardado ningún libro en tus favoritos.
+  </div>
+
+  <div *ngIf="!cargando && listaFavoritos.length > 0" class="d-flex flex-column gap-3">
+    
+    <div class="fav-wide-item p-3 bg-white rounded shadow-sm d-flex align-items-center justify-content-between border"
+         *ngFor="let fav of listaFavoritos"
+         (click)="redireccionarAlDetalle(fav.idLibro)">
+      
+      <div class="d-flex align-items-center gap-4 flex-grow-1 min-w-0">
+        
+        <div class="img-list-container rounded bg-light border d-flex align-items-center justify-content-center p-2 flex-shrink-0">
+          <img [src]="fav.imagenLibro || 'assets/no-image.png'" 
+               alt="{{ fav.tituloLibro }}" 
+               class="img-fluid style-fav-img">
+        </div>
+
+        <div class="text-truncate flex-grow-1">
+          <h5 class="mb-1 text-dark fw-semibold text-wrap lh-base fs-5" [title]="fav.tituloLibro">
+            {{ fav.tituloLibro }}
+          </h5>
+          <span class="badge text-bg-light border text-muted fw-normal">
+            <i class="far fa-calendar-alt me-1"></i> Agregado el: {{ fav.fechaAgregado | date:'dd/MM/yyyy' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="ms-3 flex-shrink-0">
+        <button type="button" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold btn-action shadow-sm">
+          Ver Detalle <i class="fas fa-chevron-right ms-2 small"></i>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

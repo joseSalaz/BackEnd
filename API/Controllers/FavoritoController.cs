@@ -16,12 +16,23 @@ namespace API.Controllers
     {
         #region Declaracion de vcariables generales
         public readonly IFavoritoBussines _IFavoritoBussines = null;
+<<<<<<< HEAD
         #endregion
 
         #region constructor
         public FavoritoController(IFavoritoBussines favoritoBussines)
         {
             _IFavoritoBussines = favoritoBussines;
+=======
+        public readonly IMapper _Mapper;
+        #endregion
+
+        #region constructor 
+        public FavoritoController(IMapper mapper)
+        {
+            _Mapper = mapper;
+            _IFavoritoBussines = new FavoritoBussines(_Mapper);
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         }
         #endregion
 

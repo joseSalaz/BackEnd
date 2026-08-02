@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 //using Bussines;
 using Models.RequestResponse;
+<<<<<<< HEAD
 using UnitOfWork;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace API.Controllers
 {
@@ -21,12 +24,23 @@ namespace API.Controllers
   {
     #region Declaracion de vcariables generales
     public readonly IAutorBussines _IAutorBussines = null;
+<<<<<<< HEAD
     #endregion
 
     #region constructor 
     public AutorController(IAutorBussines autorBussines)
     {
       _IAutorBussines = autorBussines;
+=======
+    public readonly IMapper _Mapper;
+    #endregion
+
+    #region constructor 
+    public AutorController(IMapper mapper)
+    {
+      _Mapper = mapper;
+      _IAutorBussines = new AutorBussines(_Mapper);
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     }
     #endregion
 

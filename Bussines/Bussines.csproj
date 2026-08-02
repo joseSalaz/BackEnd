@@ -45,7 +45,10 @@
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Repositorio\Repository.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
+<<<<<<< HEAD
     <ProjectReference Include="..\UnitOfWork\UnitOfWork.csproj" />
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     <ProjectReference Include="..\UtilExel\UtilExel.csproj" />
     <ProjectReference Include="..\UtilMapper\UtilMapper.csproj" />
     <ProjectReference Include="..\UtilPDF\UtilPDF.csproj" />

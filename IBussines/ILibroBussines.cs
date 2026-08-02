@@ -3,7 +3,10 @@ using DBModel.Response;
 using IService;
 using Microsoft.AspNetCore.Http;
 using Models.RequestResponse;
+<<<<<<< HEAD
 using Models.RequestResponse.libro;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +35,7 @@ namespace IBussines
     Task<(List<Libro>, int)> FiltrarLibrosAsync(bool? estado, string titulo, int page, int pageSize);
     Task<List<LibroDataResponse>> getLibroAutor();
     Task<List<LibroFiltroResponse>> FiltrarLibros(FiltroLibroRequest request);
+<<<<<<< HEAD
 
     /// <summary>
     /// Analiza una imagen subida (portada de libro) usando Azure Computer Vision y devuelve
@@ -44,5 +48,7 @@ namespace IBussines
     Task<IEnumerable<LibroCatalogoDTO>> ObtenerCatalogoOptimizadoAsync();
     Task<List<Libro>> GetLibrosConPreciosByIds(List<int> ids);
     Task<List<LibroCatalogo>> GetLibrosCatalogoByIds(List<int> ids);
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
   }
 }

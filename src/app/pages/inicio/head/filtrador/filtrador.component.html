@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid justify-content-center">
+        <div class="navbar-nav">
+            <div *ngFor="let categoria of categorias" class="nav-item dropdown"
+                 (mouseenter)="cargarSubcategorias(categoria.idCategoria)"
+                 (mouseleave)="hoveredCategoriaId=null">
+                <button class="nav-link"
+                        (click)="redireccionarALibros(categoria.idCategoria)">
+                    {{ categoria.categoria1 }}
+                </button>
+
+                <!-- Sin *ngIf, siempre en DOM, controlado por CSS hover -->
+                <div class="dropdown-menu">
+                    <a *ngFor="let sub of categoria.subcategorias"
+                       class="dropdown-item"
+                       (click)="redireccionarALibrosSubcategoria(sub.id)">
+                        {{ sub.descripcion }}
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</nav>

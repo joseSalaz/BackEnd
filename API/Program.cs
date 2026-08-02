@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 using API.Extensions;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using AutoMapper;
 using Bussines;
 using Bussnies;
@@ -19,7 +22,10 @@ using Service;
 using SixLabors.ImageSharp;
 using System.Text;
 using System.Text.Json.Serialization;
+<<<<<<< HEAD
 using UnitOfWork;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using UtilMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,15 +33,23 @@ var env = builder.Environment;
 
 builder.Services.AddCors(options =>
 {
+<<<<<<< HEAD
   options.AddPolicy("AllowAll",
       builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
+=======
+    options.AddPolicy("AllowAll",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 });
 
 /* PARA IMPLEMENTAR NUESTROS PROTOCOLOS DE SEGURIDAD ==> JWT */
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
+<<<<<<< HEAD
   options.RequireHttpsMetadata = false;
   options.SaveToken = true;
   options.TokenValidationParameters = new TokenValidationParameters()
@@ -46,6 +60,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     ValidIssuer = builder.Configuration["Jwt:Issuer"],
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
   };
+=======
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 });
 
 // Agregar otros servicios al contenedor.
@@ -58,6 +84,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+<<<<<<< HEAD
   c.SwaggerDoc("v1", new OpenApiInfo
   {
     Title = "SISTEMA DE LIBRERIA",
@@ -72,12 +99,60 @@ builder.Services.AddSwaggerGen(c =>
   });
   var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
   c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+=======
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "SISTEMA DE LIBRERIA",
+        Version = "v1",
+        Description = "Documentación de los servicios para el sistema de Libreria Saber",
+        Contact = new OpenApiContact
+        {
+            Name = "José Salazar",
+            Email = "i2221915@continental.edu.pe",
+            Url = new Uri("https://www.linkedin.com/in/jose-alberto-salazar-chirinos-3b1bb6297/"),
+        },
+    });
+    var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 });
 builder.Services.AddDbContext<LibreriaSaberContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+<<<<<<< HEAD
 builder.Services.AddProyectDependencies();
 
+=======
+builder.Services.AddAutoMapper(typeof(IStartup).Assembly, typeof(AutoMapperProfiles).Assembly);
+
+// Registro de servicios
+builder.Services.AddScoped<ILibroBussines, LibroBussines>();
+builder.Services.AddScoped<IApisPaypalServices, ApisPaypalServices>();
+
+builder.Services.AddScoped<IKardexRepository, KardexRepository>();
+builder.Services.AddScoped<IKardexBussines, KardexBussines>();
+builder.Services.AddScoped<IVentaBussines, VentaBussines>();
+builder.Services.AddScoped<IDetalleVentaBussines, DetalleVentaBussines>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IPersonaBussines, PersonaBussines>();
+builder.Services.AddScoped<ICajaBussines, CajaBussines>();
+builder.Services.AddScoped<ICajaRepository, CajaRepository>();
+builder.Services.AddScoped<IPaymentService,MercadoPagoService>();
+builder.Services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
+builder.Services.AddScoped<IPrecioRepository, PrecioRepository>();
+builder.Services.AddScoped<IEstadoPedidoBussines, EstadoPedidoBussines>();
+builder.Services.AddScoped<IEstadoPedidoImageneBussines, EstadoPedidoImageneBussines>();
+builder.Services.AddScoped<IEstadoPedidoRepository, EstadoPedidoRepository>();
+builder.Services.AddScoped<IOrderMesageFirebase, OrderMesageFirebase>();
+builder.Services.AddScoped<IUsuarioBussnies, UsuarioBussnies>();
+builder.Services.AddScoped<ILibroAutorRepository, LibroAutorRepository>();
+builder.Services.AddScoped<IAutorRepository, AutorRepository>();
+builder.Services.AddScoped<IDireccionRepository, DireccionRepository>();
+builder.Services.AddScoped<IDireccionBussines, DireccionBussines>();
+builder.Services.AddScoped<ICriptoService, CriptoService>();
+builder.Services.AddScoped<IVentaRepository, VentaRepository>();
+builder.Services.AddScoped<ILibroRepository, LibroRepository>();
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 builder.Services.AddHttpClient();
 
 

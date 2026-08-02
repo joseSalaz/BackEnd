@@ -41,7 +41,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Bussines\Bussines.csproj" />
+<<<<<<< HEAD
 		<ProjectReference Include="..\UnitOfWork\UnitOfWork.csproj" />
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 		<ProjectReference Include="..\Constantes\Constantes.csproj" />
 		<ProjectReference Include="..\IBussines\IBussines.csproj" />
 		<ProjectReference Include="..\Models\Models.csproj" />

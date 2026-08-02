@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.7.11925.98 stable
+=======
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 APIS", "01 APIS", "{9979AE2C-426D-47E6-B20B-2B047D333271}"
 EndProject
@@ -51,8 +58,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firebase", "Firebase\Fireba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilExel", "UtilExel\UtilExel.csproj", "{B415792F-A6C1-4250-B9F8-6EE2B2A2AF10}"
 EndProject
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitOfWork", "UnitOfWork\UnitOfWork.csproj", "{4DF78BE8-A899-45C9-9C93-F2EAE22CAB0E}"
 EndProject
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,10 +133,13 @@ Global
 		{B415792F-A6C1-4250-B9F8-6EE2B2A2AF10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B415792F-A6C1-4250-B9F8-6EE2B2A2AF10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B415792F-A6C1-4250-B9F8-6EE2B2A2AF10}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{4DF78BE8-A899-45C9-9C93-F2EAE22CAB0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DF78BE8-A899-45C9-9C93-F2EAE22CAB0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DF78BE8-A899-45C9-9C93-F2EAE22CAB0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DF78BE8-A899-45C9-9C93-F2EAE22CAB0E}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,7 +161,10 @@ Global
 		{C6546E33-E5D5-4010-8BD3-A31DADDA1FBC} = {4E336605-CDD7-4E78-8C9B-0316872DA434}
 		{C10DC9AD-56DB-4F8D-8519-55D0114FDDBE} = {4E336605-CDD7-4E78-8C9B-0316872DA434}
 		{B415792F-A6C1-4250-B9F8-6EE2B2A2AF10} = {4E336605-CDD7-4E78-8C9B-0316872DA434}
+<<<<<<< HEAD
 		{4DF78BE8-A899-45C9-9C93-F2EAE22CAB0E} = {4E336605-CDD7-4E78-8C9B-0316872DA434}
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {34A2105E-0094-4E11-8718-7524EB662DCC}

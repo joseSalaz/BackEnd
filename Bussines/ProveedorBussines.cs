@@ -10,7 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using UnitOfWork;
+=======
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace Bussines
 {
@@ -25,6 +28,7 @@ namespace Bussines
     }
     #endregion
 
+<<<<<<< HEAD
     private readonly IUnitOfWork _unitOfWork;
 
     #region constructor 
@@ -33,6 +37,13 @@ namespace Bussines
       _unitOfWork = unitOfWork;
       _Mapper = mapper;
       _IProveedorRepository = _unitOfWork.Proveedores;
+=======
+    #region constructor 
+    public ProveedorBussines(IMapper mapper)
+    {
+      _Mapper = mapper;
+      _IProveedorRepository = new ProveedorRepository();
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     }
     #endregion
 

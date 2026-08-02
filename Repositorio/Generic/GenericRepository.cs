@@ -8,6 +8,7 @@ using System.Net;
 
 namespace Repository.Generic
 {
+<<<<<<< HEAD
     /// <summary>
     /// Repositorio genérico basado en Entity Framework Core.
     /// IMPORTANTE: ya NO crea su propio DbContext. El contexto se inyecta por constructor
@@ -30,6 +31,30 @@ namespace Repository.Generic
             dbSet = db.Set<TEntity>();
         }
 
+=======
+    public class GenericRepository<TEntity> where TEntity : class
+    {
+        internal LibreriaSaberContext db = new LibreriaSaberContext();
+        internal DbSet<TEntity> dbSet;
+        public GenericRepository()
+        {
+            try
+            {
+                
+                this.dbSet = db.Set<TEntity>();
+
+            }
+            catch (Exception ex)
+            {
+
+
+                throw ex;
+
+            }
+        }
+
+
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         public virtual IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] navigationProperties)
         {
             IQueryable<TEntity> query = dbSet;
@@ -40,9 +65,13 @@ namespace Repository.Generic
             return query;
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// No libera el DbContext: su ciclo de vida lo controla quien lo inyectó (DI / UnitOfWork).
         /// </summary>
+=======
+
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         public void Dispose()
         {
             GC.SuppressFinalize(this);
@@ -215,3 +244,7 @@ namespace Repository.Generic
         }
     }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4

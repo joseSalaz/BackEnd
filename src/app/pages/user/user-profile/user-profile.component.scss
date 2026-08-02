@@ -1,0 +1,29 @@
+.section-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+}
+
+.form-control-plaintext {
+  background: #f8f9fa;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+}
+
+.form-label {
+  color: #495369;
+  margin-bottom: 0.35rem;
+}
+
+.btn {
+  font-weight: 500;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}

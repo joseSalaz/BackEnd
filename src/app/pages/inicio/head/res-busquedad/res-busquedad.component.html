@@ -1,0 +1,30 @@
+<!-- Formulario de busqueda -->
+<form class="search-form" (ngSubmit)="buscarLibros()">
+    <input class="search-input" type="search" placeholder="Buscar libros..." [(ngModel)]="terminoBusqueda"
+        name="terminoBusqueda" (input)="buscarLibros()">
+    <button class="search-icon" type="submit">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
+
+<!-- Contenedor de resultados -->
+<div *ngIf="terminoBusqueda.length > 0" class="search-results-container">
+    <div *ngIf="resultados.length > 0; else noResultsTemplate">
+        <div *ngFor="let libro of resultados" class="search-result-item">
+            <span [routerLink]="['/detalle-producto', libro.idLibro]">
+                <img [src]="libro.imagen || defaultImageUrl" (error)="onImageError($event)" alt="{{ libro.titulo }}"
+                    class="search-result-image">
+                <div class="search-result-info">
+                    <h4>{{ libro.titulo }}</h4>
+                    <p>{{ libro.autor }}</p>
+                    <p class="search-result-price">{{ libro.precio | currency }}</p>
+                </div>
+            </span>
+        </div>
+    </div>
+    <ng-template #noResultsTemplate>
+        <div class="search-no-results">
+            No hay libros relacionados con '{{ terminoBusqueda }}'.
+        </div>
+    </ng-template>
+</div>
