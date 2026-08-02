@@ -27,10 +27,11 @@ namespace Bussines
     private readonly IUnitOfWork _unitOfWork;
 
     #region constructor 
-    public EstadoPedidoImageneBussines(IMapper mapper, IFirebaseStorageService firebaseStorage, IUnitOfWork unitOfWork)
+    public EstadoPedidoImageneBussines(IMapper mapper, IFirebaseStorageService firebaseStorage, IUnitOfWork unitOfWork,IFirebaseStorageService firebaseStorageService)
     {
       _unitOfWork = unitOfWork;
       _Mapper = mapper;
+      _firebaseStorageService = firebaseStorageService;
       _IEstadoPedidoImageneRepository = _unitOfWork.EstadoPedidoImagenes;
     }
 

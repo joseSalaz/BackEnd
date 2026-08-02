@@ -23,21 +23,17 @@ namespace Bussines
     public readonly IMapper _Mapper;
     private readonly IApisPeruServices _apisPeruServices;
     private readonly IPersonaRepository _persona;
-
-
-    public PersonaBussines()
-    {
-    }
     #endregion
 
     private readonly IUnitOfWork _unitOfWork;
 
     #region constructor 
-    public PersonaBussines(IMapper mapper, IUnitOfWork unitOfWork)
+    public PersonaBussines(IMapper mapper, IUnitOfWork unitOfWork,IApisPeruServices apisPeruServices)
     {
       _unitOfWork = unitOfWork;
       _Mapper = mapper;
       _IPersonaRepository = _unitOfWork.Personas;
+      _apisPeruServices = apisPeruServices;
       _persona = _unitOfWork.Personas;
     }
 
