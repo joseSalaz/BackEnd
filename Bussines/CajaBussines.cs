@@ -33,14 +33,7 @@ namespace Bussines
       _Mapper = mapper;
       _ICajaRepository = _unitOfWork.Cajas;
 
-    #region constructor 
-    public CajaBussines(IMapper mapper)
-    {
-      _Mapper = mapper;
-      _ICajaRepository = new CajaRepository();
-
     }
-    #endregion
 
     public CajaResponse Create(CajaRequest entity)
     {

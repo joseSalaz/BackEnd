@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Bussines;
 using IBussines;
 using Microsoft.AspNetCore.Http;
@@ -13,23 +13,12 @@ namespace API.Controllers
     {
         #region Declaracion de vcariables generales
         public readonly IEstadoPedidoImageneBussines _IEstadoPedidoImageneBussines = null;
-<<<<<<< HEAD
         #endregion
 
         #region constructor
         public EstadoPedidoImageneController(IEstadoPedidoImageneBussines estadoPedidoImageneBussines)
         {
             _IEstadoPedidoImageneBussines = estadoPedidoImageneBussines;
-=======
-        public readonly IMapper _Mapper;
-        #endregion
-
-        #region constructor 
-        public EstadoPedidoImageneController(IEstadoPedidoImageneBussines estadoPedidoImageneBussines, IMapper mapper)
-        {
-            _IEstadoPedidoImageneBussines = estadoPedidoImageneBussines;
-            _Mapper = mapper;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         }
         #endregion
 

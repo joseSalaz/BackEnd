@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Bussines;
 using IBussines;
 using Microsoft.AspNetCore.Mvc;
@@ -11,23 +11,13 @@ namespace API.Controllers
     public class DireccionController : ControllerBase
     {
         #region Variables
-<<<<<<< HEAD
-=======
-        private readonly IMapper _Mapper;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         private readonly IDireccionBussines _IDireccionBussines;
         private readonly IVentaBussines _IVentaBussines;
         #endregion
 
         #region Constructor
-<<<<<<< HEAD
         public DireccionController(IDireccionBussines direccionBussines, IVentaBussines ventaBussines)
         {
-=======
-        public DireccionController(IDireccionBussines direccionBussines, IMapper mapper, IVentaBussines ventaBussines)
-        {
-            _Mapper = mapper;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
             _IDireccionBussines = direccionBussines;
             _IVentaBussines = ventaBussines;
         }

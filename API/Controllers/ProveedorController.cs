@@ -3,10 +3,7 @@ using Bussines;
 using IBussines;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
-<<<<<<< HEAD
 using UnitOfWork;
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace API.Controllers
 {
@@ -18,23 +15,12 @@ namespace API.Controllers
   {
     #region Declaracion de vcariables generales
     public readonly IProveedorBussines _IProveedorBussines = null;
-<<<<<<< HEAD
     #endregion
 
     #region constructor 
     public ProveedorController(IProveedorBussines proveedorBussines)
     {
       _IProveedorBussines = proveedorBussines;
-=======
-    public readonly IMapper _Mapper;
-    #endregion
-
-    #region constructor 
-    public ProveedorController(IMapper mapper)
-    {
-      _Mapper = mapper;
-      _IProveedorBussines = new ProveedorBussines(_Mapper);
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     }
     #endregion
 

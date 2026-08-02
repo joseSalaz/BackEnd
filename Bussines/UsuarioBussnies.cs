@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 using AutoMapper;
-=======
-﻿using AutoMapper;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
+using AutoMapper;
 using DBModel.DB;
 using IBussnies;
 using IRepository;
@@ -15,145 +12,133 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using UnitOfWork;
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace Bussnies
 {
-    public class UsuarioBussnies : IUsuarioBussnies
-    {
-        #region declaracion variables generales
-        public readonly IUsuarioRepository _IUsuarioRepository = null;
-        public readonly IMapper _mapper;
-        #endregion
+  public class UsuarioBussnies : IUsuarioBussnies
+  {
+    #region declaracion variables generales
+    public readonly IUsuarioRepository _IUsuarioRepository = null;
+    public readonly IMapper _mapper;
+    #endregion
 
-<<<<<<< HEAD
-        private readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
     #region constructor
-        public UsuarioBussnies(IMapper mapper, IUnitOfWork unitOfWork)
-        {
+    public UsuarioBussnies(IMapper mapper, IUnitOfWork unitOfWork)
+    {
       _unitOfWork = unitOfWork;
-            _mapper = mapper;
-            _IUsuarioRepository = _unitOfWork.Usuarios;
-=======
-        #region constructor
-        public UsuarioBussnies(IMapper mapper)
-        {
-            _mapper = mapper;
-            _IUsuarioRepository = new UsuarioRepository();
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
-        }
-        #endregion
-
-
-        /* inyección de dependencias */
-
-        public UsuarioResponse Create(UsuarioRequest entity)
-        {
-            Usuario cat = _mapper.Map<Usuario>(entity);
-            cat = _IUsuarioRepository.Create(cat);
-            UsuarioResponse res = _mapper.Map<UsuarioResponse>(cat);
-            return res;
-        }
-
-        public List<UsuarioResponse> CreateMultiple(List<UsuarioRequest> request)
-        {
-            List<Usuario> cat = _mapper.Map<List<Usuario>>(request);
-            cat = _IUsuarioRepository.InsertMultiple(cat);
-            List<UsuarioResponse> res = _mapper.Map<List<UsuarioResponse>>(cat);
-            return res;
-        }
-
-        public int Delete(object id)
-        {
-            return _IUsuarioRepository.Delete(id);
-        }
-
-        public int deleteMultipleItems(List<UsuarioRequest> request)
-        {
-            List<Usuario> cat = _mapper.Map<List<Usuario>>(request);
-            int cantidad = _IUsuarioRepository.DeleteMultipleItems(cat);
-            return cantidad;
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
-
-        public List<UsuarioResponse> getAll()
-        {
-            List<Usuario> lst = _IUsuarioRepository.GetAll();
-            List<UsuarioResponse> res = _mapper.Map<List<UsuarioResponse>>(lst);
-            return res;
-        }
-
-        public List<UsuarioResponse> getAutoComplete(string query)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UsuarioResponse getById(object id)
-        {
-            Usuario cat = _IUsuarioRepository.GetById(id);
-            UsuarioResponse res = _mapper.Map<UsuarioResponse>(cat);
-            return res;
-        }
-
-        public UsuarioResponse GetByUserName(string userName)
-        {
-            Usuario user = _IUsuarioRepository.GetByUserName(userName);
-            UsuarioResponse res = _mapper.Map<UsuarioResponse>(user);
-            return res;
-        }
-
-        public UsuarioResponse Update(UsuarioRequest entity)
-        {
-            Usuario cat = _mapper.Map<Usuario>(entity);
-            cat = _IUsuarioRepository.Update(cat);
-            UsuarioResponse res = _mapper.Map<UsuarioResponse>(cat);
-            return res;
-        }
-
-        public List<UsuarioResponse> UpdateMultiple(List<UsuarioRequest> request)
-        {
-            List<Usuario> cat = _mapper.Map<List<Usuario>>(request);
-            cat = _IUsuarioRepository.UpdateMultiple(cat);
-            List<UsuarioResponse> res = _mapper.Map<List<UsuarioResponse>>(cat);
-            return res;
-        }
-
-        public bool RegisterNotificationToken(int usuarioId, string token)
-        {
-            var usuario = _IUsuarioRepository.GetById(usuarioId); if (usuario == null)
-            {
-                return false;
-            }
-            usuario.NotificationToken = token; _IUsuarioRepository.Update(usuario); // Actualiza el usuario a través del repositorio
-            return true;
-        }
-        public async Task<List<string>> GetNotificationTokensAsync()
-        { 
-            return await _IUsuarioRepository.GetNotificationTokensAsync(); 
-        }
-
-        public async Task<bool> CrearUsuarioAsync(UsuarioRequest request)
-        {
-            return await _IUsuarioRepository.CrearUsuarioAsync(request);
-        }
-
-        public async Task<bool> ActualizarUsuarioAsync(UsuarioRequest request)
-        {
-            return await _IUsuarioRepository.ActualizarUsuarioAsync(request);
-        }
-
-        public async Task<bool> CambiarEstadoUsuario(int usuarioId, bool estadoActual)
-        {
-            return await _IUsuarioRepository.CambiarEstadoUsuario(usuarioId, estadoActual);
-        }
-
+      _mapper = mapper;
+      _IUsuarioRepository = _unitOfWork.Usuarios;
     }
+
+    /* inyección de dependencias */
+
+    public UsuarioResponse Create(UsuarioRequest entity)
+    {
+      Usuario cat = _mapper.Map<Usuario>(entity);
+      cat = _IUsuarioRepository.Create(cat);
+      UsuarioResponse res = _mapper.Map<UsuarioResponse>(cat);
+      return res;
+    }
+
+    public List<UsuarioResponse> CreateMultiple(List<UsuarioRequest> request)
+    {
+      List<Usuario> cat = _mapper.Map<List<Usuario>>(request);
+      cat = _IUsuarioRepository.InsertMultiple(cat);
+      List<UsuarioResponse> res = _mapper.Map<List<UsuarioResponse>>(cat);
+      return res;
+    }
+
+    public int Delete(object id)
+    {
+      return _IUsuarioRepository.Delete(id);
+    }
+
+    public int deleteMultipleItems(List<UsuarioRequest> request)
+    {
+      List<Usuario> cat = _mapper.Map<List<Usuario>>(request);
+      int cantidad = _IUsuarioRepository.DeleteMultipleItems(cat);
+      return cantidad;
+    }
+
+    public void Dispose()
+    {
+      GC.SuppressFinalize(this);
+    }
+
+    public List<UsuarioResponse> getAll()
+    {
+      List<Usuario> lst = _IUsuarioRepository.GetAll();
+      List<UsuarioResponse> res = _mapper.Map<List<UsuarioResponse>>(lst);
+      return res;
+    }
+
+    public List<UsuarioResponse> getAutoComplete(string query)
+    {
+      throw new NotImplementedException();
+    }
+
+    public UsuarioResponse getById(object id)
+    {
+      Usuario cat = _IUsuarioRepository.GetById(id);
+      UsuarioResponse res = _mapper.Map<UsuarioResponse>(cat);
+      return res;
+    }
+
+    public UsuarioResponse GetByUserName(string userName)
+    {
+      Usuario user = _IUsuarioRepository.GetByUserName(userName);
+      UsuarioResponse res = _mapper.Map<UsuarioResponse>(user);
+      return res;
+    }
+
+    public UsuarioResponse Update(UsuarioRequest entity)
+    {
+      Usuario cat = _mapper.Map<Usuario>(entity);
+      cat = _IUsuarioRepository.Update(cat);
+      UsuarioResponse res = _mapper.Map<UsuarioResponse>(cat);
+      return res;
+    }
+
+    public List<UsuarioResponse> UpdateMultiple(List<UsuarioRequest> request)
+    {
+      List<Usuario> cat = _mapper.Map<List<Usuario>>(request);
+      cat = _IUsuarioRepository.UpdateMultiple(cat);
+      List<UsuarioResponse> res = _mapper.Map<List<UsuarioResponse>>(cat);
+      return res;
+    }
+
+    public bool RegisterNotificationToken(int usuarioId, string token)
+    {
+      var usuario = _IUsuarioRepository.GetById(usuarioId); if (usuario == null)
+      {
+        return false;
+      }
+      usuario.NotificationToken = token; _IUsuarioRepository.Update(usuario); // Actualiza el usuario a través del repositorio
+      return true;
+    }
+    public async Task<List<string>> GetNotificationTokensAsync()
+    {
+      return await _IUsuarioRepository.GetNotificationTokensAsync();
+    }
+
+    public async Task<bool> CrearUsuarioAsync(UsuarioRequest request)
+    {
+      return await _IUsuarioRepository.CrearUsuarioAsync(request);
+    }
+
+    public async Task<bool> ActualizarUsuarioAsync(UsuarioRequest request)
+    {
+      return await _IUsuarioRepository.ActualizarUsuarioAsync(request);
+    }
+
+    public async Task<bool> CambiarEstadoUsuario(int usuarioId, bool estadoActual)
+    {
+      return await _IUsuarioRepository.CambiarEstadoUsuario(usuarioId, estadoActual);
+    }
+
+  }
+    #endregion
 }

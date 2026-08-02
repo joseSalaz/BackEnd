@@ -10,13 +10,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DBModel.DB;
 
 namespace Repository
 {
 
   public class LibroAutorRepository : GenericRepository<LibroAutor>, ILibroAutorRepository
   {
-    public LibroAutorRepository(DbContext context) : base() { }
+    private readonly LibreriaSaberContext _context;
+    public LibroAutorRepository(LibreriaSaberContext context) : base() { }
 
     public List<LibroAutor> GetAutoComplete(string query)
     {

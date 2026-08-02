@@ -1,17 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Bussines;
 using DBModel.DB;
 using DocumentFormat.OpenXml.Vml.Office;
 using IBussines;
-<<<<<<< HEAD
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestResponse;
-=======
-using IRepository;
-using Microsoft.AspNetCore.Mvc;
-using Models.RequestResponse;
-using Repository;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace API.Controllers
 {
@@ -23,7 +16,6 @@ namespace API.Controllers
     {
         #region Declaracion de vcariables generales
         private readonly IDetalleVentaBussines _detalleVentaBussines;
-<<<<<<< HEAD
         private readonly IKardexBussines _kardexBussines;
         private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
         private readonly IVentaBussines _IVentaBussines = null;
@@ -42,30 +34,6 @@ namespace API.Controllers
             _kardexBussines = kardexBussines;
             _IDetalleVentaBussines = detalleVentaBussines;
             _IVentaBussines = ventaBussines;
-=======
-        private readonly IMapper _Mapper;
-        private readonly IKardexRepository _kardexRepository;
-        private readonly IKardexBussines _kardexBussines;
-        private readonly IDetalleVentaBussines _IDetalleVentaBussines = null;
-        private readonly IVentaBussines _IVentaBussines = null;
-        private readonly IPersonaBussines _IPersonaBussines;
-        private readonly ICajaBussines _ICajaBussines;
-        private readonly ICajaRepository _ICajaRepository;
-        #endregion
-
-        #region constructor 
-        public DetalleVentaController(IDetalleVentaBussines detalleVentaBussines, IMapper mapper, IKardexRepository kardexRepository, IKardexBussines kardexBussines, IVentaBussines ventaBussines, IPersonaBussines personaBussines, ICajaBussines cajaBussines, ICajaRepository iCajaRepository)
-        {
-            _detalleVentaBussines = detalleVentaBussines;
-            _Mapper = mapper;
-            _kardexRepository = kardexRepository;
-            _kardexBussines = kardexBussines;
-            _IDetalleVentaBussines = detalleVentaBussines;
-            _IVentaBussines = ventaBussines;
-            _IPersonaBussines = personaBussines;
-            _ICajaBussines = cajaBussines;
-            _ICajaRepository = iCajaRepository;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         }
         #endregion
 
@@ -151,7 +119,6 @@ namespace API.Controllers
         [HttpPost("registrar-venta-detalle")]
         public async Task<IActionResult> RegistrarVentaYDetalle([FromBody] DatalleCarrito detalleCarrito)
         {
-<<<<<<< HEAD
             try
             {
                 // Toda la orquestación (persona, caja del día, venta, kardex y detalle de venta)
@@ -169,103 +136,6 @@ namespace API.Controllers
             {
                 return StatusCode(500, $"Ocurrió un error al registrar la venta: {ex.Message}");
             }
-=======
-            // Verificar si la Persona con el documento proporcionado ya existe
-            var personaExistente =  _IPersonaBussines.GetPersonaByDocumento(detalleCarrito.Persona.NumeroDocumento);
-            int idPersona;  // Solo se declara, no se inicializa aquí.
-
-            if (personaExistente == null)
-            {
-                // La persona no existe, entonces la creamos
-                PersonaRequest nuevaPersona = new PersonaRequest
-                {
-                    Nombre = detalleCarrito.Persona.Nombre,
-                    ApellidoPaterno = detalleCarrito.Persona.ApellidoPaterno,
-                    ApellidoMaterno = detalleCarrito.Persona.ApellidoMaterno,
-                    Correo = detalleCarrito.Persona.Correo,
-                    TipoDocumento = detalleCarrito.Persona.TipoDocumento,
-                    NumeroDocumento = detalleCarrito.Persona.NumeroDocumento,
-                    Telefono = detalleCarrito.Persona.Telefono,
-                };
-                var personaCreada = _IPersonaBussines.Create(nuevaPersona);
-                if (personaCreada == null)
-                {
-                    return StatusCode(500, "Error al crear la persona");
-                }
-                idPersona = personaCreada.IdPersona; // Usamos el ID asignado automáticamente después de crear el registro
-            }
-            else
-            {
-                idPersona = personaExistente.IdPersona;
-            }
-            // Verificar la existencia de una caja para el día actual
-            var cajaDelDia = _ICajaBussines.RegistrarVentaEnCajaDelDia();
-            if (cajaDelDia == null)
-            {
-                return BadRequest("Es necesario abrir una caja para hoy antes de registrar ventas.");
-            }
-            decimal totalVenta = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
-
-            decimal totalPrecio = detalleCarrito.Items.Sum(item => item.PrecioVenta * item.Cantidad);
-            // Preparación de la entidad Venta con los datos necesarios
-            VentaRequest ventaRequest = new VentaRequest
-            {
-                FechaVenta = DateTime.Now,
-                TipoComprobante = "Boleta",
-                IdUsuario = 1, // Suponiendo que este ID viene de la sesión del usuario o es un valor fijo por ahora
-                NroComprobante = "FAC00", // Este valor podría generarse dinámicamente según tu lógica de negocio
-                IdPersona = detalleCarrito.Persona.IdPersona, // Asumiendo que el IdCliente viene correctamente desde el front-end
-                IdCaja = cajaDelDia.IdCaja ,
-                TotalPrecio = (decimal?)totalPrecio
-
-            };
-
-            // Intento de creación de la venta en el sistema
-            var venta = _IVentaBussines.Create(ventaRequest);
-            if (venta == null)
-            {
-                return StatusCode(500, "Error al crear la venta");
-            }
-
-            cajaDelDia.IngresosACaja += totalVenta;
-            cajaDelDia.SaldoFinal = cajaDelDia.SaldoInicial + cajaDelDia.IngresosACaja;
-            _ICajaRepository.Update(cajaDelDia);
-
-            List<DetalleVentaRequest> listaDetalle = new List<DetalleVentaRequest>();
-            foreach (var item in detalleCarrito.Items)
-            {
-                var kardexActual = _kardexRepository.GetById(item.libro.IdLibro);
-                if (kardexActual == null || kardexActual.Stock < item.Cantidad)
-                {
-                    return BadRequest("No hay suficiente stock para el libro con ID " + item.libro.IdLibro);
-                }
-                kardexActual.Stock -= item.Cantidad; // Asegúrate de que esto no ponga el stock en negativo
-                _kardexRepository.Update(kardexActual);
-                // Aquí, se podría verificar el stock del item
-                var detalleVentaRequest = new DetalleVentaRequest
-                {
-                    IdVentas = venta.IdVentas,
-                    NombreProducto = item.libro.Titulo,
-                    PrecioUnit = item.PrecioVenta,
-                    IdLibro = item.libro.IdLibro,
-                    Cantidad = item.Cantidad,
-                    Importe = item.PrecioVenta * item.Cantidad,
-                    Estado = "Pendiente" // Asumiendo un estado inicial para la venta
-                                         // Agrega aquí más campos si son necesarios
-                };
-                listaDetalle.Add(detalleVentaRequest);
-            }
-
-            // Creación de los detalles de venta en el sistema
-            var detallesCreados = _IDetalleVentaBussines.CreateMultiple(listaDetalle);
-            if (detallesCreados == null)
-            {
-                return StatusCode(500, "Error al crear el detalle de la venta");
-            }
-
-            // Retorno de una respuesta exitosa con un mensaje de confirmación
-            return Ok(new { Message = "Venta y detalles registrados con éxito" });
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         }
 
         /// <summary>
@@ -299,15 +169,6 @@ namespace API.Controllers
             {
                 // Obtener las imágenes desde la solicitud
                 var images = Request.Form.Files.GetFiles("images").ToList();
-<<<<<<< HEAD
-=======
-                Console.WriteLine($"Número de imágenes recibidas: {images.Count}");
-
-                foreach (var image in images)
-                {
-                    Console.WriteLine($"Imagen recibida: {image.FileName}, tamaño: {image.Length} bytes");
-                }
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
                 // Verificar si no se recibieron imágenes
                 if (images == null || !images.Any())

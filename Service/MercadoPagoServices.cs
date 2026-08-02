@@ -36,12 +36,12 @@ public class MercadoPagoService : IPaymentService
 
     var request = new PreferenceRequest
     {
-      //AutoReturn = "approved",
+      AutoReturn = "approved",
       BackUrls = new PreferenceBackUrlsRequest
       {
-        Success = "http://localhost:4200/detalle-venta",
-        Failure = "http://localhost:4200/detalle-venta",
-        Pending = "http://localhost:4200/detalle-venta"
+        Success = "https://libreriasaber.store/detalle-venta",
+        Failure = "https://libreriasaber.store/detalle-venta",
+        Pending = "https://libreriasaber.store/detalle-venta"
       },
       Items = items,
       Payer = new PreferencePayerRequest

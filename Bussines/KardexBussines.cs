@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 using AutoMapper;
-=======
-﻿using AutoMapper;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
+using AutoMapper;
 using DBModel.DB;
 using IBussines;
 using IRepository;
@@ -13,111 +10,100 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using UnitOfWork;
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 namespace Bussines
 {
-    public class KardexBussines : IKardexBussines
-    {
-        #region Declaracion de vcariables generales
-        public readonly IKardexRepository _IKardexRepository = null;
-        public readonly IMapper _Mapper;
-        #endregion
+  public class KardexBussines : IKardexBussines
+  {
+    #region Declaracion de vcariables generales
+    public readonly IKardexRepository _IKardexRepository = null;
+    public readonly IMapper _Mapper;
+    #endregion
 
-<<<<<<< HEAD
-        private readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
     #region constructor 
-        public KardexBussines(IMapper mapper, IUnitOfWork unitOfWork)
-        {
+    public KardexBussines(IMapper mapper, IUnitOfWork unitOfWork)
+    {
       _unitOfWork = unitOfWork;
-            _Mapper = mapper;
-            _IKardexRepository = _unitOfWork.Kardex;
-=======
-        #region constructor 
-        public KardexBussines(IMapper mapper)
-        {
-            _Mapper = mapper;
-            _IKardexRepository = new KardexRepository();
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
-        }
-        #endregion
-
-        public KardexResponse Create(KardexRequest entity)
-        {
-            Kardex au = _Mapper.Map<Kardex>(entity);
-            au = _IKardexRepository.Create(au);
-            KardexResponse res = _Mapper.Map<KardexResponse>(au);
-            return res;
-        }
-
-        public List<KardexResponse> CreateMultiple(List<KardexRequest> request)
-        {
-            List<Kardex> au = _Mapper.Map<List<Kardex>>(request);
-            au = _IKardexRepository.InsertMultiple(au);
-            List<KardexResponse> res = _Mapper.Map<List<KardexResponse>>(au);
-            return res;
-        }
-
-        public int Delete(object id)
-        {
-            return _IKardexRepository.Delete(id);
-        }
-
-        public int deleteMultipleItems(List<KardexRequest> request)
-        {
-            List<Kardex> au = _Mapper.Map<List<Kardex>>(request);
-            int cantidad = _IKardexRepository.DeleteMultipleItems(au);
-            return cantidad;
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
-
-        public List<KardexResponse> getAll()
-        {
-            List<Kardex> lsl = _IKardexRepository.GetAll();
-            List<KardexResponse> res = _Mapper.Map<List<KardexResponse>>(lsl);
-            return res;
-        }
-
-        public List<KardexResponse> getAutoComplete(string query)
-        {
-            throw new NotImplementedException();
-        }
-
-        public KardexResponse getById(object id)
-        {
-            Kardex au = _IKardexRepository.GetById(id);
-            KardexResponse res = _Mapper.Map<KardexResponse>(au);
-            return res;
-        }
-
-        public KardexResponse Update(KardexRequest entity)
-        {
-            Kardex au = _Mapper.Map<Kardex>(entity);
-            au = _IKardexRepository.Update(au);
-            KardexResponse res = _Mapper.Map<KardexResponse>(au);
-            return res;
-        }
-
-        public List<KardexResponse> UpdateMultiple(List<KardexRequest> request)
-        {
-            List<Kardex> au = _Mapper.Map<List<Kardex>>(request);
-            au = _IKardexRepository.UpdateMultiple(au);
-            List<KardexResponse> res = _Mapper.Map<List<KardexResponse>>(au);
-            return res;
-        }
-
-        public async Task<Kardex> GetKardexByIdAsync(int idLibro)
-        {
-            // Llamamos al repositorio para obtener el Kardex
-            return await _IKardexRepository.GetByIdAsync(idLibro);
-        }
+      _Mapper = mapper;
+      _IKardexRepository = _unitOfWork.Kardex;
     }
+
+    public KardexResponse Create(KardexRequest entity)
+    {
+      Kardex au = _Mapper.Map<Kardex>(entity);
+      au = _IKardexRepository.Create(au);
+      KardexResponse res = _Mapper.Map<KardexResponse>(au);
+      return res;
+    }
+
+    public List<KardexResponse> CreateMultiple(List<KardexRequest> request)
+    {
+      List<Kardex> au = _Mapper.Map<List<Kardex>>(request);
+      au = _IKardexRepository.InsertMultiple(au);
+      List<KardexResponse> res = _Mapper.Map<List<KardexResponse>>(au);
+      return res;
+    }
+
+    public int Delete(object id)
+    {
+      return _IKardexRepository.Delete(id);
+    }
+
+    public int deleteMultipleItems(List<KardexRequest> request)
+    {
+      List<Kardex> au = _Mapper.Map<List<Kardex>>(request);
+      int cantidad = _IKardexRepository.DeleteMultipleItems(au);
+      return cantidad;
+    }
+
+    public void Dispose()
+    {
+      GC.SuppressFinalize(this);
+    }
+
+    public List<KardexResponse> getAll()
+    {
+      List<Kardex> lsl = _IKardexRepository.GetAll();
+      List<KardexResponse> res = _Mapper.Map<List<KardexResponse>>(lsl);
+      return res;
+    }
+
+    public List<KardexResponse> getAutoComplete(string query)
+    {
+      throw new NotImplementedException();
+    }
+
+    public KardexResponse getById(object id)
+    {
+      Kardex au = _IKardexRepository.GetById(id);
+      KardexResponse res = _Mapper.Map<KardexResponse>(au);
+      return res;
+    }
+
+    public KardexResponse Update(KardexRequest entity)
+    {
+      Kardex au = _Mapper.Map<Kardex>(entity);
+      au = _IKardexRepository.Update(au);
+      KardexResponse res = _Mapper.Map<KardexResponse>(au);
+      return res;
+    }
+
+    public List<KardexResponse> UpdateMultiple(List<KardexRequest> request)
+    {
+      List<Kardex> au = _Mapper.Map<List<Kardex>>(request);
+      au = _IKardexRepository.UpdateMultiple(au);
+      List<KardexResponse> res = _Mapper.Map<List<KardexResponse>>(au);
+      return res;
+    }
+
+    public async Task<Kardex> GetKardexByIdAsync(int idLibro)
+    {
+      // Llamamos al repositorio para obtener el Kardex
+      return await _IKardexRepository.GetByIdAsync(idLibro);
+    }
+  }
+    #endregion
 }

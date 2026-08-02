@@ -1,8 +1,5 @@
 using AutoMapper;
-<<<<<<< HEAD
 using Bussines;
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using DBModel.DB;
 using IBussines;
 using IService;
@@ -21,28 +18,12 @@ namespace API.Controllers
   {
     #region Declaracion de vcariables generales
     public readonly ILibroBussines _ILibroBussines = null;
-<<<<<<< HEAD
     #endregion
 
     #region constructor
     public LibroController(ILibroBussines libroBussines)
     {
       _ILibroBussines = libroBussines;
-=======
-    public readonly IMapper _Mapper;
-    private readonly IAzureComputerVisionService _visionService;
-
-    private readonly IConfiguration _configuration;
-    #endregion
-
-    #region constructor 
-    public LibroController(IMapper mapper, ILibroBussines libroBussines, IAzureComputerVisionService visionService)
-    {
-      _Mapper = mapper;
-      _ILibroBussines = libroBussines;
-      _visionService = visionService;
-
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     }
     #endregion
 
@@ -270,25 +251,11 @@ namespace API.Controllers
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> ObtenerDetallesImagen([FromForm] ValidarImagenRequest request)
     {
-<<<<<<< HEAD
       if (request.File == null || request.File.Length == 0)
         return BadRequest("No se subió ningún archivo.");
 
       var analysisResult = await _ILibroBussines.AnalizarImagenAsync(request.File);
 
-=======
-      // Validar que el archivo fue enviado
-      if (request.File == null || request.File.Length == 0)
-        return BadRequest("No se subió ningún archivo.");
-
-      // Leer el archivo como stream
-      using var stream = request.File.OpenReadStream();
-
-      // Llamar al servicio para obtener los detalles de la imagen
-      var analysisResult = await _visionService.AnalyzeImageAsync(stream);
-
-      // Retornar los detalles obtenidos
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
       return Ok(analysisResult);
     }
 
@@ -327,7 +294,6 @@ namespace API.Controllers
 
       return Ok(result);
     }
-<<<<<<< HEAD
 
     [HttpGet("catalogo")]
     public async Task<IActionResult> GetCatalogo()
@@ -335,8 +301,6 @@ namespace API.Controllers
       var catalogo = await _ILibroBussines.ObtenerCatalogoOptimizadoAsync();
       return Ok(new { success = true, data = catalogo });
     }
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     #endregion
 
   }

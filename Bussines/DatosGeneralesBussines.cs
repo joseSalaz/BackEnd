@@ -27,10 +27,10 @@ namespace Bussines
 
     private readonly IUnitOfWork _unitOfWork;
 
-    public DatosGeneralesBussines(IMapper mapper)
+    public DatosGeneralesBussines(IMapper mapper, IUnitOfWork unitOfWork)
     {
       _Mapper = mapper;
-      _IDatosGeneraleRepository = new DatosGeneralesRepository();
+      _unitOfWork = unitOfWork;
     }
 
     public DatosGeneraleResponse Create(DatosGeneraleRequest entity)

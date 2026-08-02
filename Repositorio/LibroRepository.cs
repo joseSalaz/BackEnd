@@ -16,8 +16,9 @@ namespace Repository
 {
   public class LibroRepository : GenericRepository<Libro>, ILibroRepository
   {
+    private readonly LibreriaSaberContext _context;
 
-    public LibroRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
+    public LibroRepository(LibreriaSaberContext context) : base(context) { }
 
 
 
