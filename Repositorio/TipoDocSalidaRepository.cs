@@ -1,8 +1,6 @@
-<<<<<<< HEAD
+
 using DBModel.DB;
-=======
-﻿using DBModel.DB;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
+
 using IRepository;
 using Repository.Generic;
 using System;
@@ -15,11 +13,8 @@ namespace Repository
 {
     public class TipoDocSalidaRepository : GenericRepository<TipoDocSalida>, ITipoDocSalidaRepository
     {
-<<<<<<< HEAD
         public TipoDocSalidaRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         public List<TipoDocSalida> GetAutoComplete(string query)
         {
             throw new NotImplementedException();

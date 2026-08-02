@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+
 using DBModel.DB;
-=======
-﻿using DBModel.DB;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using DocumentFormat.OpenXml.InkML;
 using IRepository;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +15,8 @@ namespace Repository
 {
     public class FavoritoRepository : GenericRepository<Favorito>, IFavoritoRepository
     {
-<<<<<<< HEAD
         public FavoritoRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
         public async Task<int> DeleteByPersonaAndLibroAsync(int idPersona, int idLibro)
         {
             // Usamos tu contexto (dbSet o _context según lo tengas definido en tu GenericRepository)

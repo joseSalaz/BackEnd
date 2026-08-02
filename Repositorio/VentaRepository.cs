@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+
 using DBModel.DB;
-=======
-﻿using DBModel.DB;
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
 using IRepository;
@@ -20,11 +17,8 @@ namespace Repository
 {
     public class VentaRepository : GenericRepository<Venta>, IVentaRepository
     {
-<<<<<<< HEAD
         public VentaRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
         public List<Venta> GetAutoComplete(string query)
         {

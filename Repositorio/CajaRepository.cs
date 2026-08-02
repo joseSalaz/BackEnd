@@ -13,11 +13,8 @@ namespace Repository
 {
   public class CajaRepository : GenericRepository<Caja>, ICajaRepository
   {
-<<<<<<< HEAD
-        public CajaRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
+    public CajaRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
     public List<Caja> GetAutoComplete(string query)
     {
       throw new NotImplementedException();
@@ -42,17 +39,17 @@ namespace Repository
 
     public Caja GetCajaEcommerce()
     {
-<<<<<<< HEAD
+
       return dbSet.FirstOrDefault(c => c.IdCaja == 4);
     }
-=======
-      return dbSet.FirstOrDefault(c => c.IdCaja == 1013);
-    }
 
 
-
-
-
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
   }
+
+
+
+
+
+
 }
+

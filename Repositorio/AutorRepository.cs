@@ -7,11 +7,9 @@ namespace Repository
 {
   public class AutorRepository : GenericRepository<Autor>, IAutorRepository
   {
-<<<<<<< HEAD
-        public AutorRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
+    public AutorRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
+
     public List<Autor> GetAutoComplete(string query)
     {
       throw new NotImplementedException();

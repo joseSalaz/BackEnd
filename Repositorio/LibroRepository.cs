@@ -6,10 +6,8 @@ using IRepositorio;
 using Microsoft.EntityFrameworkCore;
 using Models.Comon;
 using Models.RequestResponse;
-<<<<<<< HEAD
 using Models.RequestResponse.libro;
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
+
 using Repository.Generic;
 using System.Net;
 using static Models.RequestResponse.FiltroLibro;
@@ -18,11 +16,9 @@ namespace Repository
 {
   public class LibroRepository : GenericRepository<Libro>, ILibroRepository
   {
-<<<<<<< HEAD
+
     public LibroRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
 
 
     public List<Libro> GetAutoComplete(string query)
@@ -182,7 +178,6 @@ namespace Repository
 
       return result;
     }
-<<<<<<< HEAD
 
     public async Task<IEnumerable<LibroCatalogoDTO>> ObtenerCatalogoOptimizadoAsync()
     {
@@ -216,9 +211,6 @@ namespace Repository
           .ToListAsync();
 
     }
-
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
   }
 }
 

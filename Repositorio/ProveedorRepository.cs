@@ -12,11 +12,9 @@ namespace Repository
 {
     public class ProveedorRepository : GenericRepository<Proveedor>, IProveedorRepository
     {
-<<<<<<< HEAD
         public ProveedorRepository(DBModel.DB.LibreriaSaberContext context) : base(context) { }
 
-=======
->>>>>>> 2547f9ea75729e66eae6c655c2747dcbd77035c4
+
         public List<Proveedor> GetAutoComplete(string query)
         {
             throw new NotImplementedException();
