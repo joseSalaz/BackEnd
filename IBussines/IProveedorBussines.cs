@@ -1,0 +1,15 @@
+using Models.RequestResponse;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UtilInterface;
+
+namespace IBussines
+{
+  public interface IProveedorBussines : ICRUDBussnies<ProveedorRequest, ProveedorResponse>
+  {
+    Task<List<ProveedorResponse>> getProveedorCategoria(int idCategoria, int? idSubcategoria);
+  }
+}
